@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.codebehind.mrslmaintenance.EquipmentNewActivity">
+    <item android:id="@+id/menu_add_param_equipment_new"
+        android:icon="@android:drawable/ic_menu_add"
+        android:visible="true"
+        android:title="@string/save"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/menu_take_equipment_photo"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:visible="true"
+        android:title="@string/take_picture"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/menu_save_equipment_new"
+        android:icon="@android:drawable/ic_menu_save"
+        android:visible="true"
+        android:title="@string/save"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/menu_cancel_equipment_new"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:visible="true"
+        android:title="@string/close"
+        app:showAsAction="ifRoom" />
+</menu>

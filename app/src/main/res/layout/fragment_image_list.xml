@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#78d4df0d"
+    android:baselineAligned="false">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:showDividers="beginning|middle|end"
+        android:background="#ff143a74">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageListSearchEditText"
+            android:layout_weight="1"
+            android:textColor="#ffffffff"
+            android:padding="5dp"
+            android:inputType="textFilter"
+            android:hint="Enter title text to search"
+            android:textSize="32dp"
+            android:layout_marginTop="20dp" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageListSearchBtn"
+            android:baseline="@dimen/abc_config_prefDialogWidth"
+            android:padding="5dp"
+            android:hint="Search using filters"
+            android:text="Search"
+            android:drawableLeft="@android:drawable/ic_menu_search"
+            android:layout_margin="10dp" />
+    </LinearLayout>
+    <ListView
+        android:id="@+id/fragment_image_list_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:divider="#ff7bd7d7"
+        android:dividerHeight="2dp"
+        android:drawSelectorOnTop="true"
+        android:fastScrollAlwaysVisible="false"
+        android:padding="5dp" />
+</LinearLayout>

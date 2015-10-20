@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_add_general_list"
+        android:icon="@android:drawable/ic_menu_set_as"
+        android:title="@string/add_item"
+        app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/menu_new_general_list"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/new_item"
+        app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/menu_alter_general_list"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/change"
+        app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/menu_delete_general_list"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/delete"
+        app:showAsAction="ifRoom|withText" />
+</menu>
