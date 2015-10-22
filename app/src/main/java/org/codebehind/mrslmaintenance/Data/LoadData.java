@@ -13,7 +13,6 @@ import org.codebehind.mrslmaintenance.Models.ParameterModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -27,21 +26,48 @@ public class LoadData {
     // ensure that this is called first
     public void popSiteData(Context c){
         SiteDbModel mod = new SiteDbModel(c);
+
+        if (mod.getlist().size()>0) return;
+
         Site s = new Site();
         s.setAddress("Outer Mongolia, Spain.");
         s.setName("Mars Plant");
-        s.setImageId(1); // make sure the images exist
+        //s.setImageId(1); // make sure the images exist
+        mod.add(s);
 
+        s = new Site();
+        s.setAddress("Lost in space.");
+        s.setName("Alien Plant");
+        //s.setImageId(1); // make sure the images exist
+        mod.add(s);
+
+        s = new Site();
+        s.setAddress("Banana land.");
+        s.setName("Superman Plant");
+        //s.setImageId(1); // make sure the images exist
+        mod.add(s);
+
+        s = new Site();
+        s.setAddress("Who loves ya.");
+        s.setName("Kojak Plant");
+        //s.setImageId(1); // make sure the images exist
+        mod.add(s);
+
+        s = new Site();
+        s.setAddress("Magic Roundabout.");
+        s.setName("Dylan the Hippy Plant");
+        //s.setImageId(1); // make sure the images exist
         mod.add(s);
         // the next bit was to test if there's any data in the db
-        Cursor cur = mod.getAll();
+        /*Cursor cur = mod.getcursor();
         cur.moveToFirst();
         while(cur.isAfterLast()==false){
             Site e=new Site();
             int x = cur.getInt(0);
             cur.moveToNext();
-        }
+        }*/
     }
+
     public void populateReportData(Context c) {
         ReportDbModel mod = new ReportDbModel(c);
         // truncate the database or test if any in the db

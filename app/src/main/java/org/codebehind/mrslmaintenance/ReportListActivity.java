@@ -72,13 +72,13 @@ public class ReportListActivity extends ActionBarActivityBase {
             case R.id.menu_new_report:
                 // todo: ok loser start here this needs to open the new report with a wizard
                 // look 4 lines down and you can see that your not using the Report DB Model
-                Report r = new Report();
-                r.setEquipmentList(new ArrayList<Equipment>());
-                r.setReportDate(new Date());
-                r.setId(UUID.randomUUID());
-                ReportModel.getInstance().add(r);
-                i = new Intent(this,ReportActivity.class);
-                i.putExtra(StaticConstants.EXTRA_REPORT_ID, r.getId());
+                //Report r = new Report();
+                //r.setEquipmentList(new ArrayList<Equipment>());
+                //r.setReportDate(new Date());
+                //r.setId(UUID.randomUUID());
+                //ReportModel.getInstance().add(r);
+                i = new Intent(this,ReportNewActivity.class);
+                //i.putExtra(StaticConstants.EXTRA_REPORT_ID, r.getId());
                 startActivityForResult(i,0);
                 return true;
             case R.id.menu_sites:

@@ -71,6 +71,7 @@ public class EquipmentNewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView;
+        setHasOptionsMenu(true); // ensures the fragment knows it has a menu
 
         rootView = inflater.inflate(R.layout.fragment_equipment_new, container, false);
         _equipment = EquipmentModel.getInstance().getEquipment(_equipmentId);

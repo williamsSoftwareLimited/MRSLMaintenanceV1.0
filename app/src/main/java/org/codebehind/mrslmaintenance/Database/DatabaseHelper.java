@@ -1,14 +1,12 @@
 package org.codebehind.mrslmaintenance.Database;
 
 import android.content.Context;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
-import org.codebehind.mrslmaintenance.Models.ReportModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 
 /**
@@ -17,7 +15,7 @@ import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=15;
+    public static final int DATABASE_VERSION=18;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

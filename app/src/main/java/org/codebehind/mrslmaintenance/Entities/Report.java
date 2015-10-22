@@ -18,6 +18,14 @@ public class Report {
     Date _reportDate;
     ArrayList<ReportEquipmentParameters> ReportEquipmentParametersList;
 
+    public Report getNew(){ // to get a brand new Report without the overhead in a constructor
+        Report r = new Report();
+        r.setEquipmentList(new ArrayList<Equipment>());
+        r.setReportDate(new Date());
+        r.setId(UUID.randomUUID());
+        return r;
+    }
+
     public UUID getId() {
         return _id;
     }
