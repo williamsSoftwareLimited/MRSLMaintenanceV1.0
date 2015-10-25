@@ -92,7 +92,7 @@ public class SiteListActivity extends ActionBarActivityBase implements IFragment
                 Toast.makeText(this,"Alter selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_new_site_list:
-                //todo: start here by building the Alter and view (this should probably be a private method)
+                //todo: the Alter and view (this should probably be a private method)
                 Toast.makeText(this,"New selected", Toast.LENGTH_SHORT).show();
                 intent = new Intent(this, SiteNewActivity.class);
                 intent.putExtra(StaticConstants.EXTRA_REPORT_ID, reportId);

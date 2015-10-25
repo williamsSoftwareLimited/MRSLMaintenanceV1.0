@@ -70,7 +70,7 @@ public class ReportListActivity extends ActionBarActivityBase {
 
         switch(id){
             case R.id.menu_new_report:
-                // todo: ok loser start here this needs to open the new report with a wizard
+                // todo:this needs to open the new report with a wizard
                 // look 4 lines down and you can see that your not using the Report DB Model
                 //Report r = new Report();
                 //r.setEquipmentList(new ArrayList<Equipment>());

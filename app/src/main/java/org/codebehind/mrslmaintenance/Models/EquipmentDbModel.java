@@ -14,10 +14,14 @@ import java.util.ArrayList;
 /**
  * Created by Gavin on 23/03/2015.
  */
-public class EquipmentDbModel extends DbAbstractModel<Equipment> {
-    public static final String TABLE="equipment", FILTER_SELECTION_START="name like '%",FILTER_SELECTION_END="%'";
+public class EquipmentDbModel extends DbAbstractModel<Equipment>  {
+    public static final String TABLE="equipment";
+    public static final String FILTER_SELECTION_START="name like '%";
+    public static final String FILTER_SELECTION_END="%'";
     private static final String[] FIELDS =  new String[]{"_id", "name","imageId"};//, "ts","del" };
-    public static final int ID=0, NAME=1, IMAGE_ID=2,TS=3, DEL=4;
+    public static final int ID=0;
+    public static final int NAME=1;
+    public static final int IMAGE_ID=2,TS=3, DEL=4;;
     protected int _length; // this checks the size of the list and iff it's different
 
     public EquipmentDbModel(Context context){
@@ -26,11 +30,14 @@ public class EquipmentDbModel extends DbAbstractModel<Equipment> {
         _list = new ArrayList<Equipment>();
     }
 
+    @Override
     public Equipment getEntity(int id) {
         for(Equipment e: getList()) if (e.getId()==id)return e;
         return null;
     }
+
     // when this adds an equipment it needs to add the image id as well
+    @Override
     public int add(Equipment equipment) {
         ContentValues v;
 
@@ -41,18 +48,37 @@ public class EquipmentDbModel extends DbAbstractModel<Equipment> {
         v.put(FIELDS[IMAGE_ID], equipment.getImgId());
         return (int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, v);
     }
+    @Override
     public ArrayList<Equipment> getList() {
         populateList();
         return _list;
     }
 
+    @Override
+    public ArrayList<Equipment> getList(ArrayList<String> params) {
+        ArrayList<Equipment> l = new ArrayList<>();
+        /*for( Equipment equip : getList()){
+            if(equip.)
+        }*/
+        Equipment equip = new Equipment();
+        for (int i=1; i<4;i++) {
+            equip.setEquipmentName("Join to Site "+i);
+            equip.setId(i);
+        }
+        return l;
+    }
+
+    @Override
     public ArrayList<Equipment> getFilterList(String filter) {
         filterList(filter);
         return _list;
     }
+    @Override
     public void delete(int equipmentId) {
         Equipment e=getEntity(equipmentId);
     }
+
+    @Override
     public void update(Equipment equipment) {
 
     }

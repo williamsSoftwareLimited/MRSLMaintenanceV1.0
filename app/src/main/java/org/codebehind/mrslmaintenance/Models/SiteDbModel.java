@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
-import org.codebehind.mrslmaintenance.Entities.Equipment;
-import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModel;
 import org.codebehind.mrslmaintenance.StaticConstants;
@@ -28,6 +26,11 @@ public class SiteDbModel extends DbAbstractModel<Site> {
         getlist(); // set the list
     }
 
+    @Override
+    public Site getEntity(int id) {
+        return null;
+    }
+
     public int add(Site site) {
         if (site==null) return StaticConstants.BAD_DB;
         _list.add(site);
@@ -41,6 +44,31 @@ public class SiteDbModel extends DbAbstractModel<Site> {
         v.put(FIELDS[IMAGE_ID], site.getImageId());
 
         return (int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, v);
+    }
+
+    @Override
+    public ArrayList<Site> getList() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Site> getList(ArrayList<String> params) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Site> getFilterList(String filter) {
+        return null;
+    }
+
+    @Override
+    public void delete(int id) {
+
+    }
+
+    @Override
+    public void update(Site entity) {
+
     }
 
     public Cursor getcursor(){

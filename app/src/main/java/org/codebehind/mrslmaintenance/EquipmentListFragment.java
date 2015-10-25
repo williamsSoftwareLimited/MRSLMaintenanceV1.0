@@ -20,6 +20,7 @@ import android.widget.Toast;
 import org.codebehind.mrslmaintenance.Abstract.Fragment2ActivityListener;
 import org.codebehind.mrslmaintenance.Abstract.FragmentMenubarListener;
 import org.codebehind.mrslmaintenance.Abstract.IFragmentCallbackUUID;
+import org.codebehind.mrslmaintenance.Adapters.EquipmentAdapter;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Models.EquipmentModel;
 import org.codebehind.mrslmaintenance.Models.ReportModel;
@@ -53,7 +54,7 @@ public class EquipmentListFragment extends Fragment implements AdapterView.OnIte
         ArrayAdapter<Equipment> equipAdapter;
 
         rootView = inflater.inflate(R.layout.fragment_equipment_list, container, false);
-        equipAdapter = new EquipmentAdapter(EquipmentModel.getInstance().getList());
+        equipAdapter = new EquipmentAdapter(EquipmentModel.getInstance().getList(), getActivity());
 
         _equipListview = (ListView)rootView.findViewById(R.id.equipment_list_listview);
         _equipListview.setAdapter(equipAdapter);
@@ -74,26 +75,4 @@ public class EquipmentListFragment extends Fragment implements AdapterView.OnIte
         _fragmentCallback.onFragmentCallback(equipmentId);
     }
 
-    class EquipmentAdapter extends ArrayAdapter<Equipment> {
-        public EquipmentAdapter(ArrayList<Equipment> equips) {
-            super(getActivity(), android.R.layout.simple_list_item_1, equips);
-        }
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            Equipment equip;
-            TextView tvName;
-            ImageView imageBtn;
-
-            if (null == convertView) {
-                convertView = getActivity().getLayoutInflater()
-                        .inflate(R.layout.equipment_list_listitem, null);
-            }
-            equip = getItem(position);
-            tvName = (TextView)convertView.findViewById((R.id.equipment_list_item_nametextview));
-            tvName.setText(equip.getEquipmentName());
-            imageBtn = (ImageView)convertView.findViewById(R.id.equipment_list_item_imagebutton);
-            imageBtn.setImageResource(R.drawable.ic_action_picture);
-            return convertView;
-        }
-    }
 }

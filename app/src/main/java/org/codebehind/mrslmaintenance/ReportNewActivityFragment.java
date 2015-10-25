@@ -6,16 +6,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.codebehind.mrslmaintenance.Adapters.EquipmentAdapter;
+import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.Site;
+import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModel;
+import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
+import org.codebehind.mrslmaintenance.Models.EquipmentModel;
 import org.codebehind.mrslmaintenance.Models.ParameterModel;
+import org.codebehind.mrslmaintenance.Models.ReportModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteModel;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -23,8 +33,12 @@ import java.util.ArrayList;
 public class ReportNewActivityFragment extends Fragment {
 
     Spinner _siteSpinner;
+    EditText _dateEditText;
+    ListView _equipListView;
+    DbAbstractModel<Equipment> _equipModel;
 
     public ReportNewActivityFragment() {
+        _equipModel = new EquipmentDbModel(getActivity());
     }
 
     @Override
@@ -39,9 +53,16 @@ public class ReportNewActivityFragment extends Fragment {
     }
     private void setControls(View rootView){
         _siteSpinner=(Spinner)rootView.findViewById(R.id.report_new_spinner);
+        _dateEditText = (EditText)rootView.findViewById(R.id.report_new_date);
+        _equipListView=(ListView)rootView.findViewById(R.id.report_new_equipment_ListView);
     }
     private void setText(){
         _siteSpinner.setAdapter(new siteSpinnerAdaptor(new SiteDbModel(getActivity()).getlist()));
+        _dateEditText.setText(DateFormat.getDateInstance().format(new Date().getTime()));
+
+        ArrayList<String> siteParams = new ArrayList<>();
+        // todo: start here twathead! You need to change this back to EquipmentDbModel which isn't rendering at the mo
+        _equipListView.setAdapter(new EquipmentAdapter(EquipmentModel.getInstance().getList(), getActivity()));
     }
     private void setEvents(){}
 
