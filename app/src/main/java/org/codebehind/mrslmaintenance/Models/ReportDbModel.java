@@ -20,7 +20,7 @@ import java.util.UUID;
 public class ReportDbModel {
 
     public static final String TABLE="report";
-    private static final String[] FIELDS = new String[]{"_id", "ts","del", "siteId" };
+    public static final String[] FIELDS = new String[]{"_id", "ts","del", "siteId" };
     public static final int ID=0, SITEID=3, TS=1, DEL=2;
     protected Context _context;
     public ReportDbModel(Context context) {

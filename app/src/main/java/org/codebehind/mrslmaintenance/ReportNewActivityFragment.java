@@ -60,9 +60,8 @@ public class ReportNewActivityFragment extends Fragment {
         _siteSpinner.setAdapter(new siteSpinnerAdaptor(new SiteDbModel(getActivity()).getlist()));
         _dateEditText.setText(DateFormat.getDateInstance().format(new Date().getTime()));
 
-        ArrayList<String> siteParams = new ArrayList<>();
-        // todo: start here twathead! You need to change this back to EquipmentDbModel which isn't rendering at the mo
-        _equipListView.setAdapter(new EquipmentAdapter(EquipmentModel.getInstance().getList(), getActivity()));
+        EquipmentAdapter ea = new EquipmentAdapter(_equipModel.getList(), getActivity());
+        _equipListView.setAdapter(ea);
     }
     private void setEvents(){}
 

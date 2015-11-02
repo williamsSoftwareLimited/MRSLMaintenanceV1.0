@@ -47,5 +47,6 @@
     <string name="take_picture">Take picture</string>
     <string name="cameras">Cameras</string>
     <string name="new_image">New image</string>
+    <string name="title_activity_report_new">New Report</string>
 
 </resources>

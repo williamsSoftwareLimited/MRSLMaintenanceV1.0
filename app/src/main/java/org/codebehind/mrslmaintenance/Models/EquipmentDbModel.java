@@ -18,7 +18,7 @@ public class EquipmentDbModel extends DbAbstractModel<Equipment>  {
     public static final String TABLE="equipment";
     public static final String FILTER_SELECTION_START="name like '%";
     public static final String FILTER_SELECTION_END="%'";
-    private static final String[] FIELDS =  new String[]{"_id", "name","imageId"};//, "ts","del" };
+    public static final String[] FIELDS =  new String[]{"_id", "name","imageId"};//, "ts","del" };
     public static final int ID=0;
     public static final int NAME=1;
     public static final int IMAGE_ID=2,TS=3, DEL=4;;

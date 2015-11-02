@@ -53,8 +53,8 @@
         </activity>
         <activity
             android:name=".EquipmentCameraActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_equipment_camera" >
+            android:label="@string/title_activity_equipment_camera"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".EquipmentListActivity"
@@ -71,6 +71,10 @@
         <activity
             android:name=".EquipmentNewActivity"
             android:label="@string/title_activity_equipment_new" >
+        </activity>
+        <activity
+            android:name=".ReportNewActivity"
+            android:label="@string/title_activity_report_new" >
         </activity>
     </application>
 
