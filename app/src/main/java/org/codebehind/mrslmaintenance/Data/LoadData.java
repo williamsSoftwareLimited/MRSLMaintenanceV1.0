@@ -7,11 +7,13 @@ import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.Site;
+import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentModel;
 import org.codebehind.mrslmaintenance.Models.ParameterModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
+import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 
 import java.util.UUID;
 
@@ -21,7 +23,6 @@ import java.util.UUID;
 public class LoadData {
     public void load(){
         loadParameterData();
-        loadEquipmentData();
     }
     // ensure that this is called first
     public void popSiteData(Context c){
@@ -66,23 +67,45 @@ public class LoadData {
             int x = cur.getInt(0);
             cur.moveToNext();
         }*/
+        mod.close();
     }
 
     public void populateReportData(Context c) {
+
         ReportDbModel mod = new ReportDbModel(c);
-        // truncate the database or test if any in the db
+        if (mod.getAll().size()>0) return;
+
         Report rep = new Report();
         rep.setSiteId(1);
+        rep.setEngineerName("He Man");
         mod.add(rep);
 
-        // the next bit was to test if there's any data in the db
-        Cursor cur = mod.getAll();
-        cur.moveToFirst();
-        while(cur.isAfterLast()==false){
-            Report e=new Report();
-            int x = cur.getInt(0);
-            cur.moveToNext();
-        }
+        rep = new Report();
+        rep.setSiteId(1);
+        rep.setEngineerName("Dr Who");
+        mod.add(rep);
+
+        rep = new Report();
+        rep.setSiteId(2);
+        rep.setEngineerName("Sponge Bob Square Pants");
+        mod.add(rep);
+
+        rep = new Report();
+        rep.setSiteId(3);
+        rep.setEngineerName("Gordon the Gopher");
+        mod.add(rep);
+
+        rep = new Report();
+        rep.setSiteId(4);
+        rep.setEngineerName("Douglas Adams");
+        mod.add(rep);
+
+        rep = new Report();
+        rep.setSiteId(5);
+        rep.setEngineerName("Awful Man Pope");
+        mod.add(rep);
+
+        mod.close();
     }
 
     public void populateEquipmentDb(Context c) {
@@ -119,6 +142,59 @@ public class LoadData {
         equipment=new Equipment();
         equipment.setEquipmentName("Magic Oil");
         model.add(equipment);
+
+        equipment=new Equipment();
+        equipment.setEquipmentName("Chocolate makers");
+        model.add(equipment);
+        model.close();
+    }
+
+    public void populateSiteEquipmentDb(Context c) {
+        SiteEquipmentDbModel model;
+        SiteEquipment siteEquip;
+
+        model = new SiteEquipmentDbModel(c);
+
+        // test if there's any data in the database populate if not
+        if (model.getAllList().size()>0)return;
+
+        siteEquip = new  SiteEquipment();
+        siteEquip.setSiteid(1);
+        siteEquip.setEquipid(1);
+        model.add(siteEquip);
+        siteEquip.setEquipid(2);
+        model.add(siteEquip);
+
+        siteEquip = new  SiteEquipment();
+        siteEquip.setSiteid(2);
+        siteEquip.setEquipid(3);
+        model.add(siteEquip);
+        siteEquip.setEquipid(4);
+        model.add(siteEquip);
+        siteEquip.setEquipid(5);
+        model.add(siteEquip);
+
+        siteEquip = new  SiteEquipment();
+        siteEquip.setSiteid(3);
+        siteEquip.setEquipid(6);
+        model.add(siteEquip);
+
+        siteEquip = new  SiteEquipment();
+        siteEquip.setSiteid(4);
+        siteEquip.setEquipid(1);
+        model.add(siteEquip);
+        siteEquip.setEquipid(2);
+        model.add(siteEquip);
+        siteEquip.setEquipid(7);
+        model.add(siteEquip);
+
+        siteEquip = new  SiteEquipment();
+        siteEquip.setSiteid(5);
+        siteEquip.setEquipid(3);
+        model.add(siteEquip);
+        siteEquip.setEquipid(5);
+        model.add(siteEquip);
+        model.close();
     }
 
     private void loadParameterData() {
@@ -167,40 +243,4 @@ public class LoadData {
         model.add(parameter);
     }
 
-    private void loadEquipmentData() {
-        EquipmentModel model;
-        ParameterModel parameterModel;
-        Equipment equipment;
-
-        model = EquipmentModel.getInstance();
-        parameterModel = ParameterModel.getInstance();
-
-        equipment = new Equipment();
-        equipment.setEquipmentName("COMPRESSOR - LT1");
-        for (int i = 0; i < 9; i++) equipment.addParameter(parameterModel.getList().get(i).getID());
-        model.add(equipment);
-
-        equipment = new Equipment();
-        equipment.setEquipmentName("COMPRESSOR - HT1");
-        for (int i = 0; i < 9; i++) equipment.addParameter(parameterModel.getList().get(i).getID());
-        model.add(equipment);
-
-        equipment = new Equipment();
-        equipment.setEquipmentName("VALVE STATION");
-        for (int i = 9; i < 13; i++)
-            equipment.addParameter(parameterModel.getList().get(i).getID());
-        model.add(equipment);
-
-        equipment = new Equipment();
-        equipment.setEquipmentName("Coolers in Rooms");
-        for (int i = 13; i < 15; i++)
-            equipment.addParameter(parameterModel.getList().get(i).getID());
-        model.add(equipment);
-
-        equipment = new Equipment();
-        equipment.setEquipmentName("Oil");
-        for (int i = 15; i < parameterModel.getList().size(); i++)
-            equipment.addParameter(parameterModel.getList().get(i).getID());
-        model.add(equipment);
-    }
 }

@@ -63,4 +63,5 @@ public class Equipment {
     public void setImg(byte[] img) {
         this.img = img;
     }
+
 }

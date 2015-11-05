@@ -24,7 +24,7 @@ public class ReportModel {
         Report r;
         for(int i=1; i<=5; i++){
             r = new Report();
-            r.setId(UUID.randomUUID());
+            r.setUiid(UUID.randomUUID());
             r.setSiteName("Site " + i);
             r.setEngineerName("Name " + i);
             r.setReportDate(new Date());
@@ -50,7 +50,7 @@ public class ReportModel {
 
     public Report getItem(UUID id) {
         for( Report r : getList()){
-            if (r.getId().equals(id))return r;
+            if (r.getUuid().equals(id))return r;
         }
         return null;
     }

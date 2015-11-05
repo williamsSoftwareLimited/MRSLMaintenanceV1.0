@@ -57,14 +57,21 @@ public class EquipmentDbModel extends DbAbstractModel<Equipment>  {
     @Override
     public ArrayList<Equipment> getList(ArrayList<String> params) {
         ArrayList<Equipment> l = new ArrayList<>();
-        /*for( Equipment equip : getList()){
-            if(equip.)
-        }*/
-        Equipment equip = new Equipment();
-        for (int i=1; i<4;i++) {
-            equip.setEquipmentName("Join to Site "+i);
-            equip.setId(i);
+        Equipment e;
+        String query = "select * from " + TABLE + " e"
+                +" join " + SiteEquipmentDbModel.TABLE + " se on e."+FIELDS[ID]+" = se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.EQUIPID]
+                +" where se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.SITEID]+"="+params.get(0);
+        Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
+        c.moveToFirst();
+        while(c.isAfterLast()==false){
+            e=new Equipment();
+            e.setId(c.getInt(ID));
+            e.setEquipmentName(c.getString(NAME));
+            e.setImgId(c.getInt(IMAGE_ID));
+            l.add(e);
+            c.moveToNext();
         }
+
         return l;
     }
 
@@ -82,6 +89,7 @@ public class EquipmentDbModel extends DbAbstractModel<Equipment>  {
     public void update(Equipment equipment) {
 
     }
+
     void populateList(){
         if (_list.size()==_length)return;
         filterList("");

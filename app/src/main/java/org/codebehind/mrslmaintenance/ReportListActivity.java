@@ -21,9 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
+import org.codebehind.mrslmaintenance.Adapters.ReportAdapter;
 import org.codebehind.mrslmaintenance.Data.LoadData;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
+import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
 import org.codebehind.mrslmaintenance.Models.ReportModel;
 
@@ -46,6 +48,7 @@ public class ReportListActivity extends ActionBarActivityBase {
         loadData.populateEquipmentDb(this);
         loadData.popSiteData(this);
         loadData.populateReportData(this);
+        loadData.populateSiteEquipmentDb(this);
         // =================================================
 
         setContentView(R.layout.activity_report_list);
@@ -94,62 +97,6 @@ public class ReportListActivity extends ActionBarActivityBase {
                 startActivity(i);
                 return true;
             default:return super.onOptionsItemSelected(item);
-        }
-    }
-    public static class ReportListFragment extends Fragment {
-        ListView listview;
-        String TAG = "report_activity_placeholder";
-
-        public ReportListFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_report_list, container, false);
-
-            setHasOptionsMenu(true); // ensures the fragment knows it has a menu
-
-            listview = (ListView) rootView.findViewById(R.id.report_listview);
-            listview.setAdapter(new ReportAdapter(ReportModel.getInstance().getList()));
-            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Log.d(TAG, "position = " + position);
-                    Report r = (Report)parent.getItemAtPosition(position);
-                    Intent i = new Intent(getActivity(), ReportActivity.class);
-                    i.putExtra(StaticConstants.EXTRA_REPORT_ID, r.getId());
-                    startActivity(i);
-                }
-            });
-            return rootView;
-        }
-        @Override
-        public void onResume (){
-            super.onResume();
-            listview = (ListView) getActivity().findViewById(R.id.report_listview);
-            listview.setAdapter(new ReportAdapter(ReportModel.getInstance().getList()));
-        }
-
-        private class ReportAdapter extends ArrayAdapter<Report> {
-            public ReportAdapter(ArrayList<Report> reports) {
-                super(getActivity(), android.R.layout.simple_list_item_1, reports);
-            }
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                Report r;
-                TextView tvSite, tvDate;
-                // if we weren't given a view, inflate one
-                if (null == convertView) {
-                    convertView = getActivity().getLayoutInflater()
-                            .inflate(R.layout.report_list_item, null);
-                }
-                r = getItem(position);
-                tvSite=(TextView)convertView.findViewById(R.id.report_list_site);
-                tvSite.setText(r.getSiteName());
-                tvDate = (TextView)convertView.findViewById((R.id.report_list_date));
-                tvDate.setText(DateFormat.getDateInstance().format(r.getReportDate()));
-                return convertView;
-            }
         }
     }
 }

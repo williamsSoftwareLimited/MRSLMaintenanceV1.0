@@ -49,11 +49,11 @@ public class ReportActivity  extends ActionBarActivityBase {
             }
             @Override
             public Fragment getItem(int pos) {
-                return ReportFragment.newInstance(reports.get(pos).getId());
+                return ReportFragment.newInstance(reports.get(pos).getUuid());
             }
         });
         for (int i = 0; i < reports.size(); i++) {
-            if (reports.get(i).getId().equals(reportId)) {
+            if (reports.get(i).getUuid().equals(reportId)) {
                 mViewPager.setCurrentItem(i);
                 break;
             }

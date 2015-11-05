@@ -2,6 +2,8 @@ package org.codebehind.mrslmaintenance.Models.Abstract;
 
 import android.content.Context;
 
+import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
+
 import java.util.ArrayList;
 
 /**
@@ -28,4 +30,8 @@ public abstract class DbAbstractModel<t> {
     public abstract void delete(int id);
 
     public abstract void update(t entity);
+
+    public void close() {
+        DatabaseHelper.getInstance(_context).getWritableDatabase().close();
+    }
 }

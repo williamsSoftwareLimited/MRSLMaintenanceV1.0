@@ -32,10 +32,11 @@ public class SiteDbModel extends DbAbstractModel<Site> {
     }
 
     public int add(Site site) {
+        ContentValues v;
+        int dbRetNo;
         if (site==null) return StaticConstants.BAD_DB;
-        _list.add(site);
 
-        ContentValues v= new ContentValues();
+        v= new ContentValues();
 
         v.put(FIELDS[TS], new Date().getTime());
         v.put(FIELDS[DEL], false);
@@ -43,7 +44,11 @@ public class SiteDbModel extends DbAbstractModel<Site> {
         v.put(FIELDS[ADDRESS], site.getAddress());
         v.put(FIELDS[IMAGE_ID], site.getImageId());
 
-        return (int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, v);
+        dbRetNo=(int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, v);
+        if (dbRetNo>0) _list.add(site);
+        DatabaseHelper.getInstance(_context).getWritableDatabase().close();
+
+        return dbRetNo;
     }
 
     @Override
