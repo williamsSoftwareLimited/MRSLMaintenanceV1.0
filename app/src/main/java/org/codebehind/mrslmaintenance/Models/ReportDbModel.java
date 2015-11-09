@@ -25,21 +25,40 @@ public class ReportDbModel {
     public static final int ID=0,  TS=1, DEL=2, SITEID=3, ENGINEER_NAME=4;
     private static final int SITE_NAME=5; // this is internal only and is used for the join to site id
     protected Context _context;
+    ArrayList<Report> _list;
+
     public ReportDbModel(Context context) {
         _context=context;
+        _list=new ArrayList<>();
+        getAll();
     }
 
     public int add(Report rep) {
         if (rep==null) return StaticConstants.BAD_DB;
+        int dbRetVal = -1;
+
         ContentValues v= new ContentValues();
+
         v.put(FIELDS[TS], new Date().getTime());
         v.put(FIELDS[DEL], false);
         v.put(FIELDS[SITEID], rep.getSiteId());
         v.put(FIELDS[ENGINEER_NAME], rep.getEngineerName());
-        return (int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, v);
+
+        dbRetVal = (int)DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, v);
+
+        if (dbRetVal>0) _list.add(rep);
+
+        return dbRetVal;
     }
+
+    public Report getReport(int id){
+        Report rep = new Report();
+        rep.setId(-1);
+        for(Report r : _list) if (id==r.getId()) rep = r;
+        return rep;
+    }
+
     public ArrayList<Report> getAll(){
-        ArrayList<Report> list = new ArrayList<>();
         String query = "select "
                 +"r."+FIELDS[ID]+", "
                 +"r."+FIELDS[TS]+", "
@@ -49,8 +68,9 @@ public class ReportDbModel {
                 +"s."+SiteDbModel.FIELDS[SiteDbModel.NAME]
                 +" from " + TABLE + " r"
                 +" join " + SiteDbModel.TABLE + " s on r."+FIELDS[SITEID]+" = s."+SiteDbModel.FIELDS[SiteDbModel.ID ];
+
         Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
-        //Cursor c = DatabaseHelper.getInstance(_context).getReadableDatabase().query(TABLE, FIELDS,null,null,null,null,null);
+
         Report report;
         c.moveToFirst();
 
@@ -61,10 +81,10 @@ public class ReportDbModel {
             report.setSiteId(c.getInt(SITEID));
             report.setEngineerName(c.getString(ENGINEER_NAME));
             report.setSiteName(c.getString(SITE_NAME));
-            list.add(report);
+            _list.add(report);
             c.moveToNext();
         }
-        return list;
+        return _list;
     }
     public void close() {
         DatabaseHelper.getInstance(_context).getWritableDatabase().close();

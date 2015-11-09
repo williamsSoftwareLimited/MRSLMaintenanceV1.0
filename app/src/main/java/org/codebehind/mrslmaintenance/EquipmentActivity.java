@@ -1,5 +1,6 @@
 package org.codebehind.mrslmaintenance;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,7 +17,9 @@ import android.os.Build;
 import android.widget.Button;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
+import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
+import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportModel;
 
 import java.util.ArrayList;
@@ -24,39 +27,39 @@ import java.util.UUID;
 
 
 public class EquipmentActivity  extends ActionBarActivityBase {
-    public final static String EQUIPMENT_ID ="org.CodeBehind.EquipmentId";
-    public final static String EQUIPMENT_REPORT_ID ="org.CodeBehind.EquipmentReportId";
+    public final static String EQUIPMENT ="org.CodeBehind.EQUIPMENT_ACTIVITY_EQUIPMENT";
+    public final static String EQUIPMENT_REPORT_ID ="org.CodeBehind.EQUIPMENT_ACTIVITY_EquipmentReportId";
     ViewPager mViewPager;
+    Report _report;
+    Equipment _equipment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        UUID reportId;
-        int equipId;
-        final Report report;
         FragmentManager fm;
 
         super.onCreate(savedInstanceState);
+
         mViewPager = new ViewPager(this);
         mViewPager.setId(R.id.viewPager);
         setContentView(mViewPager);
 
-        equipId=getIntent().getIntExtra(EQUIPMENT_ID, -1);
-        reportId=(UUID)getIntent().getSerializableExtra(EQUIPMENT_REPORT_ID);
-        report= ReportModel.getInstance().getItem(reportId);
+        Bundle bundle=getIntent().getExtras();
+        _report = (Report)bundle.getSerializable(ReportFragment.BUNDLE_REPORT);
+        _equipment = (Equipment)bundle.getSerializable(ReportFragment.BUNDLE_EQUIPMENT);
 
         fm = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
             public int getCount() {
-                return report.getEquipmentList().size();
+                return _report.getEquipmentList().size();
             }
             @Override
             public Fragment getItem(int pos) {
-                return EquipmentFragment.newInstance(report.getEquipmentList().get(pos).getId());
+                return EquipmentFragment.newInstance(_equipment);
             }
         });
-        for (int i = 0; i < report.getEquipmentList().size(); i++) {
-            if (report.getEquipmentList().get(i).getId()==equipId) {
+        for (int i = 0; i < _report.getEquipmentList().size(); i++) {
+            if (_report.getEquipmentList().get(i).getId() ==_equipment.getId()) {
                 mViewPager.setCurrentItem(i);
                 break;
             }

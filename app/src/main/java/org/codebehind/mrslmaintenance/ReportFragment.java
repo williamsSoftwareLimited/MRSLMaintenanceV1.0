@@ -15,32 +15,36 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
-import org.codebehind.mrslmaintenance.Models.EquipmentModel;
-import org.codebehind.mrslmaintenance.Models.ReportModel;
+import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
+import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 
-import java.util.UUID;
+import java.util.ArrayList;
 
 /**
  * Created by Gavin on 30/12/2014.
  */
 public class ReportFragment extends Fragment {
-    String TAG = "ReportFragment_EquipmentListview";
+    String TAG = "org.CodeBehind.ReportFragment_EquipmentListview";
     public static final int FROMEQUIPMENTLIST=1,
             FROMSITELIST=2;
     Report _report;
     EditText siteField, engineerField, _datefield;
-    ListView equipListView;
-    ArrayAdapter<Equipment> equipAdapter;
-    DatePicker _datePicker;
+    ListView _equipListView;
+    ArrayAdapter<Equipment> _equipmentAdapter;
+    ReportDbModel _reportModel;
+    EquipmentDbModel _equipmentModel;
+    public static final String BUNDLE_REPORT = "org.CodeBehind.REPORT_FRAGMENT_BUNDLE_FLY_REPORT",
+            BUNDLE_EQUIPMENT = "org.CodeBehind.REPORT_FRAGMENT_BUNDLE_FLY_EQUIPMENT";
 
     public ReportFragment() {
+        _reportModel=new ReportDbModel(getActivity());
+        _equipmentModel=new EquipmentDbModel(getActivity());
     }
-    public static ReportFragment newInstance(UUID id){
+    public static ReportFragment newInstance(int id){
         Bundle args = new Bundle();
         args.putSerializable(StaticConstants.EXTRA_REPORT_ID, id);
         ReportFragment rm = new ReportFragment();
@@ -50,9 +54,9 @@ public class ReportFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UUID id = (UUID)getArguments().getSerializable(StaticConstants.EXTRA_REPORT_ID);
+        int id = (int)getArguments().getSerializable(StaticConstants.EXTRA_REPORT_ID);
         setHasOptionsMenu(true);
-        _report = ReportModel.getInstance().getItem(id);
+        _report = _reportModel.getReport(id);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,39 +65,9 @@ public class ReportFragment extends Fragment {
 
         if (_report== null) return rootView;// maybe redirect?
 
-        siteField = (EditText)rootView.findViewById(R.id.report_site);
-        siteField.setText(_report.getSiteName());
-
-        engineerField=((EditText)rootView.findViewById(R.id.report_engineer));
-        engineerField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                _report.setEngineerName(s.toString());
-            }
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-        engineerField.setText(_report.getEngineerName());
-        equipListView=((ListView)rootView.findViewById(R.id.report_equipment_ListView));
-        equipAdapter=new ArrayAdapter<Equipment>(getActivity(), android.R.layout.simple_list_item_1, _report.getEquipmentList());
-        equipListView.setAdapter(equipAdapter);
-        equipListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Equipment e = (Equipment)parent.getItemAtPosition(position);
-                Log.d(TAG, "Equipment name = " + e.getEquipmentName());
-                Log.d(TAG, "The report number is " + _report.getId());
-                Log.d(TAG, "The site name is " + _report.getSiteName());
-                Intent i = new Intent(getActivity(), EquipmentActivity.class);
-                i.putExtra(EquipmentActivity.EQUIPMENT_ID, e.getId());
-                i.putExtra(EquipmentActivity.EQUIPMENT_REPORT_ID, _report.getId());
-                startActivity(i);
-            }
-        });
-        _datefield=(EditText)rootView.findViewById(R.id.report_date);
-        _datefield.setText(_report.getReportDate().toString());
+        setControls(rootView);
+        setText();
+        setEvents();
 
         return rootView;
     }
@@ -130,4 +104,62 @@ public class ReportFragment extends Fragment {
             case FROMSITELIST:siteField.setText(_report.getSiteName());break;
         }
     }
+
+    private void setControls(View rootView){
+
+        siteField = (EditText)rootView.findViewById(R.id.report_site);
+        engineerField=((EditText)rootView.findViewById(R.id.report_engineer));
+        _equipListView=((ListView)rootView.findViewById(R.id.report_equipment_ListView));
+        _datefield=(EditText)rootView.findViewById(R.id.report_date);
+    }
+
+    private void setText(){
+
+        siteField.setText(_report.getSiteName());
+        engineerField.setText(_report.getEngineerName());
+        _datefield.setText(_report.getReportDate().toString());
+        ArrayList<String> params = new ArrayList<>();
+        params.add("" + _report.getSiteId());
+
+        _report.setEquipmentList(_equipmentModel.getList(params)); // this is a bit strange but it allow the equipment list to bundled in the intent to the EquipmentActivity
+
+        _equipmentAdapter=new ArrayAdapter<Equipment>(getActivity(), android.R.layout.simple_list_item_1, _equipmentModel.getList(params));
+        _equipListView.setAdapter(_equipmentAdapter);
+    }
+
+    private void setEvents() {
+
+        _equipListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent;
+                Bundle bundle;
+                Equipment equipment = (Equipment) parent.getItemAtPosition(position);
+                Log.d(TAG, "Equipment name = " + equipment.getEquipmentName());
+                Log.d(TAG, "The report number is " + _report.getId());
+                Log.d(TAG, "The site name is " + _report.getSiteName());
+
+                intent = new Intent(getActivity(), EquipmentActivity.class);
+                bundle = new Bundle();
+                bundle.putSerializable(BUNDLE_REPORT, _report);
+                bundle.putSerializable(BUNDLE_EQUIPMENT,equipment);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            }
+        });
+
+        engineerField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                _report.setEngineerName(s.toString());
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    } // end setEvents method
 }

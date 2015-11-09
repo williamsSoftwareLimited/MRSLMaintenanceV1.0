@@ -3,13 +3,14 @@ package org.codebehind.mrslmaintenance.Entities;
 import org.codebehind.mrslmaintenance.Models.IRepository;
 import org.codebehind.mrslmaintenance.Models.ParameterModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
 /**
  * Created by Gavin on 23/12/2014.
  */
-public class Equipment {
+public class Equipment implements Serializable{
     private int _id;
     private String _equipmentName;
     private int imgId;

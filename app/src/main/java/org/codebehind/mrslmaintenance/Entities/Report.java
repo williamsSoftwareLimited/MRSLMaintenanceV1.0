@@ -3,11 +3,12 @@ package org.codebehind.mrslmaintenance.Entities;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+import java.io.Serializable;
 
 /**
  * Created by Gavin on 29/12/2014.
  */
-public class Report {
+public class Report implements Serializable {
     int _id;
     UUID _uuid;
     String _siteName;

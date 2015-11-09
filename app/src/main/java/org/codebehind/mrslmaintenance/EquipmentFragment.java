@@ -23,13 +23,14 @@ import java.util.UUID;
 public class EquipmentFragment extends Fragment {
     Equipment _equipment;
     private static final int REQUEST_PHOTO=1;
-    private static final String TAG = "EquipmentFragment";
+    private static final String TAG = "org.CodeBehind.EquipmentFragment";
 
     public EquipmentFragment() {
     }
-    public static EquipmentFragment newInstance(int id){
+    public static EquipmentFragment newInstance(Equipment equipment){
         Bundle args = new Bundle();
-        args.putSerializable(EquipmentActivity.EQUIPMENT_ID, id);
+
+        args.putSerializable(EquipmentActivity.EQUIPMENT, equipment);
         EquipmentFragment em = new EquipmentFragment();
         em.setArguments(args);
         return em;
@@ -37,11 +38,12 @@ public class EquipmentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int id = (int)getArguments().getSerializable(EquipmentActivity.EQUIPMENT_ID);
-        _equipment = EquipmentModel.getInstance().getEquipment(id);
+
+        _equipment = (Equipment)getArguments().getSerializable(EquipmentActivity.EQUIPMENT);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         TextView nameView;
         View rootView = inflater.inflate(R.layout.fragment_equipment, container, false);
         ImageButton imgBtn=(ImageButton)rootView.findViewById(R.id.equipment_imagebtn);
@@ -62,6 +64,7 @@ public class EquipmentFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (resultCode != Activity.RESULT_OK) return;
 
         if (requestCode == REQUEST_PHOTO) {
