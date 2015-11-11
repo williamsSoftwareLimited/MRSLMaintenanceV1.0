@@ -23,7 +23,7 @@ public class ControllerActivity extends ActionBarActivity {
 
         // initialize any data here
         loadData=new LoadData();
-        loadData.load();
+        loadData.load(this);
 
         intent = new Intent(this, ReportListActivity.class);
         startActivity(intent);

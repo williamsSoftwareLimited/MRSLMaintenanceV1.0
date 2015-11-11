@@ -62,7 +62,7 @@ public class EquipmentNewFragment extends Fragment {
         _addParamEditText.setVisibility(View.INVISIBLE);
         if (_existingParameterId==null) {
             _existingParameterId = UUID.randomUUID();
-            parameter = new Parameter(_existingParameterId, _addParamEditText.getText().toString(), 0);
+            parameter = new Parameter(_addParamEditText.getText().toString(), "units");
             ParameterModel.getInstance().add(parameter);
         }
         _equipment.addParameter(_existingParameterId);
@@ -100,8 +100,8 @@ public class EquipmentNewFragment extends Fragment {
                 Parameter parameter;
                 if (position>0) {
                     parameter=ParameterModel.getInstance().getList().get(position);
-                    _existingParameterId=parameter.getID();
-                    _holdingParameterId=parameter.getID();
+                    _existingParameterId= null;//parameter.getID();
+                    _holdingParameterId=null;//parameter.getID();
                     _existingParameterName=parameter.getName();
                     _addParamEditText.setText(parameter.getName()); // this will call the listener onTextChanged
                 }
@@ -161,7 +161,7 @@ public class EquipmentNewFragment extends Fragment {
             nameTextView=(TextView)row.findViewById(R.id.spinner_parameters_name);
             nameTextView.setText(parameter.getName());
             idTextView=(TextView)row.findViewById(R.id.spinner_parameters_id);
-            idTextView.setText(parameter.getID().toString());
+            idTextView.setText(parameter.getID());
             return row;
         }
     }

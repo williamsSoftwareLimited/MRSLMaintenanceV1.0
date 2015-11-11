@@ -15,17 +15,16 @@ import java.util.ArrayList;
  * Created by Gavin on 23/03/2015.
  */
 public class EquipmentDbModel extends DbAbstractModel<Equipment>  {
-    public static final String TABLE="equipment";
-    public static final String FILTER_SELECTION_START="name like '%";
-    public static final String FILTER_SELECTION_END="%'";
-    public static final String[] FIELDS =  new String[]{"_id", "name","imageId"};//, "ts","del" };
-    public static final int ID=0;
-    public static final int NAME=1;
-    public static final int IMAGE_ID=2,TS=3, DEL=4;;
+
+    public static final String TABLE="Equipment",
+            FILTER_SELECTION_START="name like '%",
+            FILTER_SELECTION_END="%'";
+    public static final String[] FIELDS =  new String[]{"_id", "Name","ImageId"};//, "ts","del" };
+    public static final int ID=0, NAME=1, IMAGE_ID=2,TS=3, DEL=4;;
     protected int _length; // this checks the size of the list and iff it's different
 
     public EquipmentDbModel(Context context){
-        super(context);
+        super(context, TABLE);
         _length = -1;
         _list = new ArrayList<Equipment>();
     }
@@ -57,18 +56,19 @@ public class EquipmentDbModel extends DbAbstractModel<Equipment>  {
     @Override
     public ArrayList<Equipment> getList(ArrayList<String> params) {
         ArrayList<Equipment> l = new ArrayList<>();
-        Equipment e;
+
         String query = "select * from " + TABLE + " e"
                 +" join " + SiteEquipmentDbModel.TABLE + " se on e."+FIELDS[ID]+" = se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.EQUIPID]
                 +" where se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.SITEID]+"="+params.get(0);
+
         Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
         c.moveToFirst();
+
         while(c.isAfterLast()==false){
-            e=new Equipment();
-            e.setId(c.getInt(ID));
-            e.setEquipmentName(c.getString(NAME));
-            e.setImgId(c.getInt(IMAGE_ID));
-            l.add(e);
+
+            Equipment equipment=new Equipment(c.getInt(ID), c.getString(NAME), c.getInt(IMAGE_ID));
+
+            l.add(equipment);
             c.moveToNext();
         }
 

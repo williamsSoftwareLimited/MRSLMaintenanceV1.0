@@ -17,12 +17,12 @@ import java.util.Date;
  */
 public class SiteDbModel extends DbAbstractModel<Site> {
 
-    public static final String TABLE="site", FILTER_SELECTION_START="name like '%",FILTER_SELECTION_END="%'";
+    public static final String TABLE="Site", FILTER_SELECTION_START="name like '%",FILTER_SELECTION_END="%'";
     public static final String[] FIELDS = new String[]{"_id", "ts","del", "name", "address", "imageId" };
     public static final int ID=0, TS=1, DEL=2, NAME=3, ADDRESS=4, IMAGE_ID=5;
 
     public SiteDbModel(Context context) {
-        super(context);
+        super(context, TABLE);
         getlist(); // set the list
     }
 

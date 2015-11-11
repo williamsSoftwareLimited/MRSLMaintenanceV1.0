@@ -9,12 +9,12 @@ import java.util.ArrayList;
 /**
  * Created by Gavin on 23/08/2015.
  */
-public abstract class DbAbstractModel<t> {
-    protected Context _context;
+public abstract class DbAbstractModel<t> extends DbAbstractModelBase {
+
     protected ArrayList<t> _list;
 
-    public DbAbstractModel(Context context){
-        _context=context;
+    public DbAbstractModel(Context context, String tableName){
+        super(context, tableName);
     }
 
     public abstract t getEntity(int id);
@@ -31,7 +31,5 @@ public abstract class DbAbstractModel<t> {
 
     public abstract void update(t entity);
 
-    public void close() {
-        DatabaseHelper.getInstance(_context).getWritableDatabase().close();
-    }
+
 }

@@ -48,10 +48,7 @@ public class ParameterModel {
         add(parameter);
         return null;
     }
-    public Parameter getTemplate(Parameter parameter) {
-        parameter.setID(UUID.randomUUID());
-        return parameter;
-    }
+
     public void clear() {
         _list.clear();
     }

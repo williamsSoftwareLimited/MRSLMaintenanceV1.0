@@ -13,13 +13,20 @@ import java.util.UUID;
 public class Equipment implements Serializable{
     private int _id;
     private String _equipmentName;
-    private int imgId;
-    private byte[] img;
+    private int _imageId;
+    private byte[] _image;
     private ArrayList<Parameter> _parameterList;
 
+    // this is probably unecessary
     public Equipment(){
         setParameterList(new ArrayList<Parameter>());
     }
+    public Equipment(int id, String equipmentName, int imageId){
+        setId(id);
+        setEquipmentName(equipmentName);
+        setImgId(imageId);
+    }
+
 
     public int getId() {
         return _id;
@@ -52,17 +59,17 @@ public class Equipment implements Serializable{
     }
 
     public int getImgId() {
-        return imgId;
+        return _imageId;
     }
     public void setImgId(int imgId) {
-        this.imgId = imgId;
+        _imageId = imgId;
     }
 
     public byte[] getImg() {
-        return img;
+        return _image;
     }
     public void setImg(byte[] img) {
-        this.img = img;
+        _image= img;
     }
 
 }

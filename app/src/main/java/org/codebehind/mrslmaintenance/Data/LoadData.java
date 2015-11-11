@@ -3,13 +3,17 @@ package org.codebehind.mrslmaintenance.Data;
 import android.content.Context;
 import android.database.Cursor;
 
+import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
+import org.codebehind.mrslmaintenance.Entities.EquipmentParameters;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentModel;
+import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
+import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
@@ -21,14 +25,21 @@ import java.util.UUID;
  * Created by Gavin on 11/02/2015.
  */
 public class LoadData {
-    public void load(){
-        loadParameterData();
+    public void load(Context context){
+        populateEquipmentData(context);
+        popSiteData(context);
+        populateReportData(context);
+        populateSiteEquipmentData(context);
+        populateParameterData(context);
+        populateEquipmentParamsData(context);
+
+        DatabaseHelper.getInstance(context).close();
     }
     // ensure that this is called first
     public void popSiteData(Context c){
         SiteDbModel mod = new SiteDbModel(c);
 
-        if (mod.getlist().size()>0) return;
+        if (mod.getCount()>0) return;
 
         Site s = new Site();
         s.setAddress("Outer Mongolia, Spain.");
@@ -59,21 +70,12 @@ public class LoadData {
         s.setName("Dylan the Hippy Plant");
         //s.setImageId(1); // make sure the images exist
         mod.add(s);
-        // the next bit was to test if there's any data in the db
-        /*Cursor cur = mod.getcursor();
-        cur.moveToFirst();
-        while(cur.isAfterLast()==false){
-            Site e=new Site();
-            int x = cur.getInt(0);
-            cur.moveToNext();
-        }*/
-        mod.close();
     }
 
     public void populateReportData(Context c) {
 
         ReportDbModel mod = new ReportDbModel(c);
-        if (mod.getAll().size()>0) return;
+        if (mod.getCount()>0) return;
 
         Report rep = new Report();
         rep.setSiteId(1);
@@ -105,17 +107,16 @@ public class LoadData {
         rep.setEngineerName("Awful Man Pope");
         mod.add(rep);
 
-        mod.close();
     }
 
-    public void populateEquipmentDb(Context c) {
+    public void populateEquipmentData(Context c) {
         EquipmentDbModel model;
         Equipment equipment;
 
         model = new EquipmentDbModel(c);
 
         // test if there's any data in the database populate if not
-        if (model.getList().size()>0)return;
+        if (model.getCount()>0)return;
 
         equipment=new Equipment();
         equipment.setEquipmentName("COMPRESSOR - LT1");
@@ -146,17 +147,16 @@ public class LoadData {
         equipment=new Equipment();
         equipment.setEquipmentName("Chocolate makers");
         model.add(equipment);
-        model.close();
     }
 
-    public void populateSiteEquipmentDb(Context c) {
+    public void populateSiteEquipmentData(Context c) {
         SiteEquipmentDbModel model;
         SiteEquipment siteEquip;
 
         model = new SiteEquipmentDbModel(c);
 
         // test if there's any data in the database populate if not
-        if (model.getAllList().size()>0)return;
+        if (model.getCount()>0)return;
 
         siteEquip = new  SiteEquipment();
         siteEquip.setSiteid(1);
@@ -194,53 +194,75 @@ public class LoadData {
         model.add(siteEquip);
         siteEquip.setEquipid(5);
         model.add(siteEquip);
-        model.close();
     }
 
-    private void loadParameterData() {
+    private void populateParameterData(Context context) {
         Parameter parameter;
-        ParameterModel model;
+        ParameterDbModel model;
 
-        model=ParameterModel.getInstance();
+        model=new ParameterDbModel(context);
 
-        parameter=new Parameter(UUID.randomUUID(),"Hours Run", 0);
+        if (model.getCount()>0)return;
+
+        parameter=new Parameter("Hours Run", "Hrs");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Suction Pressure", 0);
+        parameter=new Parameter("Suction Pressure", "Psi");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Suction Temperature", 0);
+        parameter=new Parameter("Suction Temperature", "C");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Suction Superheat", 0);
+        parameter=new Parameter("Suction Superheat", "C");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Discharge Pressure", 0);
+        parameter=new Parameter("Discharge Pressure", "Psi");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Discharge Temperature", 0);
+        parameter=new Parameter("Discharge Temperature", "C");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Discharge Superheat", 0);
+        parameter=new Parameter("Discharge Superheat", "C");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Oil Pressure", 0);
+        parameter=new Parameter("Oil Pressure", "Psi");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Oil Level", 0);
+        parameter=new Parameter("Oil Level", "CC");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Check McD Freezer Tunnel 1", 0);
+        parameter=new Parameter("Check McD Freezer Tunnel 1", "");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Check Conveneince freezer Tunnel 1 VS per visit", 0);
+        parameter=new Parameter("Check Conveneince freezer Tunnel 1 VS per visit", "");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Other Valve stations 2 Other per Visit", 0);
+        parameter=new Parameter("Other Valve stations 2 Other per Visit", "");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Inspect Internally 1 VS per visit, replace gaskets", 0);
+        parameter=new Parameter("Inspect Internally 1 VS per visit, replace gaskets", "");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Check 2 Room Coolers per Visit", 0);
+        parameter=new Parameter("Check 2 Room Coolers per Visit", "");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Motor Current", 0);
+        parameter=new Parameter("Motor Current", "Amps");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Room Temperature Controls", 0);
+        parameter=new Parameter("Room Temperature Controls", "");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Check Oil in HT, LT, Econ Vessels", 0);
+        parameter=new Parameter("Check Oil in HT, LT, Econ Vessels", "");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Check Freezer Level Column", 0);
+        parameter=new Parameter("Check Freezer Level Column", "");
         model.add(parameter);
-        parameter=new Parameter(UUID.randomUUID(),"Drain Oil from Freezer Tunnel Evaporator (6 months)", 0);
+        parameter=new Parameter("Drain Oil from Freezer Tunnel Evaporator (6 months)", "");
         model.add(parameter);
+    }
+
+    private void populateEquipmentParamsData(Context context){
+        EquipmentParamsDbModel model;
+
+        model=new EquipmentParamsDbModel(context);
+
+        if (model.getCount()>0)return;
+
+        model.add(new EquipmentParameters(1, 1));
+        model.add(new EquipmentParameters(1, 2));
+        model.add(new EquipmentParameters(1, 5));
+        model.add(new EquipmentParameters(2, 1));
+        model.add(new EquipmentParameters(2, 3));
+        model.add(new EquipmentParameters(2, 5));
+        model.add(new EquipmentParameters(3, 1));
+        model.add(new EquipmentParameters(3, 5));
+        model.add(new EquipmentParameters(4, 5));
+        model.add(new EquipmentParameters(5, 1));
+        model.add(new EquipmentParameters(5, 2));
+        model.add(new EquipmentParameters(5, 5));
     }
 
 }

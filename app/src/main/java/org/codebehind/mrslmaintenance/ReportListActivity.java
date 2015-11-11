@@ -44,11 +44,7 @@ public class ReportListActivity extends ActionBarActivityBase {
         // this initialises the database with some test data
         // =================================================
         LoadData loadData=new LoadData();
-        loadData.load();
-        loadData.populateEquipmentDb(this);
-        loadData.popSiteData(this);
-        loadData.populateReportData(this);
-        loadData.populateSiteEquipmentDb(this);
+        loadData.load(this);
         // =================================================
 
         setContentView(R.layout.activity_report_list);

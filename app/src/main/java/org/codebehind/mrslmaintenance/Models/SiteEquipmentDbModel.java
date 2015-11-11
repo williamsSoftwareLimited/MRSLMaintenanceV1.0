@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
-import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModel;
+import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
 import org.codebehind.mrslmaintenance.StaticConstants;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * This is all a little pointless but it keeps it in-line with the other Db models and contains the correct statics for creation
  * This is a many to many table from the site to the equipment table
  */
-public class SiteEquipmentDbModel {
+public class SiteEquipmentDbModel extends DbAbstractModelBase{
 
     protected Context _context;
     protected ArrayList<SiteEquipment> _list;
@@ -25,7 +25,7 @@ public class SiteEquipmentDbModel {
     public static final int ID=0, SITEID=1, EQUIPID = 2;
 
     public SiteEquipmentDbModel(Context context) {
-        _context=context;
+        super(context, TABLE);
         _list=new ArrayList<>();
     }
 
@@ -58,9 +58,5 @@ public class SiteEquipmentDbModel {
             c.moveToNext();
         }
         return al;
-    }
-
-    public void close(){
-        DatabaseHelper.getInstance(_context).getWritableDatabase().close();
     }
 }

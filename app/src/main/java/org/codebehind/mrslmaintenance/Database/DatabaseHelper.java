@@ -5,7 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
+import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
+import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
@@ -16,7 +18,7 @@ import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=31;
+    public static final int DATABASE_VERSION=38;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,10 +31,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // keep the ordering of the tables to _id, ts then del as this will help with an abstraction (later)
         db.execSQL("Create table " + ImageModel.TABLE + "( _id integer primary key autoincrement, image blob, title varchar(100));");
-        db.execSQL("Create table "+ EquipmentDbModel.TABLE+" (_id integer primary key autoincrement, name varchar(100), imageId integer );");
+
+        db.execSQL("Create table "+ EquipmentDbModel.TABLE+" ("
+                +EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+" integer primary key autoincrement, "
+                +EquipmentDbModel.FIELDS[EquipmentDbModel.NAME]+" varchar(100), "
+                +EquipmentDbModel.FIELDS[EquipmentDbModel.IMAGE_ID]+" integer "
+                //+EquipmentDbModel.FIELDS[EquipmentDbModel.TS]+" integer "
+                +");");
 
         // no NOT NULL for siteId left as sloppy for now
-        db.execSQL("Create table "+ ReportDbModel.TABLE+" ("+ReportDbModel.FIELDS[ReportDbModel.ID]+" integer primary key autoincrement, "
+        db.execSQL("Create table "+ ReportDbModel.TABLE+" ("
+                +ReportDbModel.FIELDS[ReportDbModel.ID]+" integer primary key autoincrement, "
                 +ReportDbModel.FIELDS[ReportDbModel.TS]+" integer, "
                 +ReportDbModel.FIELDS[ReportDbModel.DEL]+" boolean, "
                 +ReportDbModel.FIELDS[ReportDbModel.SITEID]+" integer, "
@@ -40,30 +49,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +"foreign key("+ReportDbModel.FIELDS[ReportDbModel.SITEID]+") references "+SiteDbModel.TABLE+"("+SiteDbModel.FIELDS[SiteDbModel.ID]+")"
                 +");");
 
-        db.execSQL("Create table "+ SiteDbModel.TABLE+" ("+SiteDbModel.FIELDS[SiteDbModel.ID]+" integer primary key autoincrement, "
+        db.execSQL("Create table "+ SiteDbModel.TABLE+" ("
+                +SiteDbModel.FIELDS[SiteDbModel.ID]+" integer primary key autoincrement, "
                 +SiteDbModel.FIELDS[SiteDbModel.TS]+" integer, "
                 +SiteDbModel.FIELDS[SiteDbModel.DEL]+" boolean, "
                 +SiteDbModel.FIELDS[SiteDbModel.NAME]+" varchar(100), "
                 +SiteDbModel.FIELDS[SiteDbModel.ADDRESS]+" varchar(255), "
-                +SiteDbModel.FIELDS[SiteDbModel.IMAGE_ID]+" integer  );");
+                +SiteDbModel.FIELDS[SiteDbModel.IMAGE_ID]+" integer  "
+                +");");
 
-        // these are two foreign keys to the site and equpment tables -
-        // todo: Enforce the FK restraints SiteId and EquipId
-        db.execSQL("Create table "+ SiteEquipmentDbModel.TABLE+" ("+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.ID]+" integer primary key autoincrement,"
+        // these are two foreign keys to the site and equipment tables -
+        db.execSQL("Create table "+ SiteEquipmentDbModel.TABLE+" ("
+                +SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.ID]+" integer primary key autoincrement,"
                 +SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.SITEID]+ " integer, "
-                    //+"foreign key("+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.SITEID]+") references "+SiteDbModel.TABLE+"("+SiteDbModel.FIELDS[SiteDbModel.ID]+"),"
                 +SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.EQUIPID]+ " integer , "
                 +"foreign key("+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.SITEID]+") references "+SiteDbModel.TABLE+"("+SiteDbModel.FIELDS[SiteDbModel.ID]+"),"
                 +"foreign key("+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.EQUIPID]+") references "+EquipmentDbModel.TABLE+"("+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+")"
                 +");");
+
+        db.execSQL("Create table "+ ParameterDbModel.TABLE+" ("
+                + ParameterDbModel.FIELDS[ParameterDbModel.ID]+" integer primary key autoincrement,"
+                + ParameterDbModel.FIELDS[ParameterDbModel.NAME]+ " varchar(100), "
+                + ParameterDbModel.FIELDS[ParameterDbModel.TYPE]+ " varchar(20), "
+                + ParameterDbModel.FIELDS[ParameterDbModel.TIMESTAMP]+ " integer "
+                +");");
+
+        db.execSQL("Create table "+ EquipmentParamsDbModel.TABLE+" ("
+                +EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.ID]+" integer primary key autoincrement,"
+                + EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.EQUIPMENT_ID]+ " integer, "
+                +EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.PARAMETER_ID]+ " integer , "
+                +"foreign key("+EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.EQUIPMENT_ID]+") references "+EquipmentDbModel.TABLE+"("+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+"),"
+                +"foreign key("+EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.PARAMETER_ID]+") references "+ ParameterDbModel.TABLE+"("+ParameterDbModel.FIELDS[ParameterDbModel.ID]+")"
+                +");");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        db.execSQL("drop table if exists "+ EquipmentParamsDbModel.TABLE);
         db.execSQL("drop table if exists "+ SiteEquipmentDbModel.TABLE);
         db.execSQL("drop table if exists "+ ImageModel.TABLE);
         db.execSQL("drop table if exists "+ EquipmentDbModel.TABLE);
         db.execSQL("drop table if exists "+ ReportDbModel.TABLE);
         db.execSQL("drop table if exists "+ SiteDbModel.TABLE);
+        db.execSQL("drop table if exists "+ ParameterDbModel.TABLE);
+
         onCreate(db);
     }
 }

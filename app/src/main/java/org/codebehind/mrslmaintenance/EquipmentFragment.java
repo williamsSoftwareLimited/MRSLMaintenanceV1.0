@@ -23,7 +23,9 @@ import java.util.UUID;
 public class EquipmentFragment extends Fragment {
     Equipment _equipment;
     private static final int REQUEST_PHOTO=1;
-    private static final String TAG = "org.CodeBehind.EquipmentFragment";
+    private static final String LOG_TAG = "EquipmentFragment";
+    TextView _nameView;
+    ImageButton _imageButton;
 
     public EquipmentFragment() {
     }
@@ -43,23 +45,34 @@ public class EquipmentFragment extends Fragment {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        TextView nameView;
         View rootView = inflater.inflate(R.layout.fragment_equipment, container, false);
-        ImageButton imgBtn=(ImageButton)rootView.findViewById(R.id.equipment_imagebtn);
 
-        imgBtn.setOnClickListener(new View.OnClickListener() {
+        setControls(rootView);
+        setText();
+        setEvents();
+
+        return rootView;
+    }
+    private void setControls(View rootView){
+
+        _nameView = (TextView)rootView.findViewById(R.id.equipment_name);
+        _imageButton=(ImageButton)rootView.findViewById(R.id.equipment_imagebtn);
+    }
+
+    private void setText(){
+
+        _nameView.setText(_equipment.getEquipmentName());
+    }
+
+    private void setEvents(){
+
+        _imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(getActivity(), EquipmentCameraActivity.class);
+                Intent i = new Intent(getActivity(), EquipmentCameraActivity.class);
                 startActivityForResult(i, REQUEST_PHOTO);
             }
         });
-
-        nameView = (TextView)rootView.findViewById(R.id.equipment_name);
-        nameView.setText(_equipment.getEquipmentName());
-
-        return rootView;
     }
 
     @Override
@@ -72,7 +85,7 @@ public class EquipmentFragment extends Fragment {
             String filename = data
                     .getStringExtra(EquipmentCameraFragment.EXTRA_PHOTO_FILENAME);
             if (filename != null) {
-                Log.i(TAG, "filename:" + filename);
+                Log.i(LOG_TAG, "filename:" + filename);
             }
         }
     }

@@ -8,6 +8,7 @@ import android.provider.ContactsContract;
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
+import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
 import org.codebehind.mrslmaintenance.StaticConstants;
 
 import java.text.DateFormat;
@@ -18,17 +19,16 @@ import java.util.UUID;
 /**
  * Created by Gavin on 25/08/2015.
  */
-public class ReportDbModel {
+public class ReportDbModel extends DbAbstractModelBase {
 
-    public static final String TABLE="report";
-    public static final String[] FIELDS = new String[]{"_id", "ts","del", "siteId", "engineerName"};
+    public static final String TABLE="Report";
+    public static final String[] FIELDS = new String[]{"_id", "Timestamp","Deleted", "SiteId", "EngineerName"};
     public static final int ID=0,  TS=1, DEL=2, SITEID=3, ENGINEER_NAME=4;
     private static final int SITE_NAME=5; // this is internal only and is used for the join to site id
-    protected Context _context;
     ArrayList<Report> _list;
 
     public ReportDbModel(Context context) {
-        _context=context;
+        super(context, TABLE);
         _list=new ArrayList<>();
         getAll();
     }
@@ -70,7 +70,7 @@ public class ReportDbModel {
                 +" join " + SiteDbModel.TABLE + " s on r."+FIELDS[SITEID]+" = s."+SiteDbModel.FIELDS[SiteDbModel.ID ];
 
         Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
-
+        _list.clear();
         Report report;
         c.moveToFirst();
 
@@ -85,8 +85,5 @@ public class ReportDbModel {
             c.moveToNext();
         }
         return _list;
-    }
-    public void close() {
-        DatabaseHelper.getInstance(_context).getWritableDatabase().close();
     }
 }

@@ -6,39 +6,38 @@ import java.util.UUID;
  * Created by Gavin on 09/02/2015.
  */
 public class Parameter {
-    private UUID ID;
-    private String Name;
-    private int Type;
+    private int _id;
+    private String _name;
+    private String _type;
 
-    public Parameter(){
-        this(UUID.randomUUID(),"",-1);
+    public Parameter(String name, String type) {
+        this(-1,name,type);
     }
-    public Parameter(UUID id, String name, int type){
-        // invariant is null for all!
+    public Parameter(int id, String name, String type){
         setID(id);
         setName(name);
         setType(type);
     }
 
-    public UUID getID() {
-        return ID;
+    public int getID() {
+        return _id;
     }
-    public void setID(UUID ID) {
-        this.ID = ID;
+    public void setID(int id) {
+        _id = id;
     }
 
     public String getName() {
-        return Name;
+        return _name;
     }
     public void setName(String name) {
-        Name = name;
+        _name = name;
     }
 
-    public int getType() {
-        return Type;
+    public String getType() {
+        return _type;
     }
-    public void setType(int type) {
-        Type = type;
+    public void setType(String type) {
+        _type = type;
     }
     @Override
     public String toString() {
