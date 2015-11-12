@@ -23,7 +23,7 @@ public class ReportDbModel extends DbAbstractModelBase {
 
     public static final String TABLE="Report";
     public static final String[] FIELDS = new String[]{"_id", "Timestamp","Deleted", "SiteId", "EngineerName"};
-    public static final int ID=0,  TS=1, DEL=2, SITEID=3, ENGINEER_NAME=4;
+    public static final int ID=0,  TIMESTAMP=1, DELETED=2, SITEID=3, ENGINEER_NAME=4;
     private static final int SITE_NAME=5; // this is internal only and is used for the join to site id
     ArrayList<Report> _list;
 
@@ -39,8 +39,8 @@ public class ReportDbModel extends DbAbstractModelBase {
 
         ContentValues v= new ContentValues();
 
-        v.put(FIELDS[TS], new Date().getTime());
-        v.put(FIELDS[DEL], false);
+        v.put(FIELDS[TIMESTAMP], new Date().getTime());
+        v.put(FIELDS[DELETED], false);
         v.put(FIELDS[SITEID], rep.getSiteId());
         v.put(FIELDS[ENGINEER_NAME], rep.getEngineerName());
 
@@ -61,8 +61,8 @@ public class ReportDbModel extends DbAbstractModelBase {
     public ArrayList<Report> getAll(){
         String query = "select "
                 +"r."+FIELDS[ID]+", "
-                +"r."+FIELDS[TS]+", "
-                +"r."+FIELDS[DEL]+", "
+                +"r."+FIELDS[TIMESTAMP]+", "
+                +"r."+FIELDS[DELETED]+", "
                 +"r."+FIELDS[SITEID]+", "
                 +"r."+FIELDS[ENGINEER_NAME]+", "
                 +"s."+SiteDbModel.FIELDS[SiteDbModel.NAME]
@@ -77,7 +77,7 @@ public class ReportDbModel extends DbAbstractModelBase {
         while(c.isAfterLast()==false){
             report = new Report();
             report.setId(c.getInt(ID));
-            report.setReportDate(new Date(c.getLong(TS) * 1000));
+            report.setReportDate(new Date(c.getLong(TIMESTAMP) * 1000));
             report.setSiteId(c.getInt(SITEID));
             report.setEngineerName(c.getString(ENGINEER_NAME));
             report.setSiteName(c.getString(SITE_NAME));

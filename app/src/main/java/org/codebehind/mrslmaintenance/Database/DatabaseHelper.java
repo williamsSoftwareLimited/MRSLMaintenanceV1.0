@@ -9,6 +9,7 @@ import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
+import org.codebehind.mrslmaintenance.Models.ReportEquipmentParametersDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 
@@ -18,7 +19,7 @@ import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=38;
+    public static final int DATABASE_VERSION=45;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,8 +43,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // no NOT NULL for siteId left as sloppy for now
         db.execSQL("Create table "+ ReportDbModel.TABLE+" ("
                 +ReportDbModel.FIELDS[ReportDbModel.ID]+" integer primary key autoincrement, "
-                +ReportDbModel.FIELDS[ReportDbModel.TS]+" integer, "
-                +ReportDbModel.FIELDS[ReportDbModel.DEL]+" boolean, "
+                +ReportDbModel.FIELDS[ReportDbModel.TIMESTAMP]+" integer, "
+                +ReportDbModel.FIELDS[ReportDbModel.DELETED]+" boolean, "
                 +ReportDbModel.FIELDS[ReportDbModel.SITEID]+" integer, "
                 +ReportDbModel.FIELDS[ReportDbModel.ENGINEER_NAME]+" varchar(100), "
                 +"foreign key("+ReportDbModel.FIELDS[ReportDbModel.SITEID]+") references "+SiteDbModel.TABLE+"("+SiteDbModel.FIELDS[SiteDbModel.ID]+")"
@@ -68,18 +69,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +");");
 
         db.execSQL("Create table "+ ParameterDbModel.TABLE+" ("
-                + ParameterDbModel.FIELDS[ParameterDbModel.ID]+" integer primary key autoincrement,"
-                + ParameterDbModel.FIELDS[ParameterDbModel.NAME]+ " varchar(100), "
-                + ParameterDbModel.FIELDS[ParameterDbModel.TYPE]+ " varchar(20), "
-                + ParameterDbModel.FIELDS[ParameterDbModel.TIMESTAMP]+ " integer "
+                +ParameterDbModel.FIELDS[ParameterDbModel.ID]+" integer primary key autoincrement,"
+                +ParameterDbModel.FIELDS[ParameterDbModel.NAME]+ " varchar(100), "
+                +ParameterDbModel.FIELDS[ParameterDbModel.TYPE]+ " varchar(20), "
+                +ParameterDbModel.FIELDS[ParameterDbModel.TIMESTAMP]+ " integer, "
+                +ParameterDbModel.FIELDS[ParameterDbModel.DELETED]+" boolean "
                 +");");
 
         db.execSQL("Create table "+ EquipmentParamsDbModel.TABLE+" ("
                 +EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.ID]+" integer primary key autoincrement,"
-                + EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.EQUIPMENT_ID]+ " integer, "
+                +EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.EQUIPMENT_ID]+ " integer, "
                 +EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.PARAMETER_ID]+ " integer , "
                 +"foreign key("+EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.EQUIPMENT_ID]+") references "+EquipmentDbModel.TABLE+"("+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+"),"
                 +"foreign key("+EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.PARAMETER_ID]+") references "+ ParameterDbModel.TABLE+"("+ParameterDbModel.FIELDS[ParameterDbModel.ID]+")"
+                +");");
+
+        db.execSQL("Create table "+ ReportEquipmentParametersDbModel.TABLE+" ("
+                + ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.ID]+" integer primary key autoincrement,"
+                + ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.REPORT_ID]+ " integer, "
+                + ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.PARAMETER_ID]+ " integer , "
+                + ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.EQUIPMENT_ID]+ " integer , "
+                + ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.VALUE]+ " varchar(255) , "
+                + ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.TIMESTAMP]+" integer, "
+                + ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.DELETED]+" boolean, "
+                +"foreign key("+ ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.REPORT_ID]+") references "+ReportDbModel.TABLE+"("+ReportDbModel.FIELDS[ReportDbModel.ID]+"),"
+                +"foreign key("+ ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.PARAMETER_ID]+") references "+ ParameterDbModel.TABLE+"("+ParameterDbModel.FIELDS[ParameterDbModel.ID]+"),"
+                +"foreign key("+ ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.EQUIPMENT_ID]+") references "+ EquipmentDbModel.TABLE+"("+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+")"
                 +");");
     }
     @Override
@@ -87,6 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("drop table if exists "+ EquipmentParamsDbModel.TABLE);
         db.execSQL("drop table if exists "+ SiteEquipmentDbModel.TABLE);
+        db.execSQL("drop table if exists "+ ReportEquipmentParametersDbModel.TABLE);
         db.execSQL("drop table if exists "+ ImageModel.TABLE);
         db.execSQL("drop table if exists "+ EquipmentDbModel.TABLE);
         db.execSQL("drop table if exists "+ ReportDbModel.TABLE);

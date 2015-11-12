@@ -1,30 +1,28 @@
 package org.codebehind.mrslmaintenance.Data;
 
 import android.content.Context;
-import android.database.Cursor;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.EquipmentParameters;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.Report;
+import org.codebehind.mrslmaintenance.Entities.ReportEquipmentParameters;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
-import org.codebehind.mrslmaintenance.Models.EquipmentModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
-import org.codebehind.mrslmaintenance.Models.ParameterModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
+import org.codebehind.mrslmaintenance.Models.ReportEquipmentParametersDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
-
-import java.util.UUID;
 
 /**
  * Created by Gavin on 11/02/2015.
  */
 public class LoadData {
+
     public void load(Context context){
         populateEquipmentData(context);
         popSiteData(context);
@@ -32,44 +30,46 @@ public class LoadData {
         populateSiteEquipmentData(context);
         populateParameterData(context);
         populateEquipmentParamsData(context);
+        populateReportParametersData(context);
 
         DatabaseHelper.getInstance(context).close();
     }
     // ensure that this is called first
     public void popSiteData(Context c){
         SiteDbModel mod = new SiteDbModel(c);
+        Site site;
 
         if (mod.getCount()>0) return;
 
-        Site s = new Site();
-        s.setAddress("Outer Mongolia, Spain.");
-        s.setName("Mars Plant");
+        site = new Site();
+        site.setAddress("Outer Mongolia, Spain.");
+        site.setName("Mars Plant");
         //s.setImageId(1); // make sure the images exist
-        mod.add(s);
+        mod.add(site);
 
-        s = new Site();
-        s.setAddress("Lost in space.");
-        s.setName("Alien Plant");
+        site = new Site();
+        site.setAddress("Lost in space.");
+        site.setName("Alien Plant");
         //s.setImageId(1); // make sure the images exist
-        mod.add(s);
+        mod.add(site);
 
-        s = new Site();
-        s.setAddress("Banana land.");
-        s.setName("Superman Plant");
+        site = new Site();
+        site.setAddress("Banana land.");
+        site.setName("Superman Plant");
         //s.setImageId(1); // make sure the images exist
-        mod.add(s);
+        mod.add(site);
 
-        s = new Site();
-        s.setAddress("Who loves ya.");
-        s.setName("Kojak Plant");
+        site = new Site();
+        site.setAddress("Who loves ya.");
+        site.setName("Kojak Plant");
         //s.setImageId(1); // make sure the images exist
-        mod.add(s);
+        mod.add(site);
 
-        s = new Site();
-        s.setAddress("Magic Roundabout.");
-        s.setName("Dylan the Hippy Plant");
+        site = new Site();
+        site.setAddress("Magic Roundabout.");
+        site.setName("Dylan the Hippy Plant");
         //s.setImageId(1); // make sure the images exist
-        mod.add(s);
+        mod.add(site);
     }
 
     public void populateReportData(Context c) {
@@ -263,6 +263,64 @@ public class LoadData {
         model.add(new EquipmentParameters(5, 1));
         model.add(new EquipmentParameters(5, 2));
         model.add(new EquipmentParameters(5, 5));
+        model.add(new EquipmentParameters(6, 1));
+        model.add(new EquipmentParameters(6, 2));
+        model.add(new EquipmentParameters(7, 5));
     }
 
+    private void populateReportParametersData(Context context){
+        ReportEquipmentParametersDbModel reportEquipmentParametersDbModel = new ReportEquipmentParametersDbModel(context);
+        ReportEquipmentParameters reportEquipmentParameters;
+
+        if (reportEquipmentParametersDbModel.getCount()>0) return;
+
+        reportEquipmentParameters = new ReportEquipmentParameters(1, 1, 1, "111");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipmentParameters = new ReportEquipmentParameters(1, 1, 2, "112");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipmentParameters = new ReportEquipmentParameters(1, 1, 5, "115");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+
+        reportEquipmentParameters = new ReportEquipmentParameters(1, 2, 1, "121");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipmentParameters = new ReportEquipmentParameters(1, 2, 3, "123");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipmentParameters = new ReportEquipmentParameters(1, 2, 5, "125");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+
+        reportEquipmentParameters = new ReportEquipmentParameters(2, 1, 1, "211");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipmentParameters = new ReportEquipmentParameters(2, 1, 2, "212");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipmentParameters = new ReportEquipmentParameters(2, 1, 5, "215");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+
+        reportEquipmentParameters = new ReportEquipmentParameters(2, 2, 1, "221");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipmentParameters = new ReportEquipmentParameters(2, 2, 3, "223");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipmentParameters = new ReportEquipmentParameters(2, 2, 5, "225");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+
+        reportEquipmentParameters = new ReportEquipmentParameters(3, 3, 1, "331");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipmentParameters = new ReportEquipmentParameters(3, 3, 5, "335");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+
+        reportEquipmentParameters = new ReportEquipmentParameters(3, 4, 5, "345");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+
+        reportEquipmentParameters = new ReportEquipmentParameters(3, 5, 1, "351");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipmentParameters = new ReportEquipmentParameters(3, 5, 2, "352");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipmentParameters = new ReportEquipmentParameters(3, 5, 5, "355");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+
+        reportEquipmentParameters = new ReportEquipmentParameters(4, 6, 1, "461");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipmentParameters = new ReportEquipmentParameters(4, 6, 2, "462");
+        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+
+    }
 }

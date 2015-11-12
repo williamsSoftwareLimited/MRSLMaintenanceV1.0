@@ -1,59 +1,78 @@
 package org.codebehind.mrslmaintenance.Entities;
 
-import java.util.UUID;
-
 /**
  * Created by Gavin on 29/01/2015.
  */
 public class ReportEquipmentParameters {
-    private UUID Id;
-    private UUID ReportId;
-    private UUID EquipmentId;
-    private String Name; // got from Parameters table?
-    private String Value; // the Value can be string, integer, boolean etc
-    private String Comment;
+    private int _id;
+    private int _reportId;
+    private int _parameterId;
+    private int _equipmentId;
+    private String _value; // the Value can be string, integer, boolean etc
+    private Parameter _parameter;
 
-    public UUID getReportId() {
-        return ReportId;
-    }
-    public void setReportId(UUID reportId) {
-        ReportId = reportId;
-    }
-    public UUID getEquipmentId() {
-        return EquipmentId;
-    }
-    public void setEquipmentId(UUID equipmentId) {
-        EquipmentId = equipmentId;
-    }
-    public UUID getId() {
-        return Id;
+    public ReportEquipmentParameters(int reportId, int equipmentId, int parameterId, String value){
+        this(-1, reportId, parameterId, equipmentId, value);
     }
 
-    public void setId(UUID id) {
-        Id = id;
+    public ReportEquipmentParameters(int id, int reportId, int equipmentId, int parameterId, String value){
+        this(-1, reportId, parameterId, equipmentId, value, null);
     }
 
-    public String getName() {
-        return Name;
+    public ReportEquipmentParameters(int id, int reportId, int equipmentId, int parameterId, String value, Parameter parameter){
+        setId(id);
+        setReportId(reportId);
+        setParameterId(parameterId);
+        setEquipmentId(equipmentId);
+        setValue(value);
+        setParameter(parameter); // this is for the UI
     }
 
-    public void setName(String name) {
-        Name = name;
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        _id = id;
+    }
+
+    public int getReportId() {
+        return _reportId;
+    }
+
+    public void setReportId(int reportId) {
+        _reportId = reportId;
+    }
+
+    public int getEquipmentId() {
+        return _equipmentId;
+    }
+
+    public void setEquipmentId(int equipmentId) {
+        _equipmentId = equipmentId;
+    }
+
+    public int getParameterId() {
+        return _parameterId;
+    }
+
+    public void setParameterId(int parameterId) {
+        _parameterId = parameterId;
     }
 
     public String getValue() {
-        return Value;
+        return _value;
     }
 
     public void setValue(String value) {
-        Value = value;
+        _value = value;
     }
 
-    public String getComment() {
-        return Comment;
+    public Parameter getParameter(){
+        return _parameter;
     }
 
-    public void setComment(String comment) {
-        Comment = comment;
+    public void setParameter(Parameter parameter){
+        _parameter=parameter;
     }
 }

@@ -27,8 +27,6 @@ import java.util.UUID;
 
 
 public class EquipmentActivity  extends ActionBarActivityBase {
-    public final static String EQUIPMENT ="org.CodeBehind.EQUIPMENT_ACTIVITY_EQUIPMENT";
-    public final static String EQUIPMENT_REPORT_ID ="org.CodeBehind.EQUIPMENT_ACTIVITY_EquipmentReportId";
     ViewPager mViewPager;
     Report _report;
     Equipment _equipment;
@@ -55,7 +53,7 @@ public class EquipmentActivity  extends ActionBarActivityBase {
             }
             @Override
             public Fragment getItem(int pos) {
-                return EquipmentFragment.newInstance(_equipment);
+                return EquipmentFragment.newInstance(_report, _equipment);
             }
         });
         for (int i = 0; i < _report.getEquipmentList().size(); i++) {

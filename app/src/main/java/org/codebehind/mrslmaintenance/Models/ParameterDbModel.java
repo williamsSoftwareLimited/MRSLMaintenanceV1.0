@@ -10,6 +10,7 @@ import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
 import org.codebehind.mrslmaintenance.StaticConstants;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by root on 10/11/15.
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 public class ParameterDbModel extends DbAbstractModelBase {
 
     public static final String TABLE="Parameter";
-    public static final String[] FIELDS =  new String[]{"_id", "Name", "Type", "TS", "Deleted"};
+    public static final String[] FIELDS =  new String[]{"_id", "Name", "Type", "Timestamp", "Deleted"};
     public static final int ID=0, NAME=1, TYPE=2, TIMESTAMP=3, DELETED=4;
 
     public ParameterDbModel(Context context){
@@ -31,6 +32,7 @@ public class ParameterDbModel extends DbAbstractModelBase {
         contentValues= new ContentValues();
         contentValues.put(FIELDS[NAME], parameter.getName());
         contentValues.put(FIELDS[TYPE], parameter.getType());
+        contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
         return (int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, contentValues);
     }
 
@@ -38,13 +40,13 @@ public class ParameterDbModel extends DbAbstractModelBase {
         ArrayList<Parameter> list = new ArrayList<>();
 
         String query = "select "
-                +FIELDS[ID]+", "
-                +FIELDS[NAME]+", "
-                +FIELDS[TYPE]+", "
-                +FIELDS[TIMESTAMP]
-                +" from " + TABLE + " p";
-                //+" join " + SiteEquipmentDbModel.TABLE + " se on e."+FIELDS[ID]+" = se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.EQUIPID]
-                //+" where se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.SITEID]+"="+params.get(0);
+                +"p."+FIELDS[ID]+", "
+                +"p."+FIELDS[NAME]+", "
+                +"p."+FIELDS[TYPE]+", "
+                +"p."+FIELDS[TIMESTAMP]
+                +" from " + TABLE + " p"
+                +" join " + EquipmentParamsDbModel.TABLE + " ep on p."+FIELDS[ID]+" = ep."+EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.PARAMETER_ID]
+                +" where ep."+EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.EQUIPMENT_ID]+"="+equipmentId;
 
         Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
         c.moveToFirst();

@@ -9,10 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import org.codebehind.mrslmaintenance.Adapters.ParameterAdapter;
+import org.codebehind.mrslmaintenance.Adapters.ReportEquipmentParamsAdapter;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
+import org.codebehind.mrslmaintenance.Entities.Report;
+import org.codebehind.mrslmaintenance.Entities.ReportEquipmentParameters;
 import org.codebehind.mrslmaintenance.Models.EquipmentModel;
+import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
+import org.codebehind.mrslmaintenance.Models.ReportEquipmentParametersDbModel;
 
 import java.util.Date;
 import java.util.UUID;
@@ -21,18 +28,24 @@ import java.util.UUID;
  * Created by Gavin on 05/01/2015.
  */
 public class EquipmentFragment extends Fragment {
+    private final static String REPORT = "org.CodeBehind.EQUIPMENT_FRAGMENT_REPORT", EQUIPMENT ="org.CodeBehind.EQUIPMENT_FRAGMENT_EQUIPMENT";
+    Report _report;
     Equipment _equipment;
     private static final int REQUEST_PHOTO=1;
     private static final String LOG_TAG = "EquipmentFragment";
     TextView _nameView;
     ImageButton _imageButton;
+    ListView _parameterListView;
+    ReportEquipmentParametersDbModel _reportEquipmentParametersDbModel;
 
     public EquipmentFragment() {
+        _reportEquipmentParametersDbModel = new ReportEquipmentParametersDbModel(getActivity());
     }
-    public static EquipmentFragment newInstance(Equipment equipment){
+    public static EquipmentFragment newInstance(Report report, Equipment equipment){
         Bundle args = new Bundle();
 
-        args.putSerializable(EquipmentActivity.EQUIPMENT, equipment);
+        args.putSerializable(REPORT, report);
+        args.putSerializable(EQUIPMENT, equipment);
         EquipmentFragment em = new EquipmentFragment();
         em.setArguments(args);
         return em;
@@ -41,7 +54,8 @@ public class EquipmentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        _equipment = (Equipment)getArguments().getSerializable(EquipmentActivity.EQUIPMENT);
+        _report = (Report)getArguments().getSerializable(REPORT);
+        _equipment = (Equipment)getArguments().getSerializable(EQUIPMENT);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,11 +71,13 @@ public class EquipmentFragment extends Fragment {
 
         _nameView = (TextView)rootView.findViewById(R.id.equipment_name);
         _imageButton=(ImageButton)rootView.findViewById(R.id.equipment_imagebtn);
+        _parameterListView=(ListView)rootView.findViewById(R.id.fragment_equipment_params);
     }
 
     private void setText(){
 
         _nameView.setText(_equipment.getEquipmentName());
+        _parameterListView.setAdapter(new ReportEquipmentParamsAdapter(_reportEquipmentParametersDbModel.getReportEquipmentParameters(_report.getId(), _equipment.getId()), getActivity()));
     }
 
     private void setEvents(){
