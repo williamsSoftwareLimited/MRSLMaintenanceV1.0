@@ -135,9 +135,6 @@ public class ReportFragment extends Fragment {
                 Intent intent;
                 Bundle bundle;
                 Equipment equipment = (Equipment) parent.getItemAtPosition(position);
-                Log.d(TAG, "Equipment name = " + equipment.getEquipmentName());
-                Log.d(TAG, "The report number is " + _report.getId());
-                Log.d(TAG, "The site name is " + _report.getSiteName());
 
                 intent = new Intent(getActivity(), EquipmentActivity.class);
                 bundle = new Bundle();

@@ -15,15 +15,17 @@ public class Report implements Serializable {
     int _siteId;
     String _engineerName;
     ArrayList<Equipment> _equipmentList;
-
     Date _reportDate;
 
-    public Report getNew(){ // to get a brand new Report without the overhead in a constructor
-        Report r = new Report();
-        r.setEquipmentList(new ArrayList<Equipment>());
-        r.setReportDate(new Date());
-        r.setUiid(UUID.randomUUID());
-        return r;
+    public Report(int siteId, String engineerName, ArrayList<Equipment> equipmentList, Date reportDate) {
+        this(-1, siteId, engineerName, equipmentList, reportDate);
+    }
+    public Report(int id, int siteId, String engineerName, ArrayList<Equipment> equipmentList, Date reportDate){
+        setId(id);
+        setSiteId(siteId);
+        setEngineerName(engineerName);
+        setEquipmentList(equipmentList);
+        setReportDate(reportDate);
     }
 
     public int getId() {

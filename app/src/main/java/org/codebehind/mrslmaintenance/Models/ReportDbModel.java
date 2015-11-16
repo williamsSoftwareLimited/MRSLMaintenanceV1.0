@@ -52,8 +52,7 @@ public class ReportDbModel extends DbAbstractModelBase {
     }
 
     public Report getReport(int id){
-        Report rep = new Report();
-        rep.setId(-1);
+        Report rep = new Report(-1,"",null,null);
         for(Report r : _list) if (id==r.getId()) rep = r;
         return rep;
     }
@@ -75,11 +74,7 @@ public class ReportDbModel extends DbAbstractModelBase {
         c.moveToFirst();
 
         while(c.isAfterLast()==false){
-            report = new Report();
-            report.setId(c.getInt(ID));
-            report.setReportDate(new Date(c.getLong(TIMESTAMP) * 1000));
-            report.setSiteId(c.getInt(SITEID));
-            report.setEngineerName(c.getString(ENGINEER_NAME));
+            report = new Report(c.getInt(ID), c.getInt(SITEID), c.getString(ENGINEER_NAME), null, new Date(c.getLong(TIMESTAMP) * 1000));
             report.setSiteName(c.getString(SITE_NAME));
             _list.add(report);
             c.moveToNext();

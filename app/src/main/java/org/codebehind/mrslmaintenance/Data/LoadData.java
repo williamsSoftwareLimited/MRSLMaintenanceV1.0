@@ -77,34 +77,22 @@ public class LoadData {
         ReportDbModel mod = new ReportDbModel(c);
         if (mod.getCount()>0) return;
 
-        Report rep = new Report();
-        rep.setSiteId(1);
-        rep.setEngineerName("He Man");
+        Report rep = new Report(1, "He Man", null, null);
         mod.add(rep);
 
-        rep = new Report();
-        rep.setSiteId(1);
-        rep.setEngineerName("Dr Who");
+        rep = new Report(1, "Dr Who", null, null);
         mod.add(rep);
 
-        rep = new Report();
-        rep.setSiteId(2);
-        rep.setEngineerName("Sponge Bob Square Pants");
+        rep = new Report(2, "Sponge Bob Square Pants", null, null);
         mod.add(rep);
 
-        rep = new Report();
-        rep.setSiteId(3);
-        rep.setEngineerName("Gordon the Gopher");
+        rep = new Report(3, "Gordon the Gopher", null, null);
         mod.add(rep);
 
-        rep = new Report();
-        rep.setSiteId(4);
-        rep.setEngineerName("Douglas Adams");
+        rep = new Report(4, "Douglas Adams", null, null);
         mod.add(rep);
 
-        rep = new Report();
-        rep.setSiteId(5);
-        rep.setEngineerName("Awful Man Pope");
+        rep = new Report(5, "Awful Man Pope", null, null);
         mod.add(rep);
 
     }

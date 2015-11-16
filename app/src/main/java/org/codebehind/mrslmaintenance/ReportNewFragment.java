@@ -1,5 +1,6 @@
 package org.codebehind.mrslmaintenance;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import org.codebehind.mrslmaintenance.Adapters.EquipmentAdapter;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
+import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
@@ -32,17 +34,21 @@ import java.util.Date;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ReportNewActivityFragment extends Fragment {
+public class ReportNewFragment extends Fragment {
+
+    public static final String BUNDLE_REPORT = "org.CodeBehind.REPORT_NEW_FRAGMENT_BUNDLE_FLY_REPORT",
+            BUNDLE_EQUIPMENT = "org.CodeBehind.REPORT_NEW_FRAGMENT_BUNDLE_FLY_EQUIPMENT";
 
     Spinner _siteSpinner;
     siteSpinnerAdaptor _siteSpinnerAdaptor;
     EditText _dateEditText;
-    ListView _equipListView;
-    DbAbstractModel<Equipment> _equipModel;
+    ListView _equipmentListView;
+    DbAbstractModel<Equipment> _equipmentModel;
     EquipmentAdapter _equipAdapter;
+    Report _report;
 
-    public ReportNewActivityFragment() {
-        _equipModel = new EquipmentDbModel(getActivity());
+    public ReportNewFragment() {
+        _equipmentModel = new EquipmentDbModel(getActivity());
     }
 
     @Override
@@ -58,20 +64,26 @@ public class ReportNewActivityFragment extends Fragment {
     private void setControls(View rootView){
         _siteSpinner=(Spinner)rootView.findViewById(R.id.report_new_spinner);
         _dateEditText = (EditText)rootView.findViewById(R.id.report_new_date);
-        _equipListView=(ListView)rootView.findViewById(R.id.report_new_equipment_ListView);
+        _equipmentListView=(ListView)rootView.findViewById(R.id.report_new_equipment_ListView);
     }
     private void setText(){
         _siteSpinnerAdaptor = new siteSpinnerAdaptor(new SiteDbModel(getActivity()).getlist());
         _siteSpinner.setAdapter(_siteSpinnerAdaptor);
         _dateEditText.setText(DateFormat.getDateInstance().format(new Date().getTime()));
-        setEquipmentListView("1");
+        setReport("1");
     }
 
-    private void setEquipmentListView(String siteId){
-        ArrayList<String> params = new ArrayList<String>();
+    // The siteId needs to be an integer the check will be here but nothing will happen if it isn't
+    private void setReport(String siteId){
+        ArrayList<String> params;
+
+        if (siteId==null || siteId=="") return;
+
+        params = new ArrayList<String>();
         params.add(siteId);
-        _equipAdapter = new EquipmentAdapter(_equipModel.getList(params), getActivity());
-        _equipListView.setAdapter(_equipAdapter);
+        _report=new Report(Integer.parseInt(siteId), "Need to complete", _equipmentModel.getList(params), null /*_dateEditText.getText()*/);
+        _equipAdapter = new EquipmentAdapter(_report.getEquipmentList(), getActivity());
+        _equipmentListView.setAdapter(_equipAdapter);
     }
 
     private void setEvents(){
@@ -81,12 +93,27 @@ public class ReportNewActivityFragment extends Fragment {
                 // this changes the equipment list on the fly
                 if (position > 0) {
                     Site s = (Site)_siteSpinnerAdaptor.getItem(position);
-                    //Toast.makeText(getActivity(), "SiteId=" + s.getId(), Toast.LENGTH_SHORT).show();
-                    setEquipmentListView(""+s.getId());
+                    setReport("" + s.getId());
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {       }
+        });
+        _equipmentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent;
+                Bundle bundle;
+                Equipment equipment = (Equipment) parent.getItemAtPosition(position);
+
+                intent = new Intent(getActivity(), ReportNewEquipmentActivity.class);
+                bundle = new Bundle();
+                bundle.putSerializable(BUNDLE_REPORT, _report);
+                bundle.putSerializable(BUNDLE_EQUIPMENT, equipment);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            }
         });
     }
 

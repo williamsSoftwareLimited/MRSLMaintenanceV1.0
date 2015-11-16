@@ -23,11 +23,8 @@ public class ReportModel {
         Equipment equip;
         Report r;
         for(int i=1; i<=5; i++){
-            r = new Report();
-            r.setUiid(UUID.randomUUID());
-            r.setSiteName("Site " + i);
-            r.setEngineerName("Name " + i);
-            r.setReportDate(new Date());
+            r = new Report(i, i, "Name " + i, null, new Date());
+
             reportEquips = new  ArrayList<Equipment>();
             for (int j=0; j<i%equipList.size(); j++) {
                 equip = new Equipment();

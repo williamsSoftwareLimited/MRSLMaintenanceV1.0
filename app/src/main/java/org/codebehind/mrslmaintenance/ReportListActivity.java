@@ -68,30 +68,27 @@ public class ReportListActivity extends ActionBarActivityBase {
         Intent i;
 
         switch(id){
+
             case R.id.menu_new_report:
-                // todo:this needs to open the new report with a wizard
-                // look 4 lines down and you can see that your not using the Report DB Model
-                //Report r = new Report();
-                //r.setEquipmentList(new ArrayList<Equipment>());
-                //r.setReportDate(new Date());
-                //r.setId(UUID.randomUUID());
-                //ReportModel.getInstance().add(r);
                 i = new Intent(this,ReportNewActivity.class);
-                //i.putExtra(StaticConstants.EXTRA_REPORT_ID, r.getId());
                 startActivityForResult(i,0);
                 return true;
+
             case R.id.menu_sites:
                 i = new Intent(this,SiteListActivity.class);
                 startActivity(i);
                 return true;
+
             case R.id.menu_equipment:
                 i = new Intent(this,EquipmentListActivity.class);
                 startActivity(i);
                 return true;
+
             case R.id.menu_camera:
                 i = new Intent(this, EquipmentCameraActivity.class);
                 startActivity(i);
                 return true;
+
             default:return super.onOptionsItemSelected(item);
         }
     }
