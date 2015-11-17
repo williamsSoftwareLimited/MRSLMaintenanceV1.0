@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.Entities.Parameter;
@@ -27,17 +28,28 @@ public class ParameterAdapter extends ArrayAdapter<Parameter>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Parameter parameter;
-        TextView textViewSite, textViewDate;
+        TextView textViewId, textViewName,textViewType;
+        EditText editTextValue;
+
         // if we weren't given a view, inflate one
         if (null == convertView) {
-            convertView = _activity.getLayoutInflater().inflate(R.layout.report_list_item, null);
+            convertView = _activity.getLayoutInflater().inflate(R.layout.parameter_list_item, null);
         }
-        parameter = getItem(position);
-        textViewSite=(TextView)convertView.findViewById(R.id.report_list_site);
-        textViewSite.setText(parameter.getName());
 
-        textViewDate = (TextView)convertView.findViewById((R.id.report_list_date));
-        textViewDate.setText(parameter.getType());
+        parameter = getItem(position);
+
+        textViewId=(TextView)convertView.findViewById(R.id.parameter_list_item_id);
+        textViewId.setText(""+parameter.getId());
+
+        textViewName = (TextView)convertView.findViewById((R.id.parameter_list_item_name));
+        textViewName.setText(parameter.getName());
+
+        editTextValue = (EditText)convertView.findViewById((R.id.parameter_list_item_value));
+        editTextValue.setText(parameter.getNewValue());
+
+        textViewType = (TextView)convertView.findViewById((R.id.parameter_list_item_units));
+        textViewType.setText(parameter.getUnits());
+
         return convertView;
     }
 

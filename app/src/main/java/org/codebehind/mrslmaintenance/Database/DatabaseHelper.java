@@ -8,6 +8,7 @@ import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
+import org.codebehind.mrslmaintenance.Models.ParameterTypeDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportEquipmentParametersDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
@@ -19,7 +20,7 @@ import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=45;
+    public static final int DATABASE_VERSION=48;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -71,9 +72,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("Create table "+ ParameterDbModel.TABLE+" ("
                 +ParameterDbModel.FIELDS[ParameterDbModel.ID]+" integer primary key autoincrement,"
                 +ParameterDbModel.FIELDS[ParameterDbModel.NAME]+ " varchar(100), "
-                +ParameterDbModel.FIELDS[ParameterDbModel.TYPE]+ " varchar(20), "
+                +ParameterDbModel.FIELDS[ParameterDbModel.UNITS]+ " varchar(20), "
                 +ParameterDbModel.FIELDS[ParameterDbModel.TIMESTAMP]+ " integer, "
                 +ParameterDbModel.FIELDS[ParameterDbModel.DELETED]+" boolean "
+                //+"foreign key("+EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.EQUIPMENT_ID]+") references "+EquipmentDbModel.TABLE+"("+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+"),"
+                +");");
+        //Todo: Start here: complete the foreign key above to this table and fill this table with the enum ParameterTypeEnum
+        db.execSQL("Create table "+ ParameterTypeDbModel.TABLE+" ("
+                +ParameterTypeDbModel.FIELDS[ParameterTypeDbModel.ID]+" integer primary key autoincrement,"
+                +ParameterTypeDbModel.FIELDS[ParameterTypeDbModel.NAME]+ " varchar(100) "
                 +");");
 
         db.execSQL("Create table "+ EquipmentParamsDbModel.TABLE+" ("

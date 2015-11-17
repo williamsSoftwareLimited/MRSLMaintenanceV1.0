@@ -32,7 +32,7 @@ public class ParameterModel {
     }
 
     public Parameter getItem(UUID id) {
-        for (Parameter param : _list) if (id.equals(param.getID())) return param;
+        for (Parameter param : _list) if (id.equals(param.getId())) return param;
         return null;
     }
     public Parameter add(Parameter parameter) {

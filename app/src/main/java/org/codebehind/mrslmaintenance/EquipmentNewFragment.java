@@ -161,7 +161,7 @@ public class EquipmentNewFragment extends Fragment {
             nameTextView=(TextView)row.findViewById(R.id.spinner_parameters_name);
             nameTextView.setText(parameter.getName());
             idTextView=(TextView)row.findViewById(R.id.spinner_parameters_id);
-            idTextView.setText(parameter.getID());
+            idTextView.setText(parameter.getId());
             return row;
         }
     }

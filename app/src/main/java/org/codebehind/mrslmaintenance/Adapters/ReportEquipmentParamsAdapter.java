@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.ReportEquipmentParameters;
 import org.codebehind.mrslmaintenance.R;
 
@@ -17,24 +19,35 @@ import java.util.ArrayList;
 public class ReportEquipmentParamsAdapter extends ArrayAdapter<ReportEquipmentParameters> {
     Activity _activity;
 
-    public ReportEquipmentParamsAdapter(ArrayList<ReportEquipmentParameters> reports, Activity activity) {
-        super(activity, android.R.layout.simple_list_item_1, reports);
+    public ReportEquipmentParamsAdapter(ArrayList<ReportEquipmentParameters> reportEquipmentParameters, Activity activity) {
+        super(activity, android.R.layout.simple_list_item_1, reportEquipmentParameters);
         _activity = activity;
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ReportEquipmentParameters reportEquipmentParameters;
-        TextView textViewSite, textViewDate;
+        TextView textViewId, textViewName,textViewType;
+        EditText editTextValue;
+
         // if we weren't given a view, inflate one
         if (null == convertView) {
-            convertView = _activity.getLayoutInflater().inflate(R.layout.report_list_item, null);
+            convertView = _activity.getLayoutInflater().inflate(R.layout.parameter_list_item, null);
         }
-        reportEquipmentParameters = getItem(position);
-        textViewSite=(TextView)convertView.findViewById(R.id.report_list_site);
-        textViewSite.setText(reportEquipmentParameters.getParameter().getName());
 
-        textViewDate = (TextView)convertView.findViewById((R.id.report_list_date));
-        textViewDate.setText(reportEquipmentParameters.getValue()+" "+reportEquipmentParameters.getParameter().getType());
+        reportEquipmentParameters = getItem(position);
+
+        textViewId=(TextView)convertView.findViewById(R.id.parameter_list_item_id);
+        textViewId.setText(""+reportEquipmentParameters.getId());
+
+        textViewName = (TextView)convertView.findViewById((R.id.parameter_list_item_name));
+        textViewName.setText(reportEquipmentParameters.getParameter().getName());
+
+        editTextValue = (EditText)convertView.findViewById((R.id.parameter_list_item_value));
+        editTextValue.setText(reportEquipmentParameters.getValue());
+        editTextValue.setEnabled(false);
+
+        textViewType = (TextView)convertView.findViewById((R.id.parameter_list_item_units));
+        textViewType.setText(reportEquipmentParameters.getParameter().getUnits());
 
         return convertView;
     }

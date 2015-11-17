@@ -18,8 +18,8 @@ import java.util.Date;
 public class ParameterDbModel extends DbAbstractModelBase {
 
     public static final String TABLE="Parameter";
-    public static final String[] FIELDS =  new String[]{"_id", "Name", "Type", "Timestamp", "Deleted"};
-    public static final int ID=0, NAME=1, TYPE=2, TIMESTAMP=3, DELETED=4;
+    public static final String[] FIELDS =  new String[]{"_id", "Name", "Units", "Timestamp", "Deleted"};
+    public static final int ID=0, NAME=1, UNITS=2, TIMESTAMP=3, DELETED=4;
 
     public ParameterDbModel(Context context){
         super(context, TABLE);
@@ -31,7 +31,7 @@ public class ParameterDbModel extends DbAbstractModelBase {
         if (parameter==null) return StaticConstants.BAD_DB;
         contentValues= new ContentValues();
         contentValues.put(FIELDS[NAME], parameter.getName());
-        contentValues.put(FIELDS[TYPE], parameter.getType());
+        contentValues.put(FIELDS[UNITS], parameter.getUnits());
         contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
         return (int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, contentValues);
     }
@@ -42,7 +42,7 @@ public class ParameterDbModel extends DbAbstractModelBase {
         String query = "select "
                 +"p."+FIELDS[ID]+", "
                 +"p."+FIELDS[NAME]+", "
-                +"p."+FIELDS[TYPE]+", "
+                +"p."+FIELDS[UNITS]+", "
                 +"p."+FIELDS[TIMESTAMP]
                 +" from " + TABLE + " p"
                 +" join " + EquipmentParamsDbModel.TABLE + " ep on p."+FIELDS[ID]+" = ep."+EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.PARAMETER_ID]
@@ -53,7 +53,7 @@ public class ParameterDbModel extends DbAbstractModelBase {
 
         while(c.isAfterLast()==false){
 
-            Parameter parameter=new Parameter(c.getInt(ID), c.getString(NAME), c.getString(TYPE));
+            Parameter parameter=new Parameter(c.getInt(ID), c.getString(NAME), c.getString(UNITS));
 
             list.add(parameter);
             c.moveToNext();

@@ -53,7 +53,7 @@ public class ReportEquipmentParametersDbModel extends DbAbstractModelBase {
                 +"rep."+FIELDS[TIMESTAMP]+", "
                 +"rep."+FIELDS[DELETED]+", "
                 +"p."+ParameterDbModel.FIELDS[ParameterDbModel.NAME]+", "
-                +"p."+ParameterDbModel.FIELDS[ParameterDbModel.TYPE]
+                +"p."+ParameterDbModel.FIELDS[ParameterDbModel.UNITS]
                 +" from " + TABLE + " rep"
                 +" join " + ParameterDbModel.TABLE + " p on rep."+FIELDS[PARAMETER_ID]+" = p."+ParameterDbModel.FIELDS[ParameterDbModel.ID]
                 +" where rep."+FIELDS[REPORT_ID]+"="+reportId
