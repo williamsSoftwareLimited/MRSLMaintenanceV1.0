@@ -20,7 +20,7 @@ import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=48;
+    public static final int DATABASE_VERSION=52;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -69,19 +69,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +"foreign key("+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.EQUIPID]+") references "+EquipmentDbModel.TABLE+"("+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+")"
                 +");");
 
+        db.execSQL("Create table "+ ParameterTypeDbModel.TABLE+" ("
+                +ParameterTypeDbModel.FIELDS[ParameterTypeDbModel.ID]+" integer primary key,"
+                +ParameterTypeDbModel.FIELDS[ParameterTypeDbModel.NAME]+ " varchar(100) "
+                +");");
+
         db.execSQL("Create table "+ ParameterDbModel.TABLE+" ("
                 +ParameterDbModel.FIELDS[ParameterDbModel.ID]+" integer primary key autoincrement,"
                 +ParameterDbModel.FIELDS[ParameterDbModel.NAME]+ " varchar(100), "
                 +ParameterDbModel.FIELDS[ParameterDbModel.UNITS]+ " varchar(20), "
+                +ParameterDbModel.FIELDS[ParameterDbModel.PARAMETER_TYPE_ID]+ " integer, "
                 +ParameterDbModel.FIELDS[ParameterDbModel.TIMESTAMP]+ " integer, "
-                +ParameterDbModel.FIELDS[ParameterDbModel.DELETED]+" boolean "
-                //+"foreign key("+EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.EQUIPMENT_ID]+") references "+EquipmentDbModel.TABLE+"("+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+"),"
+                +ParameterDbModel.FIELDS[ParameterDbModel.DELETED]+" boolean, "
+                +"foreign key("+ParameterDbModel.FIELDS[ParameterDbModel.PARAMETER_TYPE_ID]+") references "+ParameterTypeDbModel.TABLE+"("+ParameterTypeDbModel.FIELDS[ParameterTypeDbModel.ID]+")"
                 +");");
-        //Todo: Start here: complete the foreign key above to this table and fill this table with the enum ParameterTypeEnum
-        db.execSQL("Create table "+ ParameterTypeDbModel.TABLE+" ("
-                +ParameterTypeDbModel.FIELDS[ParameterTypeDbModel.ID]+" integer primary key autoincrement,"
-                +ParameterTypeDbModel.FIELDS[ParameterTypeDbModel.NAME]+ " varchar(100) "
-                +");");
+
 
         db.execSQL("Create table "+ EquipmentParamsDbModel.TABLE+" ("
                 +EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.ID]+" integer primary key autoincrement,"
@@ -114,6 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists "+ EquipmentDbModel.TABLE);
         db.execSQL("drop table if exists "+ ReportDbModel.TABLE);
         db.execSQL("drop table if exists "+ SiteDbModel.TABLE);
+        db.execSQL("drop table if exists "+ ParameterTypeDbModel.TABLE);
         db.execSQL("drop table if exists "+ ParameterDbModel.TABLE);
 
         onCreate(db);

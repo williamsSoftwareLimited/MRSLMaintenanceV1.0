@@ -62,7 +62,7 @@ public class EquipmentNewFragment extends Fragment {
         _addParamEditText.setVisibility(View.INVISIBLE);
         if (_existingParameterId==null) {
             _existingParameterId = UUID.randomUUID();
-            parameter = new Parameter(_addParamEditText.getText().toString(), "units");
+            parameter = new Parameter(_addParamEditText.getText().toString(), "units", 1);
             ParameterModel.getInstance().add(parameter);
         }
         _equipment.addParameter(_existingParameterId);

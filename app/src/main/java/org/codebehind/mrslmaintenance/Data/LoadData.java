@@ -1,11 +1,13 @@
 package org.codebehind.mrslmaintenance.Data;
 
 import android.content.Context;
+import android.inputmethodservice.KeyboardView;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.EquipmentParameters;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
+import org.codebehind.mrslmaintenance.Entities.ParameterType;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.ReportEquipmentParameters;
 import org.codebehind.mrslmaintenance.Entities.Site;
@@ -13,10 +15,15 @@ import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
+import org.codebehind.mrslmaintenance.Models.ParameterTypeDbModel;
+import org.codebehind.mrslmaintenance.Models.ParameterTypesSingleton;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportEquipmentParametersDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
+
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 /**
  * Created by Gavin on 11/02/2015.
@@ -28,6 +35,7 @@ public class LoadData {
         popSiteData(context);
         populateReportData(context);
         populateSiteEquipmentData(context);
+        populateParameterTypesData(context);
         populateParameterData(context);
         populateEquipmentParamsData(context);
         populateReportParametersData(context);
@@ -184,6 +192,22 @@ public class LoadData {
         model.add(siteEquip);
     }
 
+    private void populateParameterTypesData(Context context){
+        ParameterType parameterType;
+        ParameterTypeDbModel parameterTypeDbModel;
+        Hashtable<Integer, String> parameterTypesHashTable;
+
+        parameterTypeDbModel=new ParameterTypeDbModel(context);
+        parameterTypesHashTable = ParameterTypesSingleton.getInstance().getParameterTypeList();
+
+        if (parameterTypeDbModel.getCount()>0)return;
+
+        for (int i=1;i<=parameterTypesHashTable.values().size();i++) {
+            parameterType = new ParameterType(i, parameterTypesHashTable.get(i));
+            parameterTypeDbModel.add(parameterType);
+        }
+    }
+
     private void populateParameterData(Context context) {
         Parameter parameter;
         ParameterDbModel model;
@@ -192,43 +216,43 @@ public class LoadData {
 
         if (model.getCount()>0)return;
 
-        parameter=new Parameter("Hours Run", "Hrs");
+        parameter=new Parameter("Hours Run", "Hrs", 2);
         model.add(parameter);
-        parameter=new Parameter("Suction Pressure", "Psi");
+        parameter=new Parameter("Suction Pressure", "Psi", 2);
         model.add(parameter);
-        parameter=new Parameter("Suction Temperature", "C");
+        parameter=new Parameter("Suction Temperature", "C", 2);
         model.add(parameter);
-        parameter=new Parameter("Suction Superheat", "C");
+        parameter=new Parameter("Suction Superheat", "C", 1);
         model.add(parameter);
-        parameter=new Parameter("Discharge Pressure", "Psi");
+        parameter=new Parameter("Discharge Pressure", "Psi", 2);
         model.add(parameter);
-        parameter=new Parameter("Discharge Temperature", "C");
+        parameter=new Parameter("Discharge Temperature", "C", 1);
         model.add(parameter);
-        parameter=new Parameter("Discharge Superheat", "C");
+        parameter=new Parameter("Discharge Superheat", "C", 1);
         model.add(parameter);
-        parameter=new Parameter("Oil Pressure", "Psi");
+        parameter=new Parameter("Oil Pressure", "Psi", 1);
         model.add(parameter);
-        parameter=new Parameter("Oil Level", "CC");
+        parameter=new Parameter("Oil Level", "CC", 2);
         model.add(parameter);
-        parameter=new Parameter("Check McD Freezer Tunnel 1", "");
+        parameter=new Parameter("Check McD Freezer Tunnel 1", "", 5);
         model.add(parameter);
-        parameter=new Parameter("Check Conveneince freezer Tunnel 1 VS per visit", "");
+        parameter=new Parameter("Check Conveneince freezer Tunnel 1 VS per visit", "", 5);
         model.add(parameter);
-        parameter=new Parameter("Other Valve stations 2 Other per Visit", "");
+        parameter=new Parameter("Other Valve stations 2 Other per Visit", "", 5);
         model.add(parameter);
-        parameter=new Parameter("Inspect Internally 1 VS per visit, replace gaskets", "");
+        parameter=new Parameter("Inspect Internally 1 VS per visit, replace gaskets", "", 5);
         model.add(parameter);
-        parameter=new Parameter("Check 2 Room Coolers per Visit", "");
+        parameter=new Parameter("Check 2 Room Coolers per Visit", "", 5);
         model.add(parameter);
-        parameter=new Parameter("Motor Current", "Amps");
+        parameter=new Parameter("Motor Current", "Amps", 1);
         model.add(parameter);
-        parameter=new Parameter("Room Temperature Controls", "");
+        parameter=new Parameter("Room Temperature Controls", "", 1);
         model.add(parameter);
-        parameter=new Parameter("Check Oil in HT, LT, Econ Vessels", "");
+        parameter=new Parameter("Check Oil in HT, LT, Econ Vessels", "", 1);
         model.add(parameter);
-        parameter=new Parameter("Check Freezer Level Column", "");
+        parameter=new Parameter("Check Freezer Level Column", "", 1);
         model.add(parameter);
-        parameter=new Parameter("Drain Oil from Freezer Tunnel Evaporator (6 months)", "");
+        parameter=new Parameter("Drain Oil from Freezer Tunnel Evaporator (6 months)", "", 5);
         model.add(parameter);
     }
 

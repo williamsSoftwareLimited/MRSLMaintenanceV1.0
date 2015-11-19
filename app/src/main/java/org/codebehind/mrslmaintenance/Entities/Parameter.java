@@ -9,15 +9,19 @@ public class Parameter {
     private int _id;
     private String _name;
     private String _units;
-    private String _newValue;
+    private int _parameterTypeId;
 
-    public Parameter(String name, String type) {
-        this(-1,name,type);
+    private String _newValue; // outlier this has nothing to do with the database, it's for the UI - EquipmentNewFragment
+
+    public Parameter(String name, String units , int parameterTypeId) {
+        this(-1,name, units, parameterTypeId);
     }
-    public Parameter(int id, String name, String units){
+
+    public Parameter(int id, String name, String units, int parameterTypeId){
         setId(id);
         setName(name);
         setUnits(units);
+        setParameterTypeId(parameterTypeId);
     }
 
     public int getId() {
@@ -41,6 +45,14 @@ public class Parameter {
 
     public void setUnits(String units) {
         _units=units;
+    }
+
+    public int getParameterTypeId(){
+        return _parameterTypeId;
+    }
+
+    public void setParameterTypeId(int parameterTypeId){
+        _parameterTypeId=parameterTypeId;
     }
 
     public String getNewValue(){

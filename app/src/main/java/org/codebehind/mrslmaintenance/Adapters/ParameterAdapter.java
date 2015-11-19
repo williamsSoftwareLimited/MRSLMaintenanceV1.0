@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.R;
+import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class ParameterAdapter extends ArrayAdapter<Parameter>{
     public View getView(int position, View convertView, ViewGroup parent) {
         Parameter parameter;
         TextView textViewId, textViewName,textViewType;
-        EditText editTextValue;
+        EditTextViewModel editTextViewModel;
 
         // if we weren't given a view, inflate one
         if (null == convertView) {
@@ -44,8 +45,9 @@ public class ParameterAdapter extends ArrayAdapter<Parameter>{
         textViewName = (TextView)convertView.findViewById((R.id.parameter_list_item_name));
         textViewName.setText(parameter.getName());
 
-        editTextValue = (EditText)convertView.findViewById((R.id.parameter_list_item_value));
-        editTextValue.setText(parameter.getNewValue());
+        editTextViewModel = new EditTextViewModel((EditText)convertView.findViewById((R.id.parameter_list_item_value)));
+        editTextViewModel.setText(parameter.getNewValue());
+        editTextViewModel.setType(parameter.getParameterTypeId());
 
         textViewType = (TextView)convertView.findViewById((R.id.parameter_list_item_units));
         textViewType.setText(parameter.getUnits());
