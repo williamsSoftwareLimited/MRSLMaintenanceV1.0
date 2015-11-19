@@ -40,6 +40,7 @@
             android:label="@string/title_activity_report" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -75,6 +76,8 @@
         <activity
             android:name=".ReportNewActivity"
             android:label="@string/title_activity_report_new" >
+        </activity>
+        <activity android:name=".ReportNewEquipmentActivity" >
         </activity>
     </application>
 

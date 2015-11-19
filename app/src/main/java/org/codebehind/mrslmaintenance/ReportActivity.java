@@ -1,25 +1,17 @@
 package org.codebehind.mrslmaintenance;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
-import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
-import org.codebehind.mrslmaintenance.Models.EquipmentModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 
 public class ReportActivity  extends ActionBarActivityBase {
@@ -41,8 +33,10 @@ public class ReportActivity  extends ActionBarActivityBase {
         mViewPager = new ViewPager(this);
         mViewPager.setId(R.id.viewPager);
         setContentView(mViewPager);
+        if (savedInstanceState != null) return; // if ths has been created before then don't recreate
 
         reports = _model.getAll();
+
         fm = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override

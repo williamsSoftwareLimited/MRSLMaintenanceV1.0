@@ -1,11 +1,12 @@
 package org.codebehind.mrslmaintenance.Entities;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Created by Gavin on 09/02/2015.
  */
-public class Parameter {
+public class Parameter implements Serializable {
     private int _id;
     private String _name;
     private String _units;

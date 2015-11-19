@@ -55,16 +55,15 @@ public class SiteListActivity extends ActionBarActivityBase implements IFragment
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_site_list);
+        if (savedInstanceState != null) return; // if ths has been created before then don't recreate
 
         reportId=(UUID)getIntent() .getSerializableExtra(StaticConstants.EXTRA_REPORT_ID);
 
-        if (savedInstanceState == null) {
-            ft= getSupportFragmentManager().beginTransaction();
-            siteListFragment=new SiteListFragment();
-            ft.add(R.id.activity_site_list_container, siteListFragment);
+        ft= getSupportFragmentManager().beginTransaction();
+        siteListFragment=new SiteListFragment();
+        ft.add(R.id.activity_site_list_container, siteListFragment);
 
-            ft.commit();
-        }
+        ft.commit();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

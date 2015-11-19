@@ -5,14 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -28,39 +26,47 @@ import java.util.ArrayList;
  * Created by Gavin on 30/12/2014.
  */
 public class ReportFragment extends Fragment {
-    String TAG = "org.CodeBehind.ReportFragment_EquipmentListview";
-    public static final int FROMEQUIPMENTLIST=1,
-            FROMSITELIST=2;
-    Report _report;
-    EditText siteField, engineerField, _datefield;
-    ListView _equipListView;
-    ArrayAdapter<Equipment> _equipmentAdapter;
-    ReportDbModel _reportModel;
-    EquipmentDbModel _equipmentModel;
+
+    private Report _report;
+    private EditText siteField, engineerField, _datefield;
+    private ListView _equipListView;
+    private ArrayAdapter<Equipment> _equipmentAdapter;
+    private ReportDbModel _reportModel;
+    private EquipmentDbModel _equipmentModel;
+
+    public static final int FROMEQUIPMENTLIST=1, FROMSITELIST=2;
     public static final String BUNDLE_REPORT = "org.CodeBehind.REPORT_FRAGMENT_BUNDLE_FLY_REPORT",
-            BUNDLE_EQUIPMENT = "org.CodeBehind.REPORT_FRAGMENT_BUNDLE_FLY_EQUIPMENT";
+                               BUNDLE_EQUIPMENT = "org.CodeBehind.REPORT_FRAGMENT_BUNDLE_FLY_EQUIPMENT";
 
     public ReportFragment() {
+
         _reportModel=new ReportDbModel(getActivity());
         _equipmentModel=new EquipmentDbModel(getActivity());
     }
+
     public static ReportFragment newInstance(int id){
-        Bundle args = new Bundle();
+        Bundle args;
+        ReportFragment reportFragment;
+
+        args = new Bundle();
         args.putSerializable(StaticConstants.EXTRA_REPORT_ID, id);
-        ReportFragment rm = new ReportFragment();
-        rm.setArguments(args);
-        return rm;
+
+        reportFragment = new ReportFragment();
+        reportFragment.setArguments(args);
+        return reportFragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         int id = (int)getArguments().getSerializable(StaticConstants.EXTRA_REPORT_ID);
         setHasOptionsMenu(true);
         _report = _reportModel.getReport(id);
     }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_report, container, false);
 
         if (_report== null) return rootView;// maybe redirect?

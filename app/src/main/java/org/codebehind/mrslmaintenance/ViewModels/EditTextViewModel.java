@@ -2,23 +2,19 @@ package org.codebehind.mrslmaintenance.ViewModels;
 
 import android.text.InputType;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.AbstractViewModel;
 
 /**
  * Created by root on 18/11/15.
  */
-public class EditTextViewModel {
+public class EditTextViewModel  extends AbstractViewModel {
     private EditText _editText;
 
-    public void setText(String text){
-        _editText.setText(text);
-    }
-
-    public String getText(){
-        return _editText.getText().toString();
-    }
-
-    public EditTextViewModel(EditText editText){
-        _editText=editText;
+    public EditTextViewModel(TextView textViewType){
+        super(textViewType);
+        _editText=(EditText)textViewType;
     }
 
     // all the different types - http://developer.android.com/reference/android/widget/TextView.html#attr_android:inputType

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.R;
 import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
+import org.codebehind.mrslmaintenance.ViewModels.TextViewViewModel;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class ParameterAdapter extends ArrayAdapter<Parameter>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Parameter parameter;
-        TextView textViewId, textViewName,textViewType;
+        TextViewViewModel textViewId, textViewName,textViewType;
         EditTextViewModel editTextViewModel;
 
         // if we weren't given a view, inflate one
@@ -39,17 +40,17 @@ public class ParameterAdapter extends ArrayAdapter<Parameter>{
 
         parameter = getItem(position);
 
-        textViewId=(TextView)convertView.findViewById(R.id.parameter_list_item_id);
+        textViewId=new TextViewViewModel((TextView)convertView.findViewById(R.id.parameter_list_item_id));
         textViewId.setText(""+parameter.getId());
 
-        textViewName = (TextView)convertView.findViewById((R.id.parameter_list_item_name));
+        textViewName=new TextViewViewModel((TextView)convertView.findViewById((R.id.parameter_list_item_name)));
         textViewName.setText(parameter.getName());
 
-        editTextViewModel = new EditTextViewModel((EditText)convertView.findViewById((R.id.parameter_list_item_value)));
+        editTextViewModel=new EditTextViewModel((EditText)convertView.findViewById(R.id.parameter_list_item_value));
         editTextViewModel.setText(parameter.getNewValue());
         editTextViewModel.setType(parameter.getParameterTypeId());
 
-        textViewType = (TextView)convertView.findViewById((R.id.parameter_list_item_units));
+        textViewType=new TextViewViewModel((TextView)convertView.findViewById((R.id.parameter_list_item_units)));
         textViewType.setText(parameter.getUnits());
 
         return convertView;

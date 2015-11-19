@@ -2,6 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.codebehind.mrslmaintenance.ReportNewActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/menu_report_new_save"
+        android:icon="@android:drawable/ic_menu_save"
+        android:visible="true"
+        android:title="@string/save"
+        app:showAsAction="ifRoom" />
 </menu>
