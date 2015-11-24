@@ -19,6 +19,7 @@ public class ReportNewActivity extends ActionBarActivityBase {
 
         if (savedInstanceState != null) return; // if ths has been created before then don't recreate
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_report_new, menu);

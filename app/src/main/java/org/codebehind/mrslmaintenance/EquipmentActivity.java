@@ -33,7 +33,7 @@ public class EquipmentActivity  extends ActionBarActivityBase {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FragmentManager fm;
+        FragmentManager fragmentManager;
 
         super.onCreate(savedInstanceState);
 
@@ -45,17 +45,23 @@ public class EquipmentActivity  extends ActionBarActivityBase {
         _report = (Report)bundle.getSerializable(ReportFragment.BUNDLE_REPORT);
         _equipment = (Equipment)bundle.getSerializable(ReportFragment.BUNDLE_EQUIPMENT);
 
-        fm = getSupportFragmentManager();
-        mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
+        fragmentManager = getSupportFragmentManager();
+
+        mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
+
             @Override
             public int getCount() {
+
                 return _report.getEquipmentList().size();
             }
+
             @Override
             public Fragment getItem(int pos) {
-                return EquipmentFragment.newInstance(_report, _equipment);
+
+                return EquipmentFragment.newInstance(_report, _report.getEquipmentList().get(pos));
             }
         });
+
         for (int i = 0; i < _report.getEquipmentList().size(); i++) {
             if (_report.getEquipmentList().get(i).getId() ==_equipment.getId()) {
                 mViewPager.setCurrentItem(i);
@@ -63,11 +69,15 @@ public class EquipmentActivity  extends ActionBarActivityBase {
             }
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.menu_equipment, menu);
+
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -76,6 +86,7 @@ public class EquipmentActivity  extends ActionBarActivityBase {
         if (id == R.id.action_settings) {
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }

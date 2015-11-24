@@ -10,7 +10,8 @@ import org.codebehind.mrslmaintenance.ViewModels.Abstract.AbstractViewModel;
  * Created by root on 18/11/15.
  */
 public class EditTextViewModel  extends AbstractViewModel {
-    private EditText _editText;
+
+    protected EditText _editText;
 
     public EditTextViewModel(TextView textViewType){
         super(textViewType);

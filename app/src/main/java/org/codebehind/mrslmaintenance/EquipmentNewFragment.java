@@ -82,18 +82,23 @@ public class EquipmentNewFragment extends Fragment {
         return rootView;
     }
     private void setControls(View rootView){
+
         _nameEditText=(EditText)rootView.findViewById(R.id.equipment_new_name_edittext);
         _paramListView=(ListView)rootView.findViewById(R.id.equipment_new_param_listview);
         _addParamEditText=(EditText)rootView.findViewById(R.id.equipment_new_param_addParamEditText);
         _selectParamSpinner=(Spinner)rootView.findViewById(R.id.equipment_new_param_selectParamSpinner);
     }
+
     private void setText(){
+
         _existingParameterId=null;
         _nameEditText.setText(_equipment.getEquipmentName());
         _paramListView.setAdapter(new paramList(equipmentParamList));
         _selectParamSpinner.setAdapter(new paramSpinnerAdaptor(ParameterModel.getInstance().getList()));
     }
+
     private void setEvents(){
+
         _selectParamSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -109,6 +114,7 @@ public class EquipmentNewFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {       }
         });
+
         _addParamEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

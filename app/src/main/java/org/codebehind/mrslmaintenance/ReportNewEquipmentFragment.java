@@ -6,11 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Adapters.ParameterAdapter;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
+import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
 import org.codebehind.mrslmaintenance.ViewModels.TextViewViewModel;
 
@@ -20,7 +23,7 @@ import org.codebehind.mrslmaintenance.ViewModels.TextViewViewModel;
  */
 public class ReportNewEquipmentFragment extends Fragment {
     private Equipment _equipment;
-    private TextViewViewModel _equipmentNameTextView;
+    private TextViewViewModel _equipmentNameTextView, _equipmentIdTextView;
     private ListView _parametersListView;
     private ParameterDbModel _parameterModel;
     private static final String BUNDLE_EQUIPMENT="org.CodeBehind.REPORT_NEW_EQUIPMENT_FRAGMENT.EQUIPMENT";
@@ -63,12 +66,14 @@ public class ReportNewEquipmentFragment extends Fragment {
 
     private void setControls(View rootView) {
 
+        _equipmentIdTextView=new TextViewViewModel((TextView)rootView.findViewById(R.id.report_new_equipment_id));
         _equipmentNameTextView=new TextViewViewModel((TextView)rootView.findViewById(R.id.report_new_equipment_name));
         _parametersListView=(ListView)rootView.findViewById(R.id.report_new_equipment_params);
     }
 
     private void setText(){
 
+        _equipmentIdTextView.setText(""+_equipment.getId());
         _equipmentNameTextView.setText(_equipment.getEquipmentName());
         _parametersListView.setAdapter(new ParameterAdapter(_equipment.getParameterList(), getActivity()));
     }
@@ -76,6 +81,4 @@ public class ReportNewEquipmentFragment extends Fragment {
     private void setEvents() {
 
     }
-
-
 }
