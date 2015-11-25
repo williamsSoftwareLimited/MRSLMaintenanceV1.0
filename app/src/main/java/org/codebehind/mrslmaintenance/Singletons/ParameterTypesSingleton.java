@@ -1,4 +1,4 @@
-package org.codebehind.mrslmaintenance.Models;
+package org.codebehind.mrslmaintenance.Singletons;
 
 import java.util.Hashtable;
 

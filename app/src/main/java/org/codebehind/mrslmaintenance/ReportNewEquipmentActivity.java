@@ -1,6 +1,5 @@
 package org.codebehind.mrslmaintenance;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -8,31 +7,23 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
-import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.Report;
-import org.codebehind.mrslmaintenance.Entities.ReportEquipmentParameters;
-import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
-import org.codebehind.mrslmaintenance.Models.ReportDbModel;
-import org.codebehind.mrslmaintenance.Models.ReportEquipmentParametersDbModel;
-
-import java.util.ArrayList;
+import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
 
 public class ReportNewEquipmentActivity extends ActionBarActivityBase {
-    ViewPager _viewPager;
-    Report _report;
-    Equipment _equipment;
+    private ViewPager _viewPager;
+    private ReportSingleton _reportSingleton;
+    private Report _report;
+    private Equipment _equipment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Bundle bundle;
         FragmentManager fragmentManager;
 
         super.onCreate(savedInstanceState);
@@ -42,18 +33,21 @@ public class ReportNewEquipmentActivity extends ActionBarActivityBase {
         setContentView(_viewPager);
         if (savedInstanceState != null) return; // if ths has been created before then don't recreate
 
-        bundle=getIntent().getExtras();
-        _report=(Report)bundle.getSerializable(ReportNewFragment.BUNDLE_REPORT);
-        _equipment=(Equipment)bundle.getSerializable(ReportNewFragment.BUNDLE_EQUIPMENT);
+        _reportSingleton=ReportSingleton.getInstance();
+        _report=_reportSingleton.getReport();
+        _equipment=_reportSingleton.getEquipment();
 
         fragmentManager=getSupportFragmentManager();
         _viewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
+
             @Override
             public Fragment getItem(int position) {
                 Equipment equipment;
 
                 equipment=_report.getEquipmentList().get(position);
-                return ReportNewEquipmentFragment.newInstance(equipment);
+                _reportSingleton.setEquipment(equipment);
+
+                return new ReportNewEquipmentFragment();
             }
 
             @Override
@@ -72,19 +66,24 @@ public class ReportNewEquipmentActivity extends ActionBarActivityBase {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_report_new, menu);
+
+        getMenuInflater().inflate(R.menu.menu_equipment_new_parameters, menu);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        Intent i;
+        int id;
+
+        id = item.getItemId();
 
         switch(id) {
 
-            case R.id.menu_report_new_save:
+            case R.id.menu_new_equipment_return:
+
                 saveReport();
+                finish();
                 return true;
 
             default:
@@ -92,27 +91,19 @@ public class ReportNewEquipmentActivity extends ActionBarActivityBase {
         }
     }
 
-    /*@Override
+    @Override
     public void onBackPressed() {
 
         saveReport();
-    }*/
+        finish();
+    }
 
     private void saveReport(){
         ListView listview;
         EditText editText;
         String value;
-        ReportDbModel reportDbModel;
-        ReportEquipmentParametersDbModel reportEquipmentParametersDbModel;
-        ReportEquipmentParameters reportEquipmentParameters;
-        int reportId, equipmentId, parameterId;
 
-        reportDbModel=new ReportDbModel(this);
-        reportId = reportDbModel.add(_report);
-
-        reportEquipmentParametersDbModel=new ReportEquipmentParametersDbModel(this);
-
-        for(int i=0;i<_viewPager.getChildCount(); i++) { // Lopp through all the ViewPages
+        for(int i=0;i<_viewPager.getChildCount(); i++) { // Loop through all the ViewPages
 
             listview = (ListView) _viewPager.getChildAt(i).findViewById(R.id.report_new_equipment_params);
 
@@ -121,13 +112,8 @@ public class ReportNewEquipmentActivity extends ActionBarActivityBase {
                 editText = (EditText) listview.getChildAt(j).findViewById(R.id.parameter_list_item_value);
                 value=editText.getText().toString();
 
-                equipmentId=_report.getEquipmentList().get(i).getId();
-                parameterId=_report.getEquipmentList().get(i).getParameterList().get(j).getId();
-                reportEquipmentParameters=new ReportEquipmentParameters(reportId, equipmentId, parameterId, value);
-                reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+                _report.getEquipmentList().get(i).getParameterList().get(j).setNewValue(value);
             }
         }
-
-        Toast.makeText(this, "Report saved.", Toast.LENGTH_SHORT).show();
     }
 }

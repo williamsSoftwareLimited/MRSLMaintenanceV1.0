@@ -1,7 +1,6 @@
 package org.codebehind.mrslmaintenance.Data;
 
 import android.content.Context;
-import android.inputmethodservice.KeyboardView;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
@@ -16,13 +15,12 @@ import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterTypeDbModel;
-import org.codebehind.mrslmaintenance.Models.ParameterTypesSingleton;
+import org.codebehind.mrslmaintenance.Singletons.ParameterTypesSingleton;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportEquipmentParametersDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 
-import java.util.Enumeration;
 import java.util.Hashtable;
 
 /**
