@@ -7,8 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.ListView;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
@@ -38,13 +36,14 @@ public class ReportNewEquipmentActivity extends ActionBarActivityBase {
         _equipment=_reportSingleton.getEquipment();
 
         fragmentManager=getSupportFragmentManager();
+
         _viewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
 
             @Override
             public Fragment getItem(int position) {
                 Equipment equipment;
 
-                equipment=_report.getEquipmentList().get(position);
+                equipment = _report.getEquipmentList().get(position);
                 _reportSingleton.setEquipment(equipment);
 
                 return new ReportNewEquipmentFragment();
@@ -54,14 +53,17 @@ public class ReportNewEquipmentActivity extends ActionBarActivityBase {
             public int getCount() {
                 return _report.getEquipmentList().size();
             }
+
         });
 
         for (int i = 0; i < _report.getEquipmentList().size(); i++) {
+
             if (_report.getEquipmentList().get(i).getId() == _equipment.getId()) {
+
                 _viewPager.setCurrentItem(i);
                 break;
             }
-        }
+        } // end for loop
     }
 
     @Override
@@ -82,38 +84,11 @@ public class ReportNewEquipmentActivity extends ActionBarActivityBase {
 
             case R.id.menu_new_equipment_return:
 
-                saveReport();
                 finish();
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        saveReport();
-        finish();
-    }
-
-    private void saveReport(){
-        ListView listview;
-        EditText editText;
-        String value;
-
-        for(int i=0;i<_viewPager.getChildCount(); i++) { // Loop through all the ViewPages
-
-            listview = (ListView) _viewPager.getChildAt(i).findViewById(R.id.report_new_equipment_params);
-
-            for(int j=0;j<listview.getChildCount();j++) { // Loop through all the parameters in the listView
-
-                editText = (EditText) listview.getChildAt(j).findViewById(R.id.parameter_list_item_value);
-                value=editText.getText().toString();
-
-                _report.getEquipmentList().get(i).getParameterList().get(j).setNewValue(value);
-            }
         }
     }
 }

@@ -66,7 +66,6 @@ public class ReportModel {
     public void setSite(UUID reportId, UUID siteId){
 
         getItem(reportId).setSiteName(SiteModel.getInstance().getSite(siteId).getName());
-        // todo: this needs to update the database with the siteId
     }
 
     public Report getTemplate(Report report){

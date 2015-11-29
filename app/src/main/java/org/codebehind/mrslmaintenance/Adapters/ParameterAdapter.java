@@ -1,8 +1,6 @@
 package org.codebehind.mrslmaintenance.Adapters;
 
 import android.app.Activity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -11,7 +9,7 @@ import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.R;
-import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
+import org.codebehind.mrslmaintenance.ViewModels.ParameterEditTextViewModel;
 import org.codebehind.mrslmaintenance.ViewModels.TextViewViewModel;
 
 import java.util.ArrayList;
@@ -24,14 +22,13 @@ public class ParameterAdapter extends ArrayAdapter<Parameter>{
     private Activity _activity;
     private Parameter _parameter;
     private TextViewViewModel _textViewId, _textViewName,_textViewType;
-    private EditTextViewModel _editTextViewModel;
-    int count;
+    private ParameterEditTextViewModel _parameterEditTextViewModel;
 
     public ParameterAdapter(ArrayList<Parameter> reports, Activity activity) {
         super(activity, android.R.layout.simple_list_item_1, reports);
         _activity = activity;
-        count=1;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -44,6 +41,8 @@ public class ParameterAdapter extends ArrayAdapter<Parameter>{
         setText();
         setEvents();
 
+        _parameterEditTextViewModel.setParameter(_parameter);
+
         return convertView;
     }
 
@@ -51,7 +50,7 @@ public class ParameterAdapter extends ArrayAdapter<Parameter>{
 
         _textViewId=new TextViewViewModel((TextView)convertView.findViewById(R.id.parameter_list_item_id));
         _textViewName=new TextViewViewModel((TextView)convertView.findViewById((R.id.parameter_list_item_name)));
-        _editTextViewModel=new EditTextViewModel((EditText)convertView.findViewById(R.id.parameter_list_item_value));
+        _parameterEditTextViewModel=new ParameterEditTextViewModel((EditText)convertView.findViewById(R.id.parameter_list_item_value));
         _textViewType=new TextViewViewModel((TextView)convertView.findViewById((R.id.parameter_list_item_units)));
     }
 
@@ -59,8 +58,8 @@ public class ParameterAdapter extends ArrayAdapter<Parameter>{
 
         _textViewId.setText(""+_parameter.getId());
         _textViewName.setText(_parameter.getName());
-        _editTextViewModel.setText(_parameter.getNewValue());
-        _editTextViewModel.setType(_parameter.getParameterTypeId());
+        _parameterEditTextViewModel.setText(_parameter.getNewValue());
+        _parameterEditTextViewModel.setType(_parameter.getParameterTypeId());
         _textViewType.setText(_parameter.getUnits());
     }
 

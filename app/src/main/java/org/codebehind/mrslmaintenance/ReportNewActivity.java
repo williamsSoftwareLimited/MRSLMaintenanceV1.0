@@ -2,11 +2,13 @@ package org.codebehind.mrslmaintenance;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
+import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
 
 public class ReportNewActivity extends ActionBarActivityBase {
 
@@ -34,12 +36,22 @@ public class ReportNewActivity extends ActionBarActivityBase {
         switch(id) {
 
             case R.id.menu_report_new_save:
-                //i = new Intent(this, ReportNewEquipmentActivity.class);
+
+                mapParameters();
+                ReportSingleton.getInstance().saveReport(this);
                 Toast.makeText(ReportNewActivity.this, "Report saved.", Toast.LENGTH_SHORT).show();
-                //startActivityForResult(i, 0);
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void mapParameters(){
+        FragmentManager fragmentManager;
+
+        fragmentManager=getSupportFragmentManager();
+        ReportNewFragment reportNewFragment= (ReportNewFragment)fragmentManager.getFragments().get(0);
+        ReportSingleton.getInstance().getReport().setEngineerName(reportNewFragment.getEngineersName());
     }
 }

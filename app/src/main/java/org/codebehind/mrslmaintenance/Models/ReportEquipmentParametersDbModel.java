@@ -42,6 +42,25 @@ public class ReportEquipmentParametersDbModel extends DbAbstractModelBase {
         return (int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, contentValues);
     }
 
+    public int update(ReportEquipmentParameters reportEquipmentParameters){
+        ContentValues contentValues;
+        String whereClause;
+
+        if (reportEquipmentParameters==null) return StaticConstants.BAD_DB;
+        if (reportEquipmentParameters.getReportId()==-1) return 0;
+
+        contentValues= new ContentValues();
+        contentValues.put(FIELDS[VALUE], reportEquipmentParameters.getValue());
+        contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
+
+        whereClause=FIELDS[REPORT_ID]+"="+reportEquipmentParameters.getReportId()+" and "
+                +FIELDS[EQUIPMENT_ID]+"="+reportEquipmentParameters.getEquipmentId()+" and "
+                +FIELDS[PARAMETER_ID]+"="+reportEquipmentParameters.getParameterId();
+
+        int x=  DatabaseHelper.getInstance(_context).getWritableDatabase().update(TABLE,contentValues,whereClause,null); // return's number of rows affected
+        return x;
+    }
+
     public ArrayList<ReportEquipmentParameters> getReportEquipmentParameters(int reportId, int equipmentId){
         ArrayList<ReportEquipmentParameters> list = new ArrayList<>();
 

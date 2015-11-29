@@ -12,7 +12,6 @@ public class SiteModel  {
     ArrayList<Site> _list;
     static SiteModel _instance;
     private SiteModel(){
-        //todo: get all the sites from the database
         _list=new ArrayList<>();
         for (int i = 0; i<5; i++) {
             Site s = new Site();

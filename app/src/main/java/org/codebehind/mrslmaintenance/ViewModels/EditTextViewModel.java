@@ -4,17 +4,18 @@ import android.text.InputType;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.codebehind.mrslmaintenance.ViewModels.Abstract.AbstractViewModel;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.AbstractTextViewViewModel;
 
 /**
  * Created by root on 18/11/15.
  */
-public class EditTextViewModel  extends AbstractViewModel {
+public class EditTextViewModel  extends AbstractTextViewViewModel {
 
     protected EditText _editText;
 
     public EditTextViewModel(TextView textViewType){
         super(textViewType);
+
         _editText=(EditText)textViewType;
     }
 

@@ -158,9 +158,19 @@ public class LoadData {
         model.add(siteEquip);
         siteEquip.setEquipid(2);
         model.add(siteEquip);
+        siteEquip.setEquipid(3);
+        model.add(siteEquip);
+        siteEquip.setEquipid(4);
+        model.add(siteEquip);
+        siteEquip.setEquipid(5);
+        model.add(siteEquip);
 
         siteEquip = new  SiteEquipment();
         siteEquip.setSiteid(2);
+        siteEquip.setEquipid(1);
+        model.add(siteEquip);
+        siteEquip.setEquipid(2);
+        model.add(siteEquip);
         siteEquip.setEquipid(3);
         model.add(siteEquip);
         siteEquip.setEquipid(4);
@@ -263,9 +273,13 @@ public class LoadData {
 
         model.add(new EquipmentParameters(1, 1));
         model.add(new EquipmentParameters(1, 2));
+        model.add(new EquipmentParameters(1, 3));
+        model.add(new EquipmentParameters(1, 4));
         model.add(new EquipmentParameters(1, 5));
         model.add(new EquipmentParameters(2, 1));
+        model.add(new EquipmentParameters(2, 2));
         model.add(new EquipmentParameters(2, 3));
+        model.add(new EquipmentParameters(2, 4));
         model.add(new EquipmentParameters(2, 5));
         model.add(new EquipmentParameters(3, 1));
         model.add(new EquipmentParameters(3, 5));

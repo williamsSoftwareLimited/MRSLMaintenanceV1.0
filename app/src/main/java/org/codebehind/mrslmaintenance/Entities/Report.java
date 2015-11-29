@@ -9,13 +9,12 @@ import java.io.Serializable;
  * Created by Gavin on 29/12/2014.
  */
 public class Report implements Serializable {
-    int _id;
-    UUID _uuid;
-    String _siteName;
-    int _siteId;
-    String _engineerName;
-    ArrayList<Equipment> _equipmentList;
-    Date _reportDate;
+    private int _id, _siteId;;
+    private UUID _uuid;
+    private String _siteName, _engineerName;
+    private ArrayList<Equipment> _equipmentList;
+    private Date _reportDate;
+    private Boolean _deleted;
 
     public Report(int siteId, String engineerName, ArrayList<Equipment> equipmentList, Date reportDate) {
         this(-1, siteId, engineerName, equipmentList, reportDate);
@@ -26,6 +25,7 @@ public class Report implements Serializable {
         setEngineerName(engineerName);
         setEquipmentList(equipmentList);
         setReportDate(reportDate);
+        setDeleted(false); //Explicitly set deleted if need for an update etc
     }
 
     public int getId() {
@@ -68,6 +68,14 @@ public class Report implements Serializable {
     }
     public void setReportDate(Date _reportDate) {
         this._reportDate = _reportDate;
+    }
+
+    public Boolean getDeleted(){
+        return _deleted;
+    }
+
+    public void setDeleted(Boolean deleted){
+        _deleted=deleted;
     }
 
     public void setUiid(UUID uiid){

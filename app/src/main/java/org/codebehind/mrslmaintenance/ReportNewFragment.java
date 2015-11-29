@@ -7,18 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.Adapters.EquipmentAdapter;
+import org.codebehind.mrslmaintenance.Adapters.SiteAdapter;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.ISpinnerViewModelDelegate;
+import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
+import org.codebehind.mrslmaintenance.ViewModels.SpinnerViewModel;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -27,20 +29,22 @@ import java.util.Date;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ReportNewFragment extends Fragment {
+public class ReportNewFragment extends Fragment implements ISpinnerViewModelDelegate {
 
-    private Spinner _siteSpinner;
-    private siteSpinnerAdaptor _siteSpinnerAdaptor;
-    private EditText _dateEditText;
+    private SpinnerViewModel _siteSpinnerVm;
+    private SiteAdapter _siteSpinnerAdaptor;
+    private EditTextViewModel _dateEditTextVm, _engineerNameTextViewVm;
     private ListView _equipmentListView;
 
     private EquipmentAdapter _equipAdapter;
     private Report _report;
     private ReportSingleton _reportSingleton;
 
-    public ReportNewFragment() {
-
+    public String getEngineersName(){
+        return _engineerNameTextViewVm.getText();
     }
+
+    public ReportNewFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,51 +59,27 @@ public class ReportNewFragment extends Fragment {
     }
 
     private void setControls(View rootView){
-        _siteSpinner=(Spinner)rootView.findViewById(R.id.report_new_spinner);
-        _dateEditText = (EditText)rootView.findViewById(R.id.report_new_date);
+
+        _siteSpinnerVm=(new SpinnerViewModel((Spinner)rootView.findViewById(R.id.report_new_spinner), this));
+        _dateEditTextVm = new EditTextViewModel((EditText)rootView.findViewById(R.id.report_new_date));
+        _engineerNameTextViewVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.report_engineer_name));
         _equipmentListView=(ListView)rootView.findViewById(R.id.report_new_equipment_ListView);
     }
 
     private void setText(){
+        SiteDbModel siteDbModel;
 
-        _siteSpinnerAdaptor = new siteSpinnerAdaptor(new SiteDbModel(getActivity()).getlist());
-        _siteSpinner.setAdapter(_siteSpinnerAdaptor);
-        _dateEditText.setText(DateFormat.getDateInstance().format(new Date().getTime()));
+        siteDbModel=new SiteDbModel(getActivity());
+
+        _siteSpinnerAdaptor = new SiteAdapter(siteDbModel.getlist(), getActivity());
+        _siteSpinnerVm.setSpinnerAdapter(_siteSpinnerAdaptor);
+
+        _dateEditTextVm.setText(DateFormat.getDateTimeInstance().format(new Date()));
 
         setReport("1");
     }
 
-    // The siteId needs to be an integer the check will be here but nothing will happen if it isn't
-    private void setReport(String siteId){
-        ArrayList<String> params;
-
-        if (siteId==null || siteId=="") return;
-
-        params = new ArrayList<String>();
-        params.add(siteId);
-
-        _reportSingleton=ReportSingleton.getInstance();
-        _reportSingleton.initializeReport(getActivity(), -1, Integer.parseInt(siteId), "Need to complete", null /*_dateEditText.getText()*/);
-        _report=_reportSingleton.getReport();
-
-        _equipAdapter = new EquipmentAdapter(_report.getEquipmentList(), getActivity());
-        _equipmentListView.setAdapter(_equipAdapter);
-    }
-
     private void setEvents(){
-
-        _siteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // this changes the equipment list on the fly
-                if (position > 0) {
-                    Site s = (Site)_siteSpinnerAdaptor.getItem(position);
-                    setReport("" + s.getId());
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {       }
-        });
 
         _equipmentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -116,32 +96,28 @@ public class ReportNewFragment extends Fragment {
         });
     }
 
-    private class siteSpinnerAdaptor extends ArrayAdapter<Site> {
+    // The siteId needs to be an integer the check will be here but nothing will happen if it isn't
+    private void setReport(String siteId){
+        ArrayList<String> params;
 
-        public siteSpinnerAdaptor(ArrayList<Site> arraylist) {
+        if (siteId==null || siteId=="") return;
 
-            super(getActivity(), R.layout.spinner_parameters, arraylist);
-        }
+        params = new ArrayList<String>();
+        params.add(siteId);
 
-        @Override
-        public View getDropDownView(int position, View cnvtView, ViewGroup prnt) {
-            return getView(position, cnvtView, prnt);
-        }
+        _reportSingleton=ReportSingleton.getInstance();
+        _reportSingleton.initializeReport(getActivity(), -1, Integer.parseInt(siteId), _engineerNameTextViewVm.getText(), _dateEditTextVm.getText());
+        _report=_reportSingleton.getReport();
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            Site site;
-            TextView nameTextView, idTextView;
-            View row;
+        _equipAdapter = new EquipmentAdapter(_report.getEquipmentList(), getActivity());
+        _equipmentListView.setAdapter(_equipAdapter);
+    }
 
-            row=getActivity().getLayoutInflater().inflate(R.layout.spinner_parameters, null);
-            site = getItem(position);
-            nameTextView=(TextView)row.findViewById(R.id.spinner_parameters_name);
-            nameTextView.setText(site.getName());
-            idTextView=(TextView)row.findViewById(R.id.spinner_parameters_id);
-            idTextView.setText(""+site.getId());
+    // This is the delegate called from the SpinnerViewModel
+    @Override
+    public void itemSelected(int position) {
 
-            return row;
-        }
+        Site s = _siteSpinnerAdaptor.getItem(position);
+        setReport("" + s.getId());
     }
 }

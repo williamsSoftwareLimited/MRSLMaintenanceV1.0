@@ -5,7 +5,7 @@ import android.widget.TextView;
 /**
  * Created by root on 19/11/15.
  */
-public abstract class AbstractViewModel {
+public abstract class AbstractTextViewViewModel {
     private TextView _textView;
 
     public void setText(String text){
@@ -16,7 +16,7 @@ public abstract class AbstractViewModel {
         return _textView.getText().toString();
     }
 
-    public AbstractViewModel(TextView textViewType){
+    public AbstractTextViewViewModel(TextView textViewType){
         _textView=textViewType;
     }
 }
