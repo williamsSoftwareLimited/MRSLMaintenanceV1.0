@@ -20,7 +20,7 @@ import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=62;
+    public static final int DATABASE_VERSION=68;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -100,8 +100,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.EQUIPMENT_ID]+ " integer , "
                 + ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.VALUE]+ " varchar(255) , "
                 + ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.TIMESTAMP]+" integer, "
-                + ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.DELETED]+" boolean, "
-                +"foreign key("+ ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.REPORT_ID]+") references "+ReportDbModel.TABLE+"("+ReportDbModel.FIELDS[ReportDbModel.ID]+"),"
+                + ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.DELETED]+" boolean "
+                +", foreign key("+ ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.REPORT_ID]+") references "+ReportDbModel.TABLE+"("+ReportDbModel.FIELDS[ReportDbModel.ID]+"),"
                 +"foreign key("+ ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.PARAMETER_ID]+") references "+ ParameterDbModel.TABLE+"("+ParameterDbModel.FIELDS[ParameterDbModel.ID]+"),"
                 +"foreign key("+ ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.EQUIPMENT_ID]+") references "+ EquipmentDbModel.TABLE+"("+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+")"
                 +");");

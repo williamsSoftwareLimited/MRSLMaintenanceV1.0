@@ -19,9 +19,10 @@ import org.codebehind.mrslmaintenance.Models.ReportModel;
  * Created by root on 05/11/15.
  */
 public class ReportListFragment extends Fragment {
-    ListView listview;
-    String TAG = "report_activity_placeholder";
-    ReportDbModel _reportModel;
+
+    private static final String LOG_TAG = "REPORT_LIST_FRAGMENT";
+    private ListView listview;
+    private ReportDbModel _reportModel;
 
     public ReportListFragment() {
         _reportModel = new ReportDbModel(getActivity());
@@ -33,33 +34,43 @@ public class ReportListFragment extends Fragment {
 
         setHasOptionsMenu(true); // ensures the fragment knows it has a menu
         setControls(rootView);
-        setText();
+        setAttributes();
         setEvents();
 
         return rootView;
     }
+
     @Override
     public void onResume (){
         super.onResume();
+
         listview = (ListView) getActivity().findViewById(R.id.report_listview);
         listview.setAdapter(new ReportAdapter(_reportModel.getAll(), getActivity()));
     }
+
     private void setControls(View view){
         listview = (ListView) view.findViewById(R.id.report_listview);
     }
-    private void setText(){
+
+    private void setAttributes(){
         listview.setAdapter(new ReportAdapter(_reportModel.getAll(), getActivity()));
     }
+
     private void setEvents(){
+
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "position = " + position);
+
                 Report r = (Report)parent.getItemAtPosition(position);
+                Log.d(LOG_TAG , "ReportId = " + r.getId());
+
                 Intent i = new Intent(getActivity(), ReportActivity.class);
                 i.putExtra(StaticConstants.EXTRA_REPORT_ID, r.getId());
                 startActivity(i);
             }
         });
+
     }
 }

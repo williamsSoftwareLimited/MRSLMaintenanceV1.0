@@ -62,7 +62,7 @@ public class EquipmentFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_equipment, container, false);
 
         setControls(rootView);
-        setText();
+        setAttributes();
         setEvents();
 
         return rootView;
@@ -74,7 +74,7 @@ public class EquipmentFragment extends Fragment {
         _parameterListView=(ListView)rootView.findViewById(R.id.fragment_equipment_params);
     }
 
-    private void setText(){
+    private void setAttributes(){
 
         _nameView.setText(_equipment.getEquipmentName());
         _parameterListView.setAdapter(new ReportEquipmentParamsAdapter(_reportEquipmentParametersDbModel.getReportEquipmentParameters(_report.getId(), _equipment.getId()), getActivity()));

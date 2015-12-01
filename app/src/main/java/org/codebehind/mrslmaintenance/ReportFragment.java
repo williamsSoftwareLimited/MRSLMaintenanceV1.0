@@ -34,7 +34,7 @@ public class ReportFragment extends Fragment {
     private ReportDbModel _reportModel;
     private EquipmentDbModel _equipmentModel;
 
-    public static final int FROMEQUIPMENTLIST=1, FROMSITELIST=2;
+
     public static final String BUNDLE_REPORT = "org.CodeBehind.REPORT_FRAGMENT_BUNDLE_FLY_REPORT",
                                BUNDLE_EQUIPMENT = "org.CodeBehind.REPORT_FRAGMENT_BUNDLE_FLY_EQUIPMENT";
 
@@ -72,43 +72,10 @@ public class ReportFragment extends Fragment {
         if (_report== null) return rootView;// maybe redirect?
 
         setControls(rootView);
-        setText();
+        setAttributes();
         setEvents();
 
         return rootView;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        switch(id) {
-            case R.id.menu_new_equipment:
-                _startActivity(EquipmentListActivity.class, FROMEQUIPMENTLIST, "Add equipment");
-                return true;
-            case R.id.menu_new_site:
-                _startActivity(SiteListActivity.class, FROMSITELIST, "Select site");
-                return true;
-            default:    return super.onOptionsItemSelected(item);
-        }
-    }
-    boolean _startActivity(Class<?> cl, int requestCode, String toastMsg){
-        Intent i = new Intent(getActivity(), cl);
-
-        Toast.makeText(getActivity(),toastMsg, Toast.LENGTH_LONG).show();
-        //_report=ReportModel.getInstance().getList().get(mViewPager.getCurrentItem());
-        i.putExtra(StaticConstants.EXTRA_REPORT_ID, _report.getId());
-        startActivityForResult(i, requestCode);
-        return true;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-
-        switch(requestCode){
-            case FROMEQUIPMENTLIST: getActivity().recreate();break;
-            case FROMSITELIST:siteField.setText(_report.getSiteName());break;
-        }
     }
 
     private void setControls(View rootView){
@@ -119,7 +86,7 @@ public class ReportFragment extends Fragment {
         _datefield=(EditText)rootView.findViewById(R.id.report_date);
     }
 
-    private void setText(){
+    private void setAttributes(){
 
         siteField.setText(_report.getSiteName());
         engineerField.setText(_report.getEngineerName());

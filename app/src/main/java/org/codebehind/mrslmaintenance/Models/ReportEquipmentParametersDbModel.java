@@ -45,6 +45,7 @@ public class ReportEquipmentParametersDbModel extends DbAbstractModelBase {
     public int update(ReportEquipmentParameters reportEquipmentParameters){
         ContentValues contentValues;
         String whereClause;
+        int updateCount;
 
         if (reportEquipmentParameters==null) return StaticConstants.BAD_DB;
         if (reportEquipmentParameters.getReportId()==-1) return 0;
@@ -57,8 +58,9 @@ public class ReportEquipmentParametersDbModel extends DbAbstractModelBase {
                 +FIELDS[EQUIPMENT_ID]+"="+reportEquipmentParameters.getEquipmentId()+" and "
                 +FIELDS[PARAMETER_ID]+"="+reportEquipmentParameters.getParameterId();
 
-        int x=  DatabaseHelper.getInstance(_context).getWritableDatabase().update(TABLE,contentValues,whereClause,null); // return's number of rows affected
-        return x;
+        updateCount=  DatabaseHelper.getInstance(_context).getWritableDatabase().update(TABLE,contentValues,whereClause,null); // return's number of rows affected
+
+        return updateCount;
     }
 
     public ArrayList<ReportEquipmentParameters> getReportEquipmentParameters(int reportId, int equipmentId){
@@ -84,9 +86,23 @@ public class ReportEquipmentParametersDbModel extends DbAbstractModelBase {
         cursor.moveToFirst();
 
         while(cursor.isAfterLast()==false){
-            Parameter parameter = new Parameter(cursor.getString(PARAMETER_NAME), cursor.getString(PARAMETER_TYPE), cursor.getInt(PARAMETER_TYPE_ID));
-            ReportEquipmentParameters reportEquipmentParameters=new ReportEquipmentParameters(cursor.getInt(ID), cursor.getInt(cursor.getInt(REPORT_ID)), cursor.getInt(EQUIPMENT_ID)
-                    , cursor.getInt(PARAMETER_ID), cursor.getString(VALUE), parameter);
+            String parameterName, parameterType, value;
+            int parameterTypeId, id, reportId2, equipmentId2, parameterId;
+            Parameter parameter;
+
+            id=cursor.getInt(ID);
+            reportId2=cursor.getInt(REPORT_ID);
+            equipmentId2=cursor.getInt(EQUIPMENT_ID);
+            parameterId=cursor.getInt(PARAMETER_ID);
+            value = cursor.getString(VALUE);
+            parameterName = cursor.getString(PARAMETER_NAME);
+            parameterType = cursor.getString(PARAMETER_TYPE);
+            parameterTypeId=cursor.getInt(PARAMETER_TYPE_ID);
+
+            parameter = new Parameter(parameterId, parameterName, parameterType, parameterTypeId);
+            parameter.setNewValue(value);
+
+            ReportEquipmentParameters reportEquipmentParameters=new ReportEquipmentParameters(id, reportId2, equipmentId2, parameterId, value, parameter);
 
             list.add(reportEquipmentParameters);
             cursor.moveToNext();

@@ -15,10 +15,15 @@ public class SpinnerViewModel {
     private static final String LOG_TAG="SpinnerViewModel";
     private Spinner _spinner;
     private SpinnerAdapter _spinnerAdapter;
+    private ISpinnerViewModelDelegate _spinnerViewModelDelegate; // this is used to call the calling classes delegate method
 
     public void setSpinnerAdapter(SpinnerAdapter spinnerAdapter){
         _spinner.setAdapter(spinnerAdapter);
         _spinnerAdapter=spinnerAdapter;
+    }
+
+    public void setEnabled(Boolean b) {
+        _spinner.setEnabled(b);
     }
 
     public SpinnerAdapter getSpinnerAdapter(){
@@ -28,14 +33,25 @@ public class SpinnerViewModel {
     public SpinnerViewModel(Spinner spinner, final ISpinnerViewModelDelegate spinnerViewModelDelegate){
 
         _spinner=spinner;
-        //_siteSpinner.setBackgroundResource(R.drawable.edit_text_highlight_box);
+       _spinnerViewModelDelegate=spinnerViewModelDelegate;
 
+        setAttributes();
+        setEvents();
+    }
+
+    private void setAttributes(){
+
+        //_siteSpinner.setBackgroundResource(R.drawable.edit_text_highlight_box);
+    }
+
+    private void setEvents(){
         _spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // this changes the equipment list on the fly
+
                 if (position >= 0) {
-                   spinnerViewModelDelegate.itemSelected(position);
+                    _spinnerViewModelDelegate.itemSelected(position);
                 }
             }
 
@@ -44,6 +60,5 @@ public class SpinnerViewModel {
             }
         });
     }
-
 
 }

@@ -17,6 +17,7 @@ import java.util.ArrayList;
  */
 public class ParameterEditTextViewModel extends EditTextViewModel {
 
+    private static final int MIN_TEXT_LENGTH=2; //the is ems
     private Parameter _parameter;
 
     public void setParameter(Parameter parameter){
@@ -25,7 +26,12 @@ public class ParameterEditTextViewModel extends EditTextViewModel {
 
     public ParameterEditTextViewModel(TextView textViewType) {
         super(textViewType);
+        setAttributes();
         setEvent();
+    }
+
+    private void setAttributes(){
+        _editText.setMinEms(MIN_TEXT_LENGTH);
     }
 
     private void setEvent(){

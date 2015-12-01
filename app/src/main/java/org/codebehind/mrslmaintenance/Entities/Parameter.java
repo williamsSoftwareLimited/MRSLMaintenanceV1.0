@@ -7,14 +7,12 @@ import java.util.UUID;
  * Created by Gavin on 09/02/2015.
  */
 public class Parameter implements Serializable {
-    private int _id;
-    private String _name;
-    private String _units;
-    private int _parameterTypeId;
+    private int _id, _parameterTypeId;
+    private String _name, _units;
 
-    private String _newValue; // outlier this has nothing to do with the database, it's for the UI - EquipmentNewFragment
+    private String _newValue; // outlier this is for the ReportEquipmentParameter table and it's for the UI - EquipmentNewFragment
 
-    public Parameter(String name, String units , int parameterTypeId) {
+    public Parameter(String name, String units ,int parameterTypeId) {
         this(-1,name, units, parameterTypeId);
     }
 
@@ -28,6 +26,7 @@ public class Parameter implements Serializable {
     public int getId() {
         return _id;
     }
+
     public void setId(int id) {
         _id = id;
     }

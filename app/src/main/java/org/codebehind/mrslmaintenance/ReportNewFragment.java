@@ -36,7 +36,7 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
     private EditTextViewModel _dateEditTextVm, _engineerNameTextViewVm;
     private ListView _equipmentListView;
 
-    private EquipmentAdapter _equipAdapter;
+    private EquipmentAdapter _equipmentAdapter;
     private Report _report;
     private ReportSingleton _reportSingleton;
 
@@ -44,7 +44,13 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
         return _engineerNameTextViewVm.getText();
     }
 
-    public ReportNewFragment() { }
+    public void setSiteSpinnerVmEnabled(boolean b){
+        _siteSpinnerVm.setEnabled(b);
+    }
+
+    public ReportNewFragment() {
+        _reportSingleton=ReportSingleton.getInstance();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +58,7 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
 
         setHasOptionsMenu(true); // ensures the fragment knows it has a menu
         setControls(rootView);
-        setText();
+        setAttributes();
         setEvents();
 
         return rootView;
@@ -66,7 +72,7 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
         _equipmentListView=(ListView)rootView.findViewById(R.id.report_new_equipment_ListView);
     }
 
-    private void setText(){
+    private void setAttributes(){
         SiteDbModel siteDbModel;
 
         siteDbModel=new SiteDbModel(getActivity());
@@ -76,7 +82,7 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
 
         _dateEditTextVm.setText(DateFormat.getDateTimeInstance().format(new Date()));
 
-        setReport("1");
+        setReport(1);
     }
 
     private void setEvents(){
@@ -97,27 +103,35 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
     }
 
     // The siteId needs to be an integer the check will be here but nothing will happen if it isn't
-    private void setReport(String siteId){
-        ArrayList<String> params;
+    private void setReport(int siteId){
 
-        if (siteId==null || siteId=="") return;
+        if (_reportSingleton.getReport()==null) {
 
-        params = new ArrayList<String>();
-        params.add(siteId);
+            _report = _reportSingleton.initializeReport(getActivity(), -1, siteId, _engineerNameTextViewVm.getText(), _dateEditTextVm.getText());
+            setSiteSpinnerVmEnabled(true);
 
-        _reportSingleton=ReportSingleton.getInstance();
-        _reportSingleton.initializeReport(getActivity(), -1, Integer.parseInt(siteId), _engineerNameTextViewVm.getText(), _dateEditTextVm.getText());
-        _report=_reportSingleton.getReport();
+        }else if (_reportSingleton.getReport().getId()<0){
 
-        _equipAdapter = new EquipmentAdapter(_report.getEquipmentList(), getActivity());
-        _equipmentListView.setAdapter(_equipAdapter);
+            _reportSingleton.setSiteId(getActivity(), siteId);
+
+        } else {
+            // this report already exists switch of the spinner
+            setSiteSpinnerVmEnabled(false);
+
+            _report=_reportSingleton.initializeEquipmentList(getActivity());
+            _engineerNameTextViewVm.setText(_report.getEngineerName());
+
+        }
+
+        _equipmentAdapter = new EquipmentAdapter(_report.getEquipmentList(), getActivity());
+        _equipmentListView.setAdapter(_equipmentAdapter);
     }
 
     // This is the delegate called from the SpinnerViewModel
     @Override
     public void itemSelected(int position) {
 
-        Site s = _siteSpinnerAdaptor.getItem(position);
-        setReport("" + s.getId());
+        Site site = _siteSpinnerAdaptor.getItem(position);
+        setReport(site.getId());
     }
 }

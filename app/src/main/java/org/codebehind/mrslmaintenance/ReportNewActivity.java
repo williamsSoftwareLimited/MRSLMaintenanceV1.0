@@ -19,6 +19,7 @@ public class ReportNewActivity extends ActionBarActivityBase {
         setContentView(R.layout.activity_report_new);
 
         if (savedInstanceState != null) return; // if ths has been created before then don't recreate
+
     }
 
     @Override
@@ -38,6 +39,7 @@ public class ReportNewActivity extends ActionBarActivityBase {
             case R.id.menu_report_new_save:
 
                 mapParameters();
+
                 ReportSingleton.getInstance().saveReport(this);
                 Toast.makeText(ReportNewActivity.this, "Report saved.", Toast.LENGTH_SHORT).show();
                 return true;
@@ -52,6 +54,7 @@ public class ReportNewActivity extends ActionBarActivityBase {
 
         fragmentManager=getSupportFragmentManager();
         ReportNewFragment reportNewFragment= (ReportNewFragment)fragmentManager.getFragments().get(0);
+        reportNewFragment.setSiteSpinnerVmEnabled(false);
         ReportSingleton.getInstance().getReport().setEngineerName(reportNewFragment.getEngineersName());
     }
 }

@@ -1,15 +1,19 @@
 package org.codebehind.mrslmaintenance;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
+import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
 
 import java.util.ArrayList;
 
@@ -61,5 +65,25 @@ public class ReportActivity  extends ActionBarActivityBase {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_report, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        int id = item.getItemId();
+
+        switch(id) {
+
+            case R.id.menu_report_edit:
+
+                Toast.makeText(this, "Report "+_report.getId()+" to be edited.", Toast.LENGTH_SHORT).show();
+                ReportSingleton.getInstance().setReport(_report);
+                intent=new Intent(this, ReportNewActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

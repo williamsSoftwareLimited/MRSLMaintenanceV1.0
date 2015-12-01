@@ -2,12 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <item android:id="@+id/menu_new_site"
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="@string/select_site"
-        app:showAsAction="ifRoom|withText" />
-    <item android:id="@+id/menu_new_equipment"
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="@string/add_equipment"
+    <item android:id="@+id/menu_report_edit"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="Edit Report"
         app:showAsAction="ifRoom|withText" />
 </menu>

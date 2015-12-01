@@ -28,6 +28,7 @@ import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
 import org.codebehind.mrslmaintenance.Models.ReportModel;
+import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -64,13 +65,14 @@ public class ReportListActivity extends ActionBarActivityBase {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
         Intent i;
+        int id = item.getItemId();
 
         switch(id){
 
             case R.id.menu_new_report:
                 i = new Intent(this,ReportNewActivity.class);
+                ReportSingleton.getInstance().clearReport(); // ensure there's no stored report
                 startActivityForResult(i,0);
                 return true;
 
