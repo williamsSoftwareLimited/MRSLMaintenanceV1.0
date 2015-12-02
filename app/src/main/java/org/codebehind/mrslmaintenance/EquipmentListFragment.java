@@ -4,29 +4,17 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import org.codebehind.mrslmaintenance.Abstract.Fragment2ActivityListener;
-import org.codebehind.mrslmaintenance.Abstract.FragmentMenubarListener;
 import org.codebehind.mrslmaintenance.Abstract.IFragmentCallbackUUID;
 import org.codebehind.mrslmaintenance.Adapters.EquipmentAdapter;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Models.EquipmentModel;
-import org.codebehind.mrslmaintenance.Models.ReportModel;
-
-import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Created by Gavin on 27/01/2015.

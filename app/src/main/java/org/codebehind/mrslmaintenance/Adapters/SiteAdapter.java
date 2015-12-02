@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.Entities.Site;
@@ -14,13 +15,19 @@ import java.util.ArrayList;
 /**
  * Created by root on 26/11/15.
  */
-public class SiteAdapter extends ArrayAdapter<Site> {
+public class SiteAdapter extends ArrayAdapter<Site> implements SpinnerAdapter {
 
     private Activity _activity;
+    private ArrayList<Site> _siteList;
 
-    public SiteAdapter(ArrayList<Site> arraylist, Activity activity) {
-        super(activity, R.layout.spinner_parameters, arraylist);
+    public ArrayList<Site> getSiteList(){
+        return _siteList;
+    }
 
+    public SiteAdapter(ArrayList<Site> siteList, Activity activity) {
+        super(activity, R.layout.spinner_parameters, siteList);
+
+        _siteList=siteList;
         _activity=activity;
     }
 

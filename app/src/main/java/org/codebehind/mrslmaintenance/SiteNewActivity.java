@@ -5,12 +5,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
-import org.codebehind.mrslmaintenance.Abstract.IFragmentCallbackUUID;
 import org.codebehind.mrslmaintenance.Abstract.IFragmentLocationCallback;
 import org.codebehind.mrslmaintenance.Abstract.IFragmentSiteCallback;
 import org.codebehind.mrslmaintenance.Entities.Site;

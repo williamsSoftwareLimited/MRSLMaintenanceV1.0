@@ -4,17 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.google.android.gms.drive.query.internal.FieldWithSortOrder;
-
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Image;
 import org.codebehind.mrslmaintenance.Models.Abstract.IImageModel;
 import org.codebehind.mrslmaintenance.StaticConstants;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Created by Gavin on 07/01/2015.

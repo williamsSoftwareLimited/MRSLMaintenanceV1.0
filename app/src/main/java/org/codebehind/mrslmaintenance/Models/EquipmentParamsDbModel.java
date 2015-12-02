@@ -2,7 +2,6 @@ package org.codebehind.mrslmaintenance.Models;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.EquipmentParameters;

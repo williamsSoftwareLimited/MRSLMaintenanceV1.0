@@ -1,8 +1,5 @@
 package org.codebehind.mrslmaintenance;
 
-import android.content.Context;
-import android.widget.Toast;
-
 /**
  * Created by Gavin on 18/01/2015.
  */

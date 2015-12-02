@@ -1,7 +1,6 @@
 package org.codebehind.mrslmaintenance.Models.Abstract;
 
 import android.database.Cursor;
-import android.view.WindowId;
 
 import org.codebehind.mrslmaintenance.Entities.Image;
 

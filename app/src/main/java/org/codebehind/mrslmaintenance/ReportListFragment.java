@@ -13,7 +13,6 @@ import android.widget.ListView;
 import org.codebehind.mrslmaintenance.Adapters.ReportAdapter;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
-import org.codebehind.mrslmaintenance.Models.ReportModel;
 
 /**
  * Created by root on 05/11/15.
@@ -49,10 +48,12 @@ public class ReportListFragment extends Fragment {
     }
 
     private void setControls(View view){
+
         listview = (ListView) view.findViewById(R.id.report_listview);
     }
 
     private void setAttributes(){
+
         listview.setAdapter(new ReportAdapter(_reportModel.getAll(), getActivity()));
     }
 
@@ -62,13 +63,16 @@ public class ReportListFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Report report;
+                Intent intent;
 
-                Report r = (Report)parent.getItemAtPosition(position);
-                Log.d(LOG_TAG , "ReportId = " + r.getId());
+                report = (Report)parent.getItemAtPosition(position);
 
-                Intent i = new Intent(getActivity(), ReportActivity.class);
-                i.putExtra(StaticConstants.EXTRA_REPORT_ID, r.getId());
-                startActivity(i);
+                Log.d(LOG_TAG, "ReportId = " + report.getId());
+
+                intent = new Intent(getActivity(), ReportActivity.class);
+                intent.putExtra(StaticConstants.EXTRA_REPORT_ID, report.getId());
+                startActivity(intent);
             }
         });
 

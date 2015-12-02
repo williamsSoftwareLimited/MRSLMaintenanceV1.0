@@ -1,7 +1,6 @@
 package org.codebehind.mrslmaintenance.Adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -32,11 +31,14 @@ public class ReportAdapter extends ArrayAdapter<Report> {
         if (null == convertView) {
             convertView = _activity.getLayoutInflater().inflate(R.layout.report_list_item, null);
         }
+
         r = getItem(position);
         tvSite=(TextView)convertView.findViewById(R.id.report_list_site);
         tvSite.setText(r.getSiteName());
         tvDate = (TextView)convertView.findViewById((R.id.report_list_date));
+
         if (r.getReportDate()!=null) tvDate.setText(DateFormat.getDateInstance().format(r.getReportDate()));
+
         return convertView;
     }
 }

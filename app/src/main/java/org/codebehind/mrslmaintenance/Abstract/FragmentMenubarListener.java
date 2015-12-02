@@ -1,6 +1,5 @@
 package org.codebehind.mrslmaintenance.Abstract;
 
-import org.codebehind.mrslmaintenance.FragmentMenubarEvent;
 import org.codebehind.mrslmaintenance.FragmentMenubarHelper;
 
 import java.util.ArrayList;

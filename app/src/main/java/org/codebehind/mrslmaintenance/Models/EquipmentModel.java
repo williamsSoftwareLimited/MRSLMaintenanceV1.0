@@ -1,10 +1,8 @@
 package org.codebehind.mrslmaintenance.Models;
 
 import org.codebehind.mrslmaintenance.Entities.Equipment;
-import org.codebehind.mrslmaintenance.Entities.Parameter;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Created by Gavin on 02/01/2015.

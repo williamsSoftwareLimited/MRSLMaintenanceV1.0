@@ -7,7 +7,6 @@ import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.ReportEquipmentParameters;
-import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
@@ -24,9 +23,11 @@ import java.util.Date;
 public class ReportSingleton {
     // This will be a singleton for persistence between layers
     private static final String LOG_TAG="ReportSingleton";
+    private static final String NEW_REPORT="New Report";
     private static ReportSingleton _instance;
     private Report _report;
     private Equipment _equipment; // The Equipment that's predominant
+    private String _title;
 
     public static ReportSingleton getInstance(){
         if (_instance==null) _instance=new ReportSingleton();
@@ -52,7 +53,15 @@ public class ReportSingleton {
     public void setSiteId(Context context, int siteId){
 
         _report.setSiteId(siteId);
-        _report.setEquipmentList(getEquipmentList(context,siteId));
+        _report.setEquipmentList(getEquipmentList(context, siteId));
+    }
+
+    public String getTitle(){
+        return _title;
+    }
+
+    public void setTitle(String title){
+        _title=title;
     }
 
     private ReportSingleton(){}
@@ -90,12 +99,13 @@ public class ReportSingleton {
     }
 
     public Report initializeEquipmentList(Context context){
-        ReportDbModel reportDbModel;
+        EquipmentDbModel equipmentDbModel;
+        ArrayList<Equipment> equipmentList;
 
-        // todo: the getEquipmentList in this scenario is different
-        // is not creating a new entry but getting the parameter and the values that were stored
-        _report.setEquipmentList(getEquipmentList(context,_report.getSiteId()));
+        equipmentDbModel=new EquipmentDbModel(context);
+        equipmentList=equipmentDbModel.getEquipmentListForReport(_report.getId());
 
+        _report.setEquipmentList(equipmentList);
         return _report;
     }
 
@@ -109,31 +119,29 @@ public class ReportSingleton {
             reportDate=new Date();
         }
 
-        _report=new Report(id, siteId, engineerName, getEquipmentList(context,siteId), reportDate);
+        _report=new Report(id, siteId, engineerName, getEquipmentList(context, siteId), reportDate);
 
         return _report;
     }
 
     public void clearReport(){
-        _report=null;
+
+        setReport(null);
+        setTitle(NEW_REPORT);
     }
 
     private ArrayList<Equipment>  getEquipmentList(Context context, int siteId ){
-        DbAbstractModel<Equipment> equipmentModel;
-        ArrayList<String> siteParameters;
+        EquipmentDbModel equipmentModel;
         ArrayList<Equipment> equipmentList;
         ParameterDbModel parameterModel;
 
-        siteParameters = new ArrayList<String>();
-        siteParameters.add(""+siteId);
-
         equipmentModel=new EquipmentDbModel(context);
-        equipmentList = equipmentModel.getList(siteParameters);
+        equipmentList = equipmentModel.getList(siteId);
 
         parameterModel=new ParameterDbModel(context);
 
         for (Equipment equipment: equipmentList) {
-            equipment.setParameterList(parameterModel.getParameters(equipment.getId()));
+            equipment.setParameterList(parameterModel.getNewParameters(equipment.getId()));
         }
         return equipmentList;
     }

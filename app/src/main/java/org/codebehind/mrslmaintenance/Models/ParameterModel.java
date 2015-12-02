@@ -1,17 +1,8 @@
 package org.codebehind.mrslmaintenance.Models;
 
-import android.content.Context;
-import android.database.DataSetObserver;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.SpinnerAdapter;
-
 import org.codebehind.mrslmaintenance.Entities.Parameter;
-import org.codebehind.mrslmaintenance.R;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**

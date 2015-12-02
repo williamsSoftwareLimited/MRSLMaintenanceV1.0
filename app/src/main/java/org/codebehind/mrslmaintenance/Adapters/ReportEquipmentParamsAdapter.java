@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.ReportEquipmentParameters;
 import org.codebehind.mrslmaintenance.R;
 

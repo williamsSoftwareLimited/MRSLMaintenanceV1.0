@@ -1,7 +1,6 @@
 package org.codebehind.mrslmaintenance.Entities;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 /**
  * Created by Gavin on 09/02/2015.

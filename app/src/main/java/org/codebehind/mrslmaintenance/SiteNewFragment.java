@@ -1,26 +1,19 @@
 package org.codebehind.mrslmaintenance;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import org.codebehind.mrslmaintenance.Abstract.Fragment2ActivityListener;
-import org.codebehind.mrslmaintenance.Abstract.IFragmentCallbackUUID;
 import org.codebehind.mrslmaintenance.Abstract.IFragmentSiteCallback;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Models.SiteModel;
-import org.w3c.dom.Text;
 
 import java.util.UUID;
 

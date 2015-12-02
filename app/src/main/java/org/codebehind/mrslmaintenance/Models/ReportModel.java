@@ -2,7 +2,6 @@ package org.codebehind.mrslmaintenance.Models;
 
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
-import org.codebehind.mrslmaintenance.Entities.Site;
 
 import java.util.ArrayList;
 import java.util.Date;

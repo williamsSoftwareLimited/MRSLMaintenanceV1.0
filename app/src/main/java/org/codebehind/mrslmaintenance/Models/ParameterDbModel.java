@@ -11,7 +11,6 @@ import org.codebehind.mrslmaintenance.StaticConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Hashtable;
 
 /**
  * Created by root on 10/11/15.
@@ -38,7 +37,7 @@ public class ParameterDbModel extends DbAbstractModelBase {
         return (int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, contentValues);
     }
 
-    public ArrayList<Parameter> getParameters(int equipmentId){
+    public ArrayList<Parameter> getNewParameters(int equipmentId){
         ArrayList<Parameter> list = new ArrayList<>();
 
         String query = "select "

@@ -12,17 +12,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.codebehind.mrslmaintenance.Adapters.ParameterAdapter;
 import org.codebehind.mrslmaintenance.Adapters.ReportEquipmentParamsAdapter;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
-import org.codebehind.mrslmaintenance.Entities.ReportEquipmentParameters;
-import org.codebehind.mrslmaintenance.Models.EquipmentModel;
-import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportEquipmentParametersDbModel;
-
-import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by Gavin on 05/01/2015.

@@ -1,6 +1,7 @@
 package org.codebehind.mrslmaintenance.ViewModels;
 
 import android.text.InputType;
+import android.text.method.KeyListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -12,6 +13,15 @@ import org.codebehind.mrslmaintenance.ViewModels.Abstract.AbstractTextViewViewMo
 public class EditTextViewModel  extends AbstractTextViewViewModel {
 
     protected EditText _editText;
+
+    public void setEnabled(boolean b){
+        _editText.setEnabled(b);
+    }
+
+    public void setEditable(boolean b){
+        if (b) _editText.setKeyListener((KeyListener) _editText.getTag());
+        else _editText.setKeyListener(null);
+    }
 
     public EditTextViewModel(TextView textViewType){
         super(textViewType);

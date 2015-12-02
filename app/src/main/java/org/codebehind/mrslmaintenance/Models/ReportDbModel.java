@@ -3,20 +3,14 @@ package org.codebehind.mrslmaintenance.Models;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
-import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
-import org.codebehind.mrslmaintenance.StaticConstants;
 
-import java.nio.channels.FileLockInterruptionException;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by Gavin on 25/08/2015.

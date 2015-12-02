@@ -1,6 +1,5 @@
 package org.codebehind.mrslmaintenance;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
@@ -17,6 +16,8 @@ public class ReportNewActivity extends ActionBarActivityBase {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_report_new);
+
+        setTitle(ReportSingleton.getInstance().getTitle());
 
         if (savedInstanceState != null) return; // if ths has been created before then don't recreate
 

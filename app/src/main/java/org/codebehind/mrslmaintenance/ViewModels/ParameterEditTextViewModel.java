@@ -1,16 +1,10 @@
 package org.codebehind.mrslmaintenance.ViewModels;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
-import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
-
-import java.util.ArrayList;
 
 /**
  * Created by root on 28/11/15.

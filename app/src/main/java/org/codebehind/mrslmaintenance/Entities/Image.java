@@ -1,7 +1,5 @@
 package org.codebehind.mrslmaintenance.Entities;
 
-import java.util.UUID;
-
 /**
  * Created by Gavin on 23/02/2015.
  */

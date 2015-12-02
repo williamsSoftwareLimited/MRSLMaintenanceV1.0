@@ -1,6 +1,5 @@
 package org.codebehind.mrslmaintenance.Entities;
 
-import org.codebehind.mrslmaintenance.Models.IRepository;
 import org.codebehind.mrslmaintenance.Models.ParameterModel;
 
 import java.io.Serializable;

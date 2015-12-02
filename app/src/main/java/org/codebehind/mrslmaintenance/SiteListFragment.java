@@ -9,25 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.codebehind.mrslmaintenance.Abstract.Fragment2ActivityListener;
-import org.codebehind.mrslmaintenance.Abstract.FragmentMenubarListener;
 import org.codebehind.mrslmaintenance.Abstract.IFragmentCallbackUUID;
-import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.Site;
-import org.codebehind.mrslmaintenance.FragmentMenubarHelper;
-import org.codebehind.mrslmaintenance.Models.ReportModel;
 import org.codebehind.mrslmaintenance.Models.SiteModel;
-import org.codebehind.mrslmaintenance.R;
 
 import java.util.ArrayList;
-import java.util.MissingFormatArgumentException;
 import java.util.UUID;
 
 /**

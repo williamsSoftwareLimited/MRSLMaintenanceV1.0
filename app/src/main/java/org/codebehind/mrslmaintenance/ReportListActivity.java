@@ -1,39 +1,14 @@
 package org.codebehind.mrslmaintenance;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
-import org.codebehind.mrslmaintenance.Adapters.ReportAdapter;
 import org.codebehind.mrslmaintenance.Data.LoadData;
-import org.codebehind.mrslmaintenance.Entities.Equipment;
-import org.codebehind.mrslmaintenance.Entities.Report;
-import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
-import org.codebehind.mrslmaintenance.Models.ImageModel;
-import org.codebehind.mrslmaintenance.Models.ReportModel;
 import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
-
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.UUID;
 
 // this is currently the entry Activity
 public class ReportListActivity extends ActionBarActivityBase {

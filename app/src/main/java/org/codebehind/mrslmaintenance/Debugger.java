@@ -1,7 +1,6 @@
 package org.codebehind.mrslmaintenance;
 
 import android.content.Context;
-import android.widget.Switch;
 import android.widget.Toast;
 
 /**

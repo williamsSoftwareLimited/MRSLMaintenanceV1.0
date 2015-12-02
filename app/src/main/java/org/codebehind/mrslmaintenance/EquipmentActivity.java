@@ -1,29 +1,16 @@
 package org.codebehind.mrslmaintenance;
 
-import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.Button;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
-import org.codebehind.mrslmaintenance.Models.ReportDbModel;
-import org.codebehind.mrslmaintenance.Models.ReportModel;
-
-import java.util.ArrayList;
-import java.util.UUID;
 
 
 public class EquipmentActivity  extends ActionBarActivityBase {

@@ -2,8 +2,6 @@ package org.codebehind.mrslmaintenance.Models.Abstract;
 
 import android.content.Context;
 
-import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
-
 import java.util.ArrayList;
 
 /**

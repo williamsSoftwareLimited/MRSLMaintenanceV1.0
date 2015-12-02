@@ -20,7 +20,7 @@ import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=68;
+    public static final int DATABASE_VERSION=69;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,8 +37,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("Create table "+ EquipmentDbModel.TABLE+" ("
                 +EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+" integer primary key autoincrement, "
                 +EquipmentDbModel.FIELDS[EquipmentDbModel.NAME]+" varchar(100), "
-                +EquipmentDbModel.FIELDS[EquipmentDbModel.IMAGE_ID]+" integer "
-                //+EquipmentDbModel.FIELDS[EquipmentDbModel.TS]+" integer "
+                +EquipmentDbModel.FIELDS[EquipmentDbModel.IMAGE_ID]+" integer, "
+                +EquipmentDbModel.FIELDS[EquipmentDbModel.TIMESTAMP]+" integer, "
+                +EquipmentDbModel.FIELDS[EquipmentDbModel.DELETED]+" boolean "
                 +");");
 
         // no NOT NULL for siteId left as sloppy for now
