@@ -5,6 +5,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.Entities.Parameter;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
 
 /**
  * Created by root on 28/11/15.
@@ -18,8 +19,8 @@ public class ParameterEditTextViewModel extends EditTextViewModel {
         _parameter=parameter;
     }
 
-    public ParameterEditTextViewModel(TextView textViewType) {
-        super(textViewType);
+    public ParameterEditTextViewModel(TextView textViewType, final IEditTextViewModelDelegate editTextViewModelDelegate) {
+        super(textViewType, editTextViewModelDelegate);
         setAttributes();
         setEvent();
     }

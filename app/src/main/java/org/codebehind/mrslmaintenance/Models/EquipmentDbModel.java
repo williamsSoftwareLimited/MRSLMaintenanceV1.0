@@ -11,6 +11,7 @@ import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
 import org.codebehind.mrslmaintenance.StaticConstants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 
 /**
@@ -78,6 +79,7 @@ public class EquipmentDbModel extends DbAbstractModelBase {
             c.moveToNext();
         }
 
+        Collections.sort(l);
         return l;
     }
 
@@ -133,6 +135,7 @@ public class EquipmentDbModel extends DbAbstractModelBase {
 
         for (Equipment equipment1 : equipmentHashtable.values()) equipmentList.add(equipment1);
 
+        Collections.sort(equipmentList);
         return equipmentList;
     }
 

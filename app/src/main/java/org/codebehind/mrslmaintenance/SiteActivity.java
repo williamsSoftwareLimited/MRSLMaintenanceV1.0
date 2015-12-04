@@ -1,28 +1,31 @@
 package org.codebehind.mrslmaintenance;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+
+import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
+import org.codebehind.mrslmaintenance.Abstract.IFragmentSiteCallback;
+import org.codebehind.mrslmaintenance.Entities.Site;
+
+import java.util.UUID;
 
 
-public class SiteActivity extends ActionBarActivity {
+public class SiteActivity extends ActionBarActivityBase implements IFragmentSiteCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_site);
+
         if (savedInstanceState == null) {
+
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.activity_site_container, new SiteNewFragment())
                     .commit();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -46,19 +49,13 @@ public class SiteActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
+    @Override
+    public void onFragmentCallback(Site site) {
 
-        public PlaceholderFragment() {
-        }
+    }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_site, container, false);
-            return rootView;
-        }
+    @Override
+    public void onFragmentCallbackLocation(UUID siteId) {
+
     }
 }

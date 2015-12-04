@@ -37,6 +37,11 @@ public class SiteAdapter extends ArrayAdapter<Site> implements SpinnerAdapter {
     }
 
     @Override
+    public int getCount() {
+        return _siteList.size();
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Site site;
         TextView nameTextView, idTextView;

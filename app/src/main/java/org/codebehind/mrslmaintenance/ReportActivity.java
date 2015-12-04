@@ -101,6 +101,7 @@ public class ReportActivity  extends ActionBarActivityBase {
                 ReportSingleton.getInstance().setTitle(EDIT_REPORT);
                 intent=new Intent(this, ReportNewActivity.class);
                 startActivity(intent);
+                finish();
                 return true;
 
             default:

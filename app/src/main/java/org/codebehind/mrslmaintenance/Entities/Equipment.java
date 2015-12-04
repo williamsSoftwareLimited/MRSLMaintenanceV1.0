@@ -9,14 +9,14 @@ import java.util.UUID;
 /**
  * Created by Gavin on 23/12/2014.
  */
-public class Equipment implements Serializable{
+public class Equipment implements Serializable, Comparable<Equipment>{
     private int _id;
     private String _equipmentName;
     private int _imageId;
     private byte[] _image;
     private ArrayList<Parameter> _parameterList;
 
-    // this is probably unecessary
+    // this is probably unnecessary
     public Equipment(){
         setParameterList(new ArrayList<Parameter>());
     }
@@ -71,4 +71,8 @@ public class Equipment implements Serializable{
         _image= img;
     }
 
+    @Override
+    public int compareTo(Equipment equipment) {
+        return getId()-equipment.getId();
+    }
 }

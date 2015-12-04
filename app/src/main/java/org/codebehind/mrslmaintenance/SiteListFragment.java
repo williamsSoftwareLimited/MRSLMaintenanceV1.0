@@ -1,94 +1,79 @@
 package org.codebehind.mrslmaintenance;
 
-import android.app.Activity;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import org.codebehind.mrslmaintenance.Abstract.IFragmentCallbackUUID;
+import org.codebehind.mrslmaintenance.Adapters.SiteAdapter;
 import org.codebehind.mrslmaintenance.Entities.Site;
-import org.codebehind.mrslmaintenance.Models.SiteModel;
-
-import java.util.ArrayList;
-import java.util.UUID;
+import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 
 /**
  * Created by Gavin on 18/01/2015.
  */
-public class SiteListFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class SiteListFragment extends Fragment {
+    private static final String LOG_TAG="SiteListFragment"
+            , BUNDLE_SITE="org.Codebehind.SiteListFragmentSiteBundle";
     private ListView _siteListView;
-    private ArrayList<Site> _actionList; // this is the list that actions will be carried out on
-    private IFragmentCallbackUUID _listener;
+    private SiteAdapter _siteAdapter;
 
-    public SiteListFragment() {
-        _actionList = new ArrayList<>();
-    }
+    public SiteListFragment() {}
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            _listener = (IFragmentCallbackUUID) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement IFragmentCallbackUUID");
-        }
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView;
+        View rootView = inflater.inflate(R.layout.fragment_site_list, container, false);
 
-        rootView = inflater.inflate(R.layout.fragment_site_list, container, false);
-        _siteListView = (ListView) rootView.findViewById(R.id.site_list_listview);
-        _siteListView.setAdapter(new siteAdapter(SiteModel.getInstance().getList()));
-        _siteListView.setOnItemClickListener(this);
         return rootView;
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // just report back to the activity the SiteUUID that was selected
-        UUID siteId;
-        View v = _siteListView.getChildAt(position);
-        // set the _listView colours back to normal
-        for (int i=0; i<_siteListView.getCount();i++)
-            _siteListView.getChildAt(i).setBackgroundColor(0);
-        v.setBackgroundColor(Color.WHITE);
+    public void onResume() {
+        super.onResume();
 
-        siteId = SiteModel.getInstance().getList().get(position).getUUID();
-        _listener.onFragmentCallback(siteId);
+        setControls(getView());
+        setAttributes();
+        setEvents();
     }
-    class siteAdapter extends ArrayAdapter<Site> {
-        public siteAdapter(ArrayList<Site> siteArraylist) {
-            super(getActivity(), android.R.layout.simple_list_item_1, siteArraylist);
-        }
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            Site site;
-            TextView name, description, address;
-            ImageView locationView;
-            if (null == convertView) {
-                convertView = getActivity().getLayoutInflater()
-                        .inflate(R.layout.site_list_listitem, null);
+    private void setControls(View rootView){
+        _siteListView = (ListView) rootView.findViewById(R.id.site_list_listview);
+    }
+
+    private void setAttributes(){
+        SiteDbModel siteDbModel;
+
+        siteDbModel=new SiteDbModel(getActivity());
+        _siteAdapter=new SiteAdapter(siteDbModel.getList() ,getActivity());
+        _siteListView.setAdapter(_siteAdapter);
+    }
+
+    private void setEvents(){
+
+        _siteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Site selectedSite;
+                Bundle bundle;
+                Intent intent;
+
+                selectedSite=_siteAdapter.getItem(position);
+                Log.d(LOG_TAG,"The selected siteId is "+selectedSite.getId());
+
+                bundle=new Bundle();
+                bundle.putSerializable(BUNDLE_SITE, selectedSite);
+
+                intent=new Intent(getActivity(), SiteActivity.class);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
             }
-            site = getItem(position);
-            name = (TextView) convertView.findViewById((R.id.site_list_item_nametextview));
-            name.setText(site.getName());
-            locationView = (ImageView) convertView.findViewById(R.id.site_list_item_imagebutton);
-            locationView.setImageResource(R.drawable.ic_action_picture);
-            description = (TextView) convertView.findViewById((R.id.site_list_item_descriptiontextview));
-            description.setText(site.getDescription());
-            address = (TextView) convertView.findViewById((R.id.site_list_item_addresstextview));
-            address.setText(site.getAddress());
-            return convertView;
-        }
+        });
     }
 }

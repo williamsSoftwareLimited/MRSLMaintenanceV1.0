@@ -20,7 +20,6 @@ import java.util.UUID;
 
 public class SiteNewFragment extends Fragment implements View.OnClickListener {
     private UUID _siteId;
-    private TextView tvSiteId;
     private EditText etName, etDescription, etAddress,etSystem,etPlantId;
     private Button btnLocation;
 

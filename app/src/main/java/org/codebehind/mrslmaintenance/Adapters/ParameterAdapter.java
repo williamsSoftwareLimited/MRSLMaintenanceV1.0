@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.R;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.ParameterEditTextViewModel;
 import org.codebehind.mrslmaintenance.ViewModels.TextViewViewModel;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by root on 11/11/15.
  */
-public class ParameterAdapter extends ArrayAdapter<Parameter>{
+public class ParameterAdapter extends ArrayAdapter<Parameter> implements IEditTextViewModelDelegate{
 
     private Activity _activity;
     private Parameter _parameter;
@@ -50,7 +51,7 @@ public class ParameterAdapter extends ArrayAdapter<Parameter>{
 
         _textViewId=new TextViewViewModel((TextView)convertView.findViewById(R.id.parameter_list_item_id));
         _textViewName=new TextViewViewModel((TextView)convertView.findViewById((R.id.parameter_list_item_name)));
-        _parameterEditTextViewModel=new ParameterEditTextViewModel((EditText)convertView.findViewById(R.id.parameter_list_item_value));
+        _parameterEditTextViewModel=new ParameterEditTextViewModel((EditText)convertView.findViewById(R.id.parameter_list_item_value), this);
         _textViewType=new TextViewViewModel((TextView)convertView.findViewById((R.id.parameter_list_item_units)));
     }
 
@@ -67,4 +68,8 @@ public class ParameterAdapter extends ArrayAdapter<Parameter>{
 
     }
 
+    @Override
+    public void textUpdated(int uniqueId, String text) {
+
+    }
 }

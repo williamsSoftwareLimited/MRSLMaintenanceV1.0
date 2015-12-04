@@ -3,15 +3,19 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5px" >
+    android:padding="10px" >
+
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:id="@+id/spinner_parameters_id" />
+
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/spinner_parameters_name" />
+
 </RelativeLayout>

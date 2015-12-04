@@ -31,11 +31,6 @@ public class ReportListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_report_list, container, false);
 
-        setHasOptionsMenu(true); // ensures the fragment knows it has a menu
-        setControls(rootView);
-        setAttributes();
-        setEvents();
-
         return rootView;
     }
 
@@ -43,8 +38,9 @@ public class ReportListFragment extends Fragment {
     public void onResume (){
         super.onResume();
 
-        listview = (ListView) getActivity().findViewById(R.id.report_listview);
-        listview.setAdapter(new ReportAdapter(_reportModel.getAll(), getActivity()));
+        setControls(getView());
+        setAttributes();
+        setEvents();
     }
 
     private void setControls(View view){

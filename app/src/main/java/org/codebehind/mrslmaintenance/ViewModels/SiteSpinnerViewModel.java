@@ -7,6 +7,7 @@ import android.widget.SpinnerAdapter;
 
 import org.codebehind.mrslmaintenance.Adapters.SiteAdapter;
 import org.codebehind.mrslmaintenance.Entities.Site;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.ISpinnerViewModelDelegate;
 
 /**

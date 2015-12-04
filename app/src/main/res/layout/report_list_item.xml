@@ -18,6 +18,7 @@
         android:layout_toRightOf="@id/report_list_site"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/report_list_date" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -18,6 +18,7 @@ import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.ISpinnerViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
 import org.codebehind.mrslmaintenance.ViewModels.SiteSpinnerViewModel;
@@ -28,7 +29,7 @@ import java.util.Date;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ReportNewFragment extends Fragment implements ISpinnerViewModelDelegate {
+public class ReportNewFragment extends Fragment implements ISpinnerViewModelDelegate, IEditTextViewModelDelegate {
 
     private SiteSpinnerViewModel _siteSpinnerVm;
     private EditTextViewModel _dateEditTextVm, _engineerNameTextViewVm;
@@ -66,11 +67,11 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
         SiteAdapter siteAdapter;
 
         siteDbModel=new SiteDbModel(getActivity());
-        siteAdapter=new SiteAdapter(siteDbModel.getlist(), getActivity());
+        siteAdapter=new SiteAdapter(siteDbModel.getList(), getActivity());
 
         _siteSpinnerVm=(new SiteSpinnerViewModel((Spinner)rootView.findViewById(R.id.report_new_spinner), siteAdapter, this));
-        _dateEditTextVm = new EditTextViewModel((EditText)rootView.findViewById(R.id.report_new_date));
-        _engineerNameTextViewVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.report_engineer_name));
+        _dateEditTextVm = new EditTextViewModel((EditText)rootView.findViewById(R.id.report_new_date), this);
+        _engineerNameTextViewVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.report_engineer_name), this);
         _equipmentListView=(ListView)rootView.findViewById(R.id.report_new_equipment_ListView);
     }
 
@@ -129,5 +130,20 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
 
         Site site = _siteSpinnerVm.getSpinnerAdapter().getItem(position);
         setReport(site.getId());
+    }
+
+    @Override
+    public void textUpdated(int uniqueId, String text) {
+
+        switch (uniqueId){
+
+            case R.id.report_new_date:
+                // do nothing as date can't be changed
+                break;
+
+            case R.id.report_engineer_name:
+                _report.setEngineerName(text);
+                break;
+        }
     }
 }

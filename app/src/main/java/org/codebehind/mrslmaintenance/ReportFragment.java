@@ -15,13 +15,15 @@ import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
+import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.DateEditTextViewModel;
 import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
 
 /**
  * Created by Gavin on 30/12/2014.
  */
-public class ReportFragment extends Fragment {
+public class ReportFragment extends Fragment implements IEditTextViewModelDelegate{
 
     private Report _report;
     private EditTextViewModel siteFieldVm, engineerFieldVm;
@@ -66,22 +68,25 @@ public class ReportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_report, container, false);
 
-        if (_report== null) return rootView;// maybe redirect?
+        return rootView;
+    }
 
-        setControls(rootView);
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        setControls(getView());
         setAttributes();
         setEvents();
-
-        return rootView;
     }
 
     private void setControls(View rootView){
 
-        siteFieldVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.report_site));
-        engineerFieldVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.report_engineer));
+        siteFieldVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.report_site), this);
+        engineerFieldVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.report_engineer), this);
         engineerFieldVm.setEditable(false);
         _equipListView=((ListView)rootView.findViewById(R.id.report_equipment_ListView));
-        _datefieldVm=new DateEditTextViewModel((EditText)rootView.findViewById(R.id.report_date));
+        _datefieldVm=new DateEditTextViewModel((EditText)rootView.findViewById(R.id.report_date), this);
     }
 
     private void setAttributes(){
@@ -116,4 +121,9 @@ public class ReportFragment extends Fragment {
         });
 
     } // end setEvents method
+
+    @Override
+    public void textUpdated(int uniqueId, String text) {
+
+    }
 }

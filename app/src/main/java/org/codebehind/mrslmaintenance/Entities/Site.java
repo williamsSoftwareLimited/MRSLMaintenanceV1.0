@@ -2,23 +2,24 @@ package org.codebehind.mrslmaintenance.Entities;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Created by Gavin on 23/12/2014.
  */
-public class Site {
+public class Site implements Serializable{
 
     UUID _idOLD; // this has to be deleted
 
-    int _id;
-    String _name;
-    String _system;
-    String _address;
-    String _description;
-    String _plantId;
-    LatLng _latLng; // not sure how this will keep in the database
-    int _imageId;
+    private int _id;
+    private String _name;
+    private String _system;
+    private String _address;
+    private String _description;
+    private String _plantId;
+    private LatLng _latLng; // not sure how this will keep in the database
+    private int _imageId;
 
     public int getId() {
         return _id;
@@ -32,6 +33,7 @@ public class Site {
     public void setUUID(UUID _id) {
         this._idOLD = _id;
     }
+
     public String getName() {
         return _name;
     }

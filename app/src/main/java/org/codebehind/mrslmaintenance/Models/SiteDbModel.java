@@ -7,6 +7,7 @@ import android.database.Cursor;
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModel;
+import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
 import org.codebehind.mrslmaintenance.StaticConstants;
 
 import java.util.ArrayList;
@@ -15,18 +16,18 @@ import java.util.Date;
 /**
  * Created by Gavin on 23/08/2015.
  */
-public class SiteDbModel extends DbAbstractModel<Site> {
+public class SiteDbModel extends DbAbstractModelBase {
 
     public static final String TABLE="Site", FILTER_SELECTION_START="name like '%",FILTER_SELECTION_END="%'";
     public static final String[] FIELDS = new String[]{"_id", "ts","del", "name", "address", "imageId" };
     public static final int ID=0, TS=1, DEL=2, NAME=3, ADDRESS=4, IMAGE_ID=5;
+    private ArrayList<Site> _list;
 
     public SiteDbModel(Context context) {
         super(context, TABLE);
-        getlist(); // set the list
+        getList(); // set the list
     }
 
-    @Override
     public Site getEntity(int id) {
         return null;
     }
@@ -51,36 +52,11 @@ public class SiteDbModel extends DbAbstractModel<Site> {
         return dbRetNo;
     }
 
-    @Override
-    public ArrayList<Site> getList() {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Site> getList(ArrayList<String> params) {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Site> getFilterList(String filter) {
-        return null;
-    }
-
-    @Override
-    public void delete(int id) {
-
-    }
-
-    @Override
-    public void update(Site entity) {
-
-    }
-
     public Cursor getcursor(){
         return DatabaseHelper.getInstance(_context).getReadableDatabase().query(TABLE, FIELDS,null,null,null,null,null);
     }
 
-    public ArrayList<Site> getlist(){
+    public ArrayList<Site> getList(){
         Cursor c;
         // lazy load
         if (_list==null){

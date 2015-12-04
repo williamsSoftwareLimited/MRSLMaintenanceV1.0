@@ -5,17 +5,17 @@
     <item android:id="@+id/menu_new_report"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/new_report"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="withText|always" />
     <item android:id="@+id/menu_sites"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/sites"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="withText|collapseActionView"/>
     <item android:id="@+id/menu_equipment"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/equipments"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="withText|collapseActionView" />
     <item android:id="@+id/menu_camera"
         android:icon="@android:drawable/ic_menu_camera"
         android:title="@string/cameras"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="withText|collapseActionView" />
 </menu>

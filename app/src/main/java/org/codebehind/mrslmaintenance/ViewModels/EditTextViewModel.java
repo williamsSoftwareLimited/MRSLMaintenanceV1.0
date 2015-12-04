@@ -1,18 +1,23 @@
 package org.codebehind.mrslmaintenance.ViewModels;
 
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.text.method.KeyListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.AbstractTextViewViewModel;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
 
 /**
  * Created by root on 18/11/15.
  */
-public class EditTextViewModel  extends AbstractTextViewViewModel {
+public class EditTextViewModel  extends AbstractTextViewViewModel{
 
     protected EditText _editText;
+    private IEditTextViewModelDelegate _editTextViewModelDelegate;
+    private int _uniqueNo; // this is for the event to update the passed in delegate
 
     public void setEnabled(boolean b){
         _editText.setEnabled(b);
@@ -23,10 +28,14 @@ public class EditTextViewModel  extends AbstractTextViewViewModel {
         else _editText.setKeyListener(null);
     }
 
-    public EditTextViewModel(TextView textViewType){
+    public EditTextViewModel(TextView textViewType, final IEditTextViewModelDelegate editTextViewModelDelegate){
         super(textViewType);
 
         _editText=(EditText)textViewType;
+        _uniqueNo=textViewType.getId();
+        _editTextViewModelDelegate=editTextViewModelDelegate;
+
+        setEvents();
     }
 
     // all the different types - http://developer.android.com/reference/android/widget/TextView.html#attr_android:inputType
@@ -62,5 +71,22 @@ public class EditTextViewModel  extends AbstractTextViewViewModel {
                 _editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE); // Text
                 break;
         }
+    }
+
+    private void setEvents(){
+
+        _editText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                _editTextViewModelDelegate.textUpdated(_uniqueNo, s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 }

@@ -26,7 +26,7 @@
     <string name="select_site">Select site</string>
     <string name="button_back">Back</string>
     <string name="button_cancel">Cancel</string>
-    <string name="title_activity_site">SiteActivity</string>
+    <string name="title_activity_site">Site</string>
     <string name="new_site">New site</string>
     <string name="change_site">Change site</string>
     <string name="delete_site">Delete site</string>
