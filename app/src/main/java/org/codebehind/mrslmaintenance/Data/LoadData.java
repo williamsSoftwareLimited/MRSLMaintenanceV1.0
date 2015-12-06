@@ -47,33 +47,23 @@ public class LoadData {
 
         if (mod.getCount()>0) return;
 
-        site = new Site();
-        site.setAddress("Outer Mongolia, Spain.");
-        site.setName("Mars Plant");
+        site = new Site("Mars Plant", "Outer Mongolia, Spain.");
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
 
-        site = new Site();
-        site.setAddress("Lost in space.");
-        site.setName("Alien Plant");
+        site = new Site("Alien Plant", "Lost in space.");
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
 
-        site = new Site();
-        site.setAddress("Banana land.");
-        site.setName("Superman Plant");
+        site = new Site("Superman Plant", "Banana land.");
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
 
-        site = new Site();
-        site.setAddress("Who loves ya.");
-        site.setName("Kojak Plant");
+        site = new Site("Kojak Plant", "Who loves ya.");
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
 
-        site = new Site();
-        site.setAddress("Magic Roundabout.");
-        site.setName("Dylan the Hippy Plant");
+        site = new Site("Dylan the Hippy Plant", "Magic Roundabout.");
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
     }

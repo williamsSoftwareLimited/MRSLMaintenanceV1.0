@@ -14,10 +14,8 @@ public class SiteModel  {
     private SiteModel(){
         _list=new ArrayList<>();
         for (int i = 0; i<5; i++) {
-            Site s = new Site();
+            Site s = new Site("Site name #"+i, "10"+i+", Oldtown Manor, Cavan, Cavan");
             s.setDescription("some place "+i);
-            s.setName("Site name #"+i);
-            s.setAddress("10"+i+", Oldtown Manor, Cavan, Cavan");
             add(s);
         }
     }
@@ -56,7 +54,7 @@ public class SiteModel  {
     }
 
     public Site getTemplate(UUID siteId){
-        Site    s=new Site(),
+        Site    s=new Site("",""),
                 site=getSite(siteId);
 
         s.setUUID(UUID.randomUUID());

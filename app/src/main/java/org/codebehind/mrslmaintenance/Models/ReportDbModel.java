@@ -36,7 +36,7 @@ public class ReportDbModel extends DbAbstractModelBase {
 
         if (report==null) {
             Log.d(LOG_TAG, "add: The report argument is null.");
-            return 0;
+            return -1;
         }
 
         contentValues= new ContentValues();
@@ -48,7 +48,7 @@ public class ReportDbModel extends DbAbstractModelBase {
 
         reportId = (int)DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, contentValues);
 
-        if (reportId>0) _list.add(report);
+        if (reportId>-1) _list.add(report);
         else Log.d(LOG_TAG, "add: The report wasn't successfully added to the database, " + TABLE + " table.");
 
         return reportId;
@@ -61,14 +61,21 @@ public class ReportDbModel extends DbAbstractModelBase {
         String whereClause;
 
         if (report==null) {
+
             Log.d(LOG_TAG, "update: The report argument is null.");
             return 0;
         }
-        if (report.getId()==-1) return 0;
+
+        if (report.getId()==-1) {
+
+            Log.d(LOG_TAG, "update: The report has an id of -1 and is therefore new.");
+            return 0;
+        }
 
         reportInList=getReport(report.getId());
 
         if (reportInList==null) {
+
             Log.e(LOG_TAG, "update: There's been a reportId (not equal to -1) but no Report in the list.");
             return 0; // Something seriously bad has happened here
         }
@@ -92,10 +99,14 @@ public class ReportDbModel extends DbAbstractModelBase {
         return updateCount;
     }
 
-    public Report getReport(int id){
-        Report rep = new Report(-1,"",null,null);
-        for(Report r : _list) if (id==r.getId()) rep = r;
-        return rep;
+    public Report getReport(int reportId){
+
+        for(Report report : _list) {
+
+            if (reportId==report.getId()) return report;
+        }
+
+        return new Report(-1,"",null,null);
     }
 
     public ArrayList<Report> getAll(){

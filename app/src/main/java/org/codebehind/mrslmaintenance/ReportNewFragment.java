@@ -54,7 +54,6 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_report_new, container, false);
 
-        setHasOptionsMenu(true); // ensures the fragment knows it has a menu
         setControls(rootView);
         setAttributes();
         setEvents();

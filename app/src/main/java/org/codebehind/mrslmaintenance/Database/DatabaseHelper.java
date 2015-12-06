@@ -20,7 +20,7 @@ import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=69;
+    public static final int DATABASE_VERSION=70;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -54,8 +54,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("Create table "+ SiteDbModel.TABLE+" ("
                 +SiteDbModel.FIELDS[SiteDbModel.ID]+" integer primary key autoincrement, "
-                +SiteDbModel.FIELDS[SiteDbModel.TS]+" integer, "
-                +SiteDbModel.FIELDS[SiteDbModel.DEL]+" boolean, "
+                +SiteDbModel.FIELDS[SiteDbModel.TIMESTAMP]+" integer, "
+                +SiteDbModel.FIELDS[SiteDbModel.DELETED]+" boolean, "
                 +SiteDbModel.FIELDS[SiteDbModel.NAME]+" varchar(100), "
                 +SiteDbModel.FIELDS[SiteDbModel.ADDRESS]+" varchar(255), "
                 +SiteDbModel.FIELDS[SiteDbModel.IMAGE_ID]+" integer  "

@@ -21,6 +21,18 @@ public class Site implements Serializable{
     private LatLng _latLng; // not sure how this will keep in the database
     private int _imageId;
 
+    public Site(String name, String address){
+        setId(-1);
+        setName(name);
+        setAddress(address);
+    }
+
+    public Site(int id, String name, String address){
+        setId(id);
+        setName(name);
+        setAddress(address);
+    }
+
     public int getId() {
         return _id;
     }

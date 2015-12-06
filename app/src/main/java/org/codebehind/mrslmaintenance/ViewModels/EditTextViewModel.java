@@ -7,6 +7,7 @@ import android.text.method.KeyListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.codebehind.mrslmaintenance.FragmentMode;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.AbstractTextViewViewModel;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
 
@@ -23,11 +24,6 @@ public class EditTextViewModel  extends AbstractTextViewViewModel{
         _editText.setEnabled(b);
     }
 
-    public void setEditable(boolean b){
-        if (b) _editText.setKeyListener((KeyListener) _editText.getTag());
-        else _editText.setKeyListener(null);
-    }
-
     public EditTextViewModel(TextView textViewType, final IEditTextViewModelDelegate editTextViewModelDelegate){
         super(textViewType);
 
@@ -36,6 +32,10 @@ public class EditTextViewModel  extends AbstractTextViewViewModel{
         _editTextViewModelDelegate=editTextViewModelDelegate;
 
         setEvents();
+    }
+
+    public void setNonEditable(){
+        _editText.setKeyListener(null);
     }
 
     // all the different types - http://developer.android.com/reference/android/widget/TextView.html#attr_android:inputType

@@ -18,10 +18,10 @@ import org.codebehind.mrslmaintenance.Models.SiteDbModel;
  * Created by Gavin on 18/01/2015.
  */
 public class SiteListFragment extends Fragment {
-    private static final String LOG_TAG="SiteListFragment"
-            , BUNDLE_SITE="org.Codebehind.SiteListFragmentSiteBundle";
+    private static final String LOG_TAG="SiteListFragment";
     private ListView _siteListView;
     private SiteAdapter _siteAdapter;
+    public static final String BUNDLE_SITE="org.Codebehind.SiteListFragment_Site_Bundle";
 
     public SiteListFragment() {}
 

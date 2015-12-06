@@ -14,78 +14,76 @@ import android.widget.TextView;
 import org.codebehind.mrslmaintenance.Abstract.IFragmentSiteCallback;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Models.SiteModel;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
+import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
 
 import java.util.UUID;
 
 
-public class SiteNewFragment extends Fragment implements View.OnClickListener {
-    private UUID _siteId;
-    private EditText etName, etDescription, etAddress,etSystem,etPlantId;
-    private Button btnLocation;
+public class SiteNewFragment extends Fragment implements IEditTextViewModelDelegate {
 
-    private IFragmentSiteCallback _listener;
+    private EditTextViewModel _nameEditTextVm, _addressEditTextVm;
+    private Site _site;
+    private FragmentMode _fragmentMode; // 1 for edit and anything
+
+    public void setSite(Site site){
+        _site=site;
+    }
+
+    public void setFragmentMode(FragmentMode fragmentMode){
+        _fragmentMode=fragmentMode;
+    }
 
     public SiteNewFragment() { }
 
-    public void setSiteId(UUID siteId){
-        _siteId=siteId;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Site newSite;
         View view;
 
         view= inflater.inflate(R.layout.fragment_site_new, container, false);
 
-        // if the site is null then look out!!!!
-        newSite= SiteModel.getInstance().getTemplate(_siteId);
+        setControls(view);
+        setAttributes();
+        setEvents();
 
-        etName = (EditText) view.findViewById(R.id.site_new_name);
-        etName.setText(newSite.getName());
-
-        etDescription = (EditText) view.findViewById(R.id.site_new_description);
-        etDescription.setText(newSite.getDescription());
-
-        etAddress = (EditText) view.findViewById(R.id.site_new_Address);
-        etAddress.setText(newSite.getAddress());
-
-        etSystem = (EditText) view.findViewById(R.id.site_new_system);
-        etSystem.setText(newSite.getSystem());
-
-        etPlantId = (EditText) view.findViewById(R.id.site_new_PlantId);
-        etPlantId.setText(newSite.getPlantId());
-
-        // the location button
-        btnLocation=(Button)view.findViewById(R.id.site_new_Location_btn);
-        btnLocation.setOnClickListener(this);
         return view;
-
     }
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            _listener = (IFragmentSiteCallback) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement IFragmentCallbackUUID");
+    private void setControls(View rootView){
+
+        _nameEditTextVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.site_new_name), this);
+        _addressEditTextVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.site_new_Address), this);
+    }
+
+    private void setAttributes(){
+
+        if (_fragmentMode==FragmentMode.VIEW) {
+
+            _nameEditTextVm.setNonEditable();
+            _addressEditTextVm.setNonEditable();
         }
+
+        _nameEditTextVm.setText(_site.getName());
+        _addressEditTextVm.setText(_site.getAddress());
     }
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        _listener = null;
+
+    private void setEvents() {
+
     }
 
     @Override
-    public void onClick(View v) {
-        // this means the location button has been pressed
-        InputMethodManager imm;
-        // this code hides the keyboard if it's showing
-        imm = (InputMethodManager)getActivity().getSystemService(getActivity().getApplicationContext().INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(etName.getWindowToken(), 0);
+    public void textUpdated(int uniqueId, String text) {
 
-        _listener.onFragmentCallbackLocation(_siteId);
+        switch (uniqueId){
+
+            case R.id.site_new_name:
+
+                _site.setName(text);
+                break;
+
+            case R.id.site_new_Address:
+
+                _site.setAddress(text);
+                break;
+        }
     }
 }

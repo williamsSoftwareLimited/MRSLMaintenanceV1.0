@@ -84,7 +84,7 @@ public class ReportFragment extends Fragment implements IEditTextViewModelDelega
 
         siteFieldVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.report_site), this);
         engineerFieldVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.report_engineer), this);
-        engineerFieldVm.setEditable(false);
+        engineerFieldVm.setNonEditable();
         _equipListView=((ListView)rootView.findViewById(R.id.report_equipment_ListView));
         _datefieldVm=new DateEditTextViewModel((EditText)rootView.findViewById(R.id.report_date), this);
     }
