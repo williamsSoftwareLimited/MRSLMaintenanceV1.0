@@ -3,52 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:showDividers="beginning|middle|end"
-        >
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/reportSearchEditText"
-            android:layout_weight="1"
-            android:textColor="#ffffffff"
-            android:padding="5dp"
-            android:inputType="textFilter"
-            android:hint="Enter report details to search"
-            android:textSize="24dp"
-            android:layout_marginTop="20dp" />
-
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/reportSearchBtn"
-            android:baseline="@dimen/abc_config_prefDialogWidth"
-            android:padding="5dp"
-            android:hint="Search using filters"
-            android:text="Search"
-            android:drawableLeft="@android:drawable/ic_menu_search"
-            android:layout_margin="10dp" />
-    </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+
         <TextView android:text="@string/report_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/report_textview"
             android:padding="5dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:id="@+id/report_textview"/>
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/report_listview" />
+
     </LinearLayout>
 
 </LinearLayout>

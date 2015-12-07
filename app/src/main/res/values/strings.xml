@@ -35,7 +35,7 @@
     <string name="new_item">New</string>
     <string name="title_activity_main_menu">Main Menu</string>
     <string name="equipments">Equipment</string>
-    <string name="sites">Site</string>
+    <string name="sites">Sites</string>
     <string name="add_item">Add</string>
     <string name="menu_view_equipment_list">View</string>
     <string name="title_activity_site_new">New Site</string>
@@ -48,5 +48,13 @@
     <string name="cameras">Cameras</string>
     <string name="new_image">New image</string>
     <string name="title_activity_report_new">New Report</string>
+    <string name="site_title">Sites:</string>
+    <string name="Equipment_title">Equipments:</string>
+    <string name="edit_site">Edit Site</string>
+    <string name="menu_report_new_save">Save Report</string>
+    <string name="menu_site_list_new">New Site</string>
+    <string name="menu_site_new_save">Save Site</string>
+    <string name="menu_site_edit">Edit Site</string>
+    <string name="menu_site_save">Save Site</string>
 
 </resources>

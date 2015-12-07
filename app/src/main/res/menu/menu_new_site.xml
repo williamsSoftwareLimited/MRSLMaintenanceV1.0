@@ -1,12 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="org.codebehind.mrslmaintenance.ReportNewActivity">
+    tools:context="org.codebehind.mrslmaintenance.SiteActivity">
 
-    <item android:id="@+id/menu_report_new_save"
+    <item android:id="@+id/menu_site_new_save"
         android:icon="@android:drawable/ic_menu_save"
-        android:visible="true"
-        android:title="@string/menu_report_new_save"
+        android:title="@string/menu_site_new_save"
         app:showAsAction="ifRoom" />
 
 </menu>

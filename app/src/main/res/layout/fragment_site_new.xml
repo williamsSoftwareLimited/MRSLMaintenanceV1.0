@@ -12,124 +12,39 @@
             android:layout_width="match_parent"
             android:padding="5dp"
             android:layout_height="wrap_content">
+
             <TextView android:layout_width="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_height="wrap_content"
                 android:text="Name:" />
+
             <EditText
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/site_new_name" />
+
         </LinearLayout>
+
         <LinearLayout
             android:orientation="horizontal"
             android:padding="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView android:layout_width="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_height="wrap_content"
-                android:text="Description:" />
-            <EditText
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/site_new_description" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
             <TextView android:layout_width="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_height="wrap_content"
                 android:text="Address:" />
+
             <EditText
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/site_new_Address" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView android:layout_width="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_height="wrap_content"
-                android:text="Location: " />
-            <Button
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CLICK FOR SITE MAP"
-                android:id="@+id/site_new_Location_btn" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView android:layout_width="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_height="wrap_content"
-                android:text="Contact: LINK TO CONTACT" />
-            <EditText
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/site_new_contact" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView android:layout_width="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_height="wrap_content"
-                android:text="System:" />
-            <EditText
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/site_new_system" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView android:layout_width="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_height="wrap_content"
-                android:text="PlantId" />
-            <EditText
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/site_new_PlantId" />
+
         </LinearLayout>
 
     </LinearLayout>
-
-    <FrameLayout android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:background="#ffffff"
-        android:id="@+id/site_list_waitFrame">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:padding="5dp"
-            android:layout_gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Loading Google Maps..."/>
-
-    </FrameLayout>
 
 </FrameLayout>

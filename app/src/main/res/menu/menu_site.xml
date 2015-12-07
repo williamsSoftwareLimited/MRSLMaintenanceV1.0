@@ -2,16 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.codebehind.mrslmaintenance.SiteActivity">
-    <item android:id="@+id/menu_edit_site"
+
+    <item android:id="@+id/menu_site_edit"
         android:icon="@android:drawable/ic_menu_edit"
-        android:title="@string/edit_item"
+        android:title="@string/menu_site_edit"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_save_site"
-        android:icon="@android:drawable/ic_menu_save"
-        android:title="@string/delete"
-        app:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_cancel_site"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
-        android:title="@string/new_item"
-        app:showAsAction="ifRoom" />
+
 </menu>
