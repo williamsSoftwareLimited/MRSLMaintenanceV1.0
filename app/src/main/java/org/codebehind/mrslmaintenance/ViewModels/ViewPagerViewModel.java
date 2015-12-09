@@ -6,18 +6,16 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
-import org.codebehind.mrslmaintenance.FragmentMode;
+import org.codebehind.mrslmaintenance.R;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IViewPagerViewModelDelegate;
 
-import java.util.ArrayList;
 
 /**
  * Created by root on 09/12/15.
  */
-public class ViewPagerViewModel<tEntity> {
+public class ViewPagerViewModel {
 
     private ViewPager _viewPager;
-    private ActionBarActivityBase _activity;
     private int _listSize;
     private IViewPagerViewModelDelegate _viewPagerViewModelDelegate;
 
@@ -26,18 +24,23 @@ public class ViewPagerViewModel<tEntity> {
         return _viewPager;
     }
 
-    public ViewPagerViewModel(ViewPager viewPager, ActionBarActivityBase activity, int listSize){
+    public ViewPagerViewModel(ViewPager viewPager, IViewPagerViewModelDelegate viewPagerViewModelDelegate, int listSize){
 
         _viewPager=viewPager;
-        _activity=activity;
+        _viewPager.setId(R.id.viewPager);
+        _viewPagerViewModelDelegate=viewPagerViewModelDelegate;
         _listSize=listSize;
-        _viewPagerViewModelDelegate=(IViewPagerViewModelDelegate)activity;
+        setEvents();
+    }
+
+    public void setCurrentItem(int item){
+        _viewPager.setCurrentItem(item);
     }
 
     private void setEvents(){
         FragmentManager fragmentManager;
 
-        fragmentManager=_activity.getSupportFragmentManager();
+        fragmentManager=_viewPagerViewModelDelegate.getSupportFragmentManager();
 
         _viewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
 

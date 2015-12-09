@@ -14,20 +14,21 @@ import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IViewPagerViewModelDelegate;
+import org.codebehind.mrslmaintenance.ViewModels.ViewPagerViewModel;
 
 import java.util.ArrayList;
 
 
-public class ReportActivity  extends ActionBarActivityBase {
+public class ReportActivity  extends ActionBarActivityBase implements IViewPagerViewModelDelegate {
     private static final String EDIT_REPORT="Edit Report";
-    private ViewPager _viewPager;
+    private ViewPagerViewModel _viewPagerVm;
     private Report _report;
+    ArrayList<Report> _reports;
     private ReportDbModel _reportDbmodel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final ArrayList<Report> reports;
-        FragmentManager fragmentManager;
         final int reportId;
 
         super.onCreate(savedInstanceState);
@@ -37,44 +38,15 @@ public class ReportActivity  extends ActionBarActivityBase {
         _reportDbmodel = new ReportDbModel(this);
         reportId=getIntent().getIntExtra(StaticConstants.EXTRA_REPORT_ID, -1);
         _report=_reportDbmodel.getReport(reportId);
+        _reports = _reportDbmodel.getAll();
 
-        _viewPager = new ViewPager(this);
-        _viewPager.setId(R.id.viewPager);
-        setContentView(_viewPager);
-        reports = _reportDbmodel.getAll();
+        _viewPagerVm = new ViewPagerViewModel(new ViewPager(this), this, _reports.size());
+        setContentView(_viewPagerVm.getViewPager());
 
-        fragmentManager = getSupportFragmentManager();
+        for (int i = 0; i < _reports.size(); i++) {
 
-        _viewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
-
-            @Override
-            public int getCount() {
-                return reports.size();
-            }
-
-            @Override
-            public Fragment getItem(int pos) {
-                return ReportFragment.newInstance(reports.get(pos).getId());
-            }
-        });
-
-        _viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            public void onPageScrollStateChanged(int state) {}
-
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {  }
-
-            public void onPageSelected(int position) {
-
-                _report=reports.get(position);
-            }
-
-        });
-
-        for (int i = 0; i < reports.size(); i++) {
-
-            if (reports.get(i).getId() == _report.getId()) {
-                _viewPager.setCurrentItem(i);
+            if (_reports.get(i).getId() == _report.getId()) {
+                _viewPagerVm.setCurrentItem(i);
                 break;
             }
         }
@@ -107,5 +79,15 @@ public class ReportActivity  extends ActionBarActivityBase {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        return ReportFragment.newInstance(_reports.get(position).getId());
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        _report=_reports.get(position);
     }
 }

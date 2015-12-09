@@ -3,9 +3,6 @@ package org.codebehind.mrslmaintenance;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,22 +10,23 @@ import android.view.MenuItem;
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IViewPagerViewModelDelegate;
+import org.codebehind.mrslmaintenance.ViewModels.ViewPagerViewModel;
 
 import java.util.ArrayList;
 
 
-public class SiteActivity extends ActionBarActivityBase {
+public class SiteActivity extends ActionBarActivityBase implements IViewPagerViewModelDelegate {
 
     public static final String BUNDLE_SITE="org.codebehind.SiteActivity_Site_Bundle";
     private Site _site;
-    private ViewPager _viewPager;
+    ArrayList<Site> _sites;
+    private ViewPagerViewModel _viewPagerVm;
     private SiteDbModel _siteDbModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Bundle bundle;
-        final ArrayList<Site> sites;
-        FragmentManager fragmentManager;
 
         super.onCreate(savedInstanceState);
 
@@ -37,55 +35,19 @@ public class SiteActivity extends ActionBarActivityBase {
         if (savedInstanceState != null) return;
 
         _siteDbModel=new SiteDbModel(this);
-        sites=_siteDbModel.getList();
+        _sites=_siteDbModel.getList();
 
-        _viewPager = new ViewPager(this);
-        _viewPager.setId(R.id.viewPagerSiteActivity);
-        setContentView(_viewPager);
+        _viewPagerVm = new ViewPagerViewModel(new ViewPager(this), this, _sites.size());
+        setContentView(_viewPagerVm.getViewPager());
 
         bundle=getIntent().getExtras();
         _site=(Site)bundle.getSerializable(SiteListFragment.BUNDLE_SITE);
 
-        fragmentManager=getSupportFragmentManager();
 
-        _viewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
+        for (int i = 0; i < _sites.size(); i++) {
 
-            @Override
-            public int getCount() {
-                return sites.size();
-            }
-
-            @Override
-            public Fragment getItem(int pos) {
-                SiteNewFragment siteNewFragment;
-                Site site;
-
-                site=sites.get(pos);
-                siteNewFragment=SiteNewFragment.newInstance(site);
-                siteNewFragment.setFragmentMode(FragmentMode.VIEW);
-                return siteNewFragment;
-            }
-        });
-
-        _viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            public void onPageScrollStateChanged(int state) {
-            }
-
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            public void onPageSelected(int position) {
-
-                _site = sites.get(position);
-            }
-
-        });
-
-        for (int i = 0; i < sites.size(); i++) {
-
-            if (sites.get(i).getId() == _site.getId()) {
-                _viewPager.setCurrentItem(i);
+            if (_sites.get(i).getId() == _site.getId()) {
+                _viewPagerVm.setCurrentItem(i);
                 break;
             }
         }
@@ -121,5 +83,21 @@ public class SiteActivity extends ActionBarActivityBase {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        SiteNewFragment siteNewFragment;
+        Site site;
+
+        site=_sites.get(position);
+        siteNewFragment=SiteNewFragment.newInstance(site);
+        siteNewFragment.setFragmentMode(FragmentMode.VIEW);
+        return siteNewFragment;
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        _site = _sites.get(position);
     }
 }
