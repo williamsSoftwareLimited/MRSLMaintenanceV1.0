@@ -11,6 +11,7 @@ import java.util.UUID;
  */
 public class Equipment implements Serializable, Comparable<Equipment>{
     private int _id;
+    private int _siteId;
     private String _equipmentName;
     private int _imageId;
     private byte[] _image;
@@ -20,19 +21,34 @@ public class Equipment implements Serializable, Comparable<Equipment>{
     public Equipment(){
         setParameterList(new ArrayList<Parameter>());
     }
-    public Equipment(int id, String equipmentName, int imageId){
+
+    public Equipment(int siteId,  String equipmentName, int imageId){
+        this(-1, siteId, equipmentName, imageId);
+    }
+
+    public Equipment(int id, int siteId, String equipmentName, int imageId){
         setId(id);
+        setSiteId(siteId);
         setEquipmentName(equipmentName);
         setImgId(imageId);
     }
 
-
     public int getId() {
         return _id;
     }
+
     public void setId(int _id) {
         this._id = _id;
     }
+
+    public int getSiteId(){
+        return _siteId;
+    }
+
+    public void setSiteId(int siteId){
+        _siteId=siteId;
+    }
+
     public String getEquipmentName() {
         return _equipmentName;
     }

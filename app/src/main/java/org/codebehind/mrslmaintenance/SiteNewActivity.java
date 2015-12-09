@@ -31,11 +31,10 @@ public class SiteNewActivity extends ActionBarActivityBase {
         if (savedInstanceState == null) {
 
             ft= getSupportFragmentManager().beginTransaction();
-            siteNewFragment=new SiteNewFragment();
 
             initializeSite();
 
-            siteNewFragment.setSite(_site);
+            siteNewFragment=SiteNewFragment.newInstance(_site);
             siteNewFragment.setFragmentMode(FragmentMode.NEW);
 
             ft.add(R.id.activity_site_new_container, siteNewFragment);
@@ -46,19 +45,13 @@ public class SiteNewActivity extends ActionBarActivityBase {
 
     private void initializeSite(){
         Bundle bundle;
-        Object siteObject;
 
         // check if the bundle has a Site from the SiteActivity and this is to be edited
         bundle=getIntent().getExtras();
-        siteObject= bundle.getSerializable(SiteActivity.BUNDLE_SITE);
 
-        if (siteObject==null) {
-            _site = new Site("","");
-        }
-        else {
-            _site=(Site)siteObject;
-            setTitle(EDIT_SITE);
-        }
+        if (bundle!=null) _site=(Site)bundle.getSerializable(SiteActivity.BUNDLE_SITE);
+
+        if (_site==null)  _site = new Site("","");
     }
 
     @Override

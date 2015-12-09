@@ -10,7 +10,6 @@ import org.codebehind.mrslmaintenance.Entities.ParameterType;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.ReportEquipmentParameters;
 import org.codebehind.mrslmaintenance.Entities.Site;
-import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
@@ -18,7 +17,6 @@ import org.codebehind.mrslmaintenance.Models.ParameterTypeDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportEquipmentParametersDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
-import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 import org.codebehind.mrslmaintenance.Singletons.ParameterTypesSingleton;
 
 import java.util.Hashtable;
@@ -32,7 +30,6 @@ public class LoadData {
         populateEquipmentData(context);
         popSiteData(context);
         populateReportData(context);
-        populateSiteEquipmentData(context);
         populateParameterTypesData(context);
         populateParameterData(context);
         populateEquipmentParamsData(context);
@@ -102,92 +99,56 @@ public class LoadData {
         // test if there's any data in the database populate if not
         if (model.getCount()>0)return;
 
-        equipment=new Equipment();
-        equipment.setEquipmentName("COMPRESSOR - LT1");
-        equipment.setImgId(1);
+        equipment=new Equipment(1, "COMPRESSOR - LT1", 1);
         model.add(equipment);
 
-        equipment=new Equipment();
-        equipment.setEquipmentName("COMPRESSOR - HT1");
-        equipment.setImgId(2);
+        equipment=new Equipment(1, "COMPRESSOR - HT1", 2);
         model.add(equipment);
 
-        equipment=new Equipment();
-        equipment.setEquipmentName("VALVE STATION");
+        equipment=new Equipment(1, "VALVE STATION", 1);
         model.add(equipment);
 
-        equipment=new Equipment();
-        equipment.setEquipmentName("Coolers in Rooms");
+        equipment=new Equipment(1, "Coolers in Rooms", 1);
         model.add(equipment);
 
-        equipment=new Equipment();
-        equipment.setEquipmentName("Oil");
+        equipment=new Equipment(1, "Oil", 1);
         model.add(equipment);
 
-        equipment=new Equipment();
-        equipment.setEquipmentName("Magic Oil");
+        equipment=new Equipment(1, "Magic Oil", 1);
         model.add(equipment);
 
-        equipment=new Equipment();
-        equipment.setEquipmentName("Chocolate makers");
+        equipment=new Equipment(1, "Chocolate makers", 1);
         model.add(equipment);
-    }
 
-    public void populateSiteEquipmentData(Context c) {
-        SiteEquipmentDbModel model;
-        SiteEquipment siteEquip;
+        equipment=new Equipment(2, "COMPRESSOR - LT1", 1);
+        model.add(equipment);
 
-        model = new SiteEquipmentDbModel(c);
+        equipment=new Equipment(2, "COMPRESSOR - HT1", 2);
+        model.add(equipment);
 
-        // test if there's any data in the database populate if not
-        if (model.getCount()>0)return;
+        equipment=new Equipment(2, "VALVE STATION", 1);
+        model.add(equipment);
 
-        siteEquip = new  SiteEquipment();
-        siteEquip.setSiteid(1);
-        siteEquip.setEquipid(1);
-        model.add(siteEquip);
-        siteEquip.setEquipid(2);
-        model.add(siteEquip);
-        siteEquip.setEquipid(3);
-        model.add(siteEquip);
-        siteEquip.setEquipid(4);
-        model.add(siteEquip);
-        siteEquip.setEquipid(5);
-        model.add(siteEquip);
+        equipment=new Equipment(2, "Coolers in Rooms", 1);
+        model.add(equipment);
 
-        siteEquip = new  SiteEquipment();
-        siteEquip.setSiteid(2);
-        siteEquip.setEquipid(1);
-        model.add(siteEquip);
-        siteEquip.setEquipid(2);
-        model.add(siteEquip);
-        siteEquip.setEquipid(3);
-        model.add(siteEquip);
-        siteEquip.setEquipid(4);
-        model.add(siteEquip);
-        siteEquip.setEquipid(5);
-        model.add(siteEquip);
+        equipment=new Equipment(2, "Oil", 1);
+        model.add(equipment);
 
-        siteEquip = new  SiteEquipment();
-        siteEquip.setSiteid(3);
-        siteEquip.setEquipid(6);
-        model.add(siteEquip);
+        equipment=new Equipment(3, "COMPRESSOR - LT1", 1);
+        model.add(equipment);
 
-        siteEquip = new  SiteEquipment();
-        siteEquip.setSiteid(4);
-        siteEquip.setEquipid(1);
-        model.add(siteEquip);
-        siteEquip.setEquipid(2);
-        model.add(siteEquip);
-        siteEquip.setEquipid(7);
-        model.add(siteEquip);
+        equipment=new Equipment(3, "COMPRESSOR - HT1", 2);
+        model.add(equipment);
 
-        siteEquip = new  SiteEquipment();
-        siteEquip.setSiteid(5);
-        siteEquip.setEquipid(3);
-        model.add(siteEquip);
-        siteEquip.setEquipid(5);
-        model.add(siteEquip);
+        equipment=new Equipment(3, "VALVE STATION", 1);
+        model.add(equipment);
+
+        equipment=new Equipment(4, "Coolers in Rooms", 1);
+        model.add(equipment);
+
+        equipment=new Equipment(4, "Oil", 1);
+        model.add(equipment);
     }
 
     private void populateParameterTypesData(Context context){

@@ -60,7 +60,6 @@ public class ReportFragment extends Fragment implements IEditTextViewModelDelega
         super.onCreate(savedInstanceState);
 
         int id = (int)getArguments().getSerializable(StaticConstants.EXTRA_REPORT_ID);
-        setHasOptionsMenu(true);
         _report = _reportModel.getReport(id);
     }
 

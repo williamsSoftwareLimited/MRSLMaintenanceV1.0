@@ -22,9 +22,9 @@ public class EquipmentDbModel extends DbAbstractModelBase {
     public static final String TABLE="Equipment",
             FILTER_SELECTION_START="name like '%",
             FILTER_SELECTION_END="%'";
-    public static final String[] FIELDS =  new String[]{"_id", "Name", "ImageId", "Timestamp", "Deleted" };
-    public static final int ID=0, NAME=1, IMAGE_ID=2, TIMESTAMP=3, DELETED=4;
-    private static final int PARAMETER_ID=5, PARAMETER_NAME=6, PARAMETER_UNIT=7, PARAMETER_TYPE_ID=8, VALUE=9 ;
+    public static final String[] FIELDS =  new String[]{"_id", "_siteId", "Name", "ImageId", "Timestamp", "Deleted" };
+    public static final int ID=0, SITE_ID=1, NAME=2, IMAGE_ID=3, TIMESTAMP=4, DELETED=5;
+    private static final int PARAMETER_ID=6, PARAMETER_NAME=7, PARAMETER_UNIT=8, PARAMETER_TYPE_ID=9, VALUE=10 ;
     private int _length; // this checks the size of the list and iff it's different
     private ArrayList<Equipment> _list;
 
@@ -46,6 +46,7 @@ public class EquipmentDbModel extends DbAbstractModelBase {
         if (equipment==null) return StaticConstants.BAD_DB;
         v= new ContentValues();
         v.put(FIELDS[NAME], equipment.getEquipmentName());
+        v.put(FIELDS[SITE_ID], equipment.getSiteId());
         v.put(FIELDS[IMAGE_ID], equipment.getImgId());
         return (int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, v);
     }
@@ -56,31 +57,33 @@ public class EquipmentDbModel extends DbAbstractModelBase {
     }
 
     public ArrayList<Equipment> getList(int siteId) {
-        ArrayList<Equipment> l = new ArrayList<>();
+        ArrayList<Equipment> equipmentList;
+
+        equipmentList = new ArrayList<>();
 
         String query = "select "
                 +"e."+FIELDS[ID]+", "
+                +"e."+FIELDS[SITE_ID]+", "
                 +"e."+FIELDS[NAME]+", "
                 +"e."+FIELDS[IMAGE_ID]+", "
                 +"e."+FIELDS[TIMESTAMP]+", "
                 +"e."+FIELDS[DELETED]+" "
                 +" from " + TABLE + " e"
-                +" join " + SiteEquipmentDbModel.TABLE + " se on e."+FIELDS[ID]+" = se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.EQUIPID]
-                +" where se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.SITEID]+"="+siteId;
+                +" where e."+FIELDS[SITE_ID]+"="+siteId;
 
         Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
         c.moveToFirst();
 
         while(c.isAfterLast()==false){
 
-            Equipment equipment=new Equipment(c.getInt(ID), c.getString(NAME), c.getInt(IMAGE_ID));
+            Equipment equipment=new Equipment(c.getInt(ID), c.getInt(SITE_ID), c.getString(NAME), c.getInt(IMAGE_ID));
 
-            l.add(equipment);
+            equipmentList.add(equipment);
             c.moveToNext();
         }
 
-        Collections.sort(l);
-        return l;
+        Collections.sort(equipmentList);
+        return equipmentList;
     }
 
     public ArrayList<Equipment> getFilterList(String filter) {
@@ -97,6 +100,7 @@ public class EquipmentDbModel extends DbAbstractModelBase {
 
         String query = "select "
                 +"e."+FIELDS[ID]+", "
+                +"e."+FIELDS[SITE_ID]+", "
                 +"e."+FIELDS[NAME]+", "
                 +"e."+FIELDS[IMAGE_ID]+", "
                 +"e."+FIELDS[TIMESTAMP]+", "
@@ -122,7 +126,7 @@ public class EquipmentDbModel extends DbAbstractModelBase {
             equipmentId=c.getInt(ID);
 
             if (!equipmentHashtable.containsKey(equipmentId)){
-                equipment=new Equipment(equipmentId, c.getString(NAME), c.getInt(IMAGE_ID));
+                equipment=new Equipment(equipmentId, c.getInt(SITE_ID), c.getString(NAME), c.getInt(IMAGE_ID));
                 equipment.setParameterList(new ArrayList<Parameter>());
                 equipmentHashtable.put(equipmentId, equipment);
             }

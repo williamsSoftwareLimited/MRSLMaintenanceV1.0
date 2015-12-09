@@ -22,7 +22,7 @@ public class ReportActivity  extends ActionBarActivityBase {
     private static final String EDIT_REPORT="Edit Report";
     private ViewPager _viewPager;
     private Report _report;
-    private ReportDbModel _model;
+    private ReportDbModel _reportDbmodel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +32,16 @@ public class ReportActivity  extends ActionBarActivityBase {
 
         super.onCreate(savedInstanceState);
 
-        _model = new ReportDbModel(this);
+        if (savedInstanceState != null) return; // if ths has been created before then don't recreate
+
+        _reportDbmodel = new ReportDbModel(this);
         reportId=getIntent().getIntExtra(StaticConstants.EXTRA_REPORT_ID, -1);
-        _report=_model.getReport(reportId);
+        _report=_reportDbmodel.getReport(reportId);
 
         _viewPager = new ViewPager(this);
         _viewPager.setId(R.id.viewPager);
         setContentView(_viewPager);
-        if (savedInstanceState != null) return; // if ths has been created before then don't recreate
-
-        reports = _model.getAll();
+        reports = _reportDbmodel.getAll();
 
         fragmentManager = getSupportFragmentManager();
 

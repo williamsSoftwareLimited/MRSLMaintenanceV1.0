@@ -22,13 +22,15 @@ import java.util.UUID;
 
 public class SiteNewFragment extends Fragment implements IEditTextViewModelDelegate {
 
+    private static final String SITE_NEW_FRAGMENT_BUNDLE="SiteNewFragment_Bundle";
     private EditTextViewModel _nameEditTextVm, _addressEditTextVm;
     private Site _site;
     private FragmentMode _fragmentMode; // 1 for edit and anything
 
-    public void setSite(Site site){
+    /*public void setSite(Site site){
         _site=site;
     }
+    */
 
     public void setFragmentMode(FragmentMode fragmentMode){
         _fragmentMode=fragmentMode;
@@ -36,11 +38,25 @@ public class SiteNewFragment extends Fragment implements IEditTextViewModelDeleg
 
     public SiteNewFragment() { }
 
+    public static SiteNewFragment newInstance(Site site){
+        Bundle bundle;
+        SiteNewFragment siteNewFragment;
+
+        bundle = new Bundle();
+        bundle.putSerializable(SITE_NEW_FRAGMENT_BUNDLE, site);
+
+        siteNewFragment=new SiteNewFragment();
+        siteNewFragment.setArguments(bundle);
+        return siteNewFragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view;
 
         view= inflater.inflate(R.layout.fragment_site_new, container, false);
+
+        _site=(Site)getArguments().getSerializable(SITE_NEW_FRAGMENT_BUNDLE);
 
         setControls(view);
         setAttributes();
