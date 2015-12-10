@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.R;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IViewPagerViewModelDelegate;
 
@@ -14,6 +13,8 @@ import org.codebehind.mrslmaintenance.ViewModels.Abstract.IViewPagerViewModelDel
  * Created by root on 09/12/15.
  */
 public class ViewPagerViewModel {
+
+    // The interface IViewPagerViewModelDelegate is implemented on whatever uses this.
 
     private ViewPager _viewPager;
     private int _listSize;

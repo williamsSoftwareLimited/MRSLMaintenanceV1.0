@@ -11,47 +11,34 @@ import android.view.MenuItem;
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IViewPagerViewModelDelegate;
+import org.codebehind.mrslmaintenance.ViewModels.ViewPagerViewModel;
 
 
-public class EquipmentActivity  extends ActionBarActivityBase {
-    ViewPager mViewPager;
+public class EquipmentActivity  extends ActionBarActivityBase implements IViewPagerViewModelDelegate {
+    ViewPagerViewModel _viewPagerVm;
     Report _report;
     Equipment _equipment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FragmentManager fragmentManager;
+        Bundle bundle;
 
         super.onCreate(savedInstanceState);
 
-        mViewPager = new ViewPager(this);
-        mViewPager.setId(R.id.viewPager);
-        setContentView(mViewPager);
-
-        Bundle bundle=getIntent().getExtras();
+        bundle=getIntent().getExtras();
         _report = (Report)bundle.getSerializable(ReportFragment.BUNDLE_REPORT);
         _equipment = (Equipment)bundle.getSerializable(ReportFragment.BUNDLE_EQUIPMENT);
 
-        fragmentManager = getSupportFragmentManager();
+        // todo: start here, the call from the SiteNewFragment both the above are null and need to assign the _equipment from it's bundle
+        // the _report will have to be new'd and the equipment List added to it and the Id=-1
 
-        mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
-
-            @Override
-            public int getCount() {
-
-                return _report.getEquipmentList().size();
-            }
-
-            @Override
-            public Fragment getItem(int pos) {
-
-                return EquipmentFragment.newInstance(_report, _report.getEquipmentList().get(pos));
-            }
-        });
+        _viewPagerVm=new ViewPagerViewModel(new ViewPager(this), this, _report.getEquipmentList().size());
+        setContentView(_viewPagerVm.getViewPager());
 
         for (int i = 0; i < _report.getEquipmentList().size(); i++) {
             if (_report.getEquipmentList().get(i).getId() ==_equipment.getId()) {
-                mViewPager.setCurrentItem(i);
+                _viewPagerVm.setCurrentItem(i);
                 break;
             }
         }
@@ -75,5 +62,15 @@ public class EquipmentActivity  extends ActionBarActivityBase {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        return EquipmentFragment.newInstance(_report, _report.getEquipmentList().get(position));
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
     }
 }

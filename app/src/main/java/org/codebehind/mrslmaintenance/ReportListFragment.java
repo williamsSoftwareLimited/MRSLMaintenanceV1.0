@@ -20,7 +20,7 @@ import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 public class ReportListFragment extends Fragment {
 
     private static final String LOG_TAG = "REPORT_LIST_FRAGMENT";
-    private ListView listview;
+    private ListView _reportListview;
     private ReportDbModel _reportModel;
 
     public ReportListFragment() {
@@ -45,17 +45,17 @@ public class ReportListFragment extends Fragment {
 
     private void setControls(View view){
 
-        listview = (ListView) view.findViewById(R.id.report_listview);
+        _reportListview = (ListView) view.findViewById(R.id.report_listview);
     }
 
     private void setAttributes(){
 
-        listview.setAdapter(new ReportAdapter(_reportModel.getAll(), getActivity()));
+        _reportListview.setAdapter(new ReportAdapter(_reportModel.getAll(), getActivity()));
     }
 
     private void setEvents(){
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        _reportListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
