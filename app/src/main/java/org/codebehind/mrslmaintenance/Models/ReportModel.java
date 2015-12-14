@@ -31,7 +31,7 @@ public class ReportModel {
                 equip.setEquipmentName(equipList.get(j).getEquipmentName());
                 reportEquips.add(equip);
             }
-            r.setEquipmentList(reportEquips);
+            //r.setEquipmentList(reportEquips);
             _list.add(r);
         }
     }

@@ -8,7 +8,10 @@ import android.view.MenuItem;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Data.LoadData;
-import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
+import org.codebehind.mrslmaintenance.Entities.Report;
+import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
+
+import java.util.ArrayList;
 
 // this is currently the entry Activity
 public class ReportListActivity extends ActionBarActivityBase {
@@ -41,14 +44,20 @@ public class ReportListActivity extends ActionBarActivityBase {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent i;
+        Bundle bundle;
         int id = item.getItemId();
 
         switch(id){
 
             case R.id.menu_new_report:
                 i = new Intent(this,ReportNewActivity.class);
-                ReportSingleton.getInstance().clearReport(); // ensure there's no stored report
-                startActivityForResult(i,0);
+
+                bundle=new Bundle();
+                bundle.putSerializable(ReportNewActivity.REPORT_NEW_ACTIVITY_BUNDLE, new Report(-1, "", null, null));
+
+                i.putExtras(bundle);
+                startActivity(i);
+
                 return true;
 
             case R.id.menu_sites:

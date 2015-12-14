@@ -12,6 +12,7 @@ import org.codebehind.mrslmaintenance.Models.ParameterTypeDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportEquipmentParametersDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
+import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 
 /**
  * Created by Gavin on 18/01/2015.
@@ -19,7 +20,7 @@ import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=72;
+    public static final int DATABASE_VERSION=77;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,12 +36,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("Create table "+ EquipmentDbModel.TABLE+" ("
                 +EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+" integer primary key autoincrement, "
-                +EquipmentDbModel.FIELDS[EquipmentDbModel.SITE_ID]+" integer, "
                 +EquipmentDbModel.FIELDS[EquipmentDbModel.NAME]+" varchar(100), "
                 +EquipmentDbModel.FIELDS[EquipmentDbModel.IMAGE_ID]+" integer, "
                 +EquipmentDbModel.FIELDS[EquipmentDbModel.TIMESTAMP]+" integer, "
-                +EquipmentDbModel.FIELDS[EquipmentDbModel.DELETED]+" boolean, "
-                +"foreign key("+EquipmentDbModel.FIELDS[EquipmentDbModel.SITE_ID]+") references "+SiteDbModel.TABLE+"("+SiteDbModel.FIELDS[SiteDbModel.ID]+")"
+                +EquipmentDbModel.FIELDS[EquipmentDbModel.DELETED]+" boolean "
                 +");");
 
         db.execSQL("Create table "+ ReportDbModel.TABLE+" ("
@@ -59,6 +58,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +SiteDbModel.FIELDS[SiteDbModel.NAME]+" varchar(100), "
                 +SiteDbModel.FIELDS[SiteDbModel.ADDRESS]+" varchar(255), "
                 +SiteDbModel.FIELDS[SiteDbModel.IMAGE_ID]+" integer  "
+                +");");
+
+        // these are two foreign keys to the site and equipment tables -
+        db.execSQL("Create table "+ SiteEquipmentDbModel.TABLE+" ("
+                +SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.ID]+" integer primary key autoincrement,"
+                +SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.SITE_ID]+ " integer, "
+                +SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.EQUIPMENT_ID]+ " integer, "
+                +SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.NAME]+" varchar(100), "
+                +SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.TIMESTAMP]+ " integer, "
+                +SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.DELETED]+" boolean, "
+                +"foreign key("+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.SITE_ID]+") references "+SiteDbModel.TABLE+"("+SiteDbModel.FIELDS[SiteDbModel.ID]+"),"
+                +"foreign key("+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.EQUIPMENT_ID]+") references "+EquipmentDbModel.TABLE+"("+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+")"
                 +");");
 
         db.execSQL("Create table "+ ParameterTypeDbModel.TABLE+" ("
@@ -103,6 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("drop table if exists "+ EquipmentParamsDbModel.TABLE);
         db.execSQL("drop table if exists "+ ReportEquipmentParametersDbModel.TABLE);
+        db.execSQL("drop table if exists "+ SiteEquipmentDbModel.TABLE);
         db.execSQL("drop table if exists "+ ImageModel.TABLE);
         db.execSQL("drop table if exists "+ EquipmentDbModel.TABLE);
         db.execSQL("drop table if exists "+ ReportDbModel.TABLE);

@@ -11,13 +11,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import org.codebehind.mrslmaintenance.Adapters.EquipmentAdapter;
 import org.codebehind.mrslmaintenance.Adapters.SiteAdapter;
-import org.codebehind.mrslmaintenance.Entities.Equipment;
+import org.codebehind.mrslmaintenance.Adapters.SiteEquipmentAdapter;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.Site;
+import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
-import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
+import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.ISpinnerViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
@@ -31,28 +31,38 @@ import java.util.Date;
  */
 public class ReportNewFragment extends Fragment implements ISpinnerViewModelDelegate, IEditTextViewModelDelegate {
 
+    public static final String REPORT_BUNDLE="REPORT_NEW_FRAGMENT_REPORT_BUNDLE",
+                               SITE_EQUIPMENT_BUNDLE="REPORT_NEW_FRAGMENT_SITE_EQUIPMENT_BUNDLE";
+    private static final String REPORT_ARGS = "REPORT_NEW_FRAGMENT_REPORT_ARGS";
     private SiteSpinnerViewModel _siteSpinnerVm;
     private EditTextViewModel _dateEditTextVm, _engineerNameTextViewVm;
     private ListView _equipmentListView;
-    private EquipmentAdapter _equipmentAdapter;
+    private SiteEquipmentAdapter _siteEquipmentAdapter;
     private Report _report;
-    private ReportSingleton _reportSingleton;
-
-    public String getEngineersName(){
-        return _engineerNameTextViewVm.getText();
-    }
 
     public void setSiteSpinnerVmEnabled(boolean b){
         _siteSpinnerVm.setEnabled(b);
     }
 
-    public ReportNewFragment() {
-        _reportSingleton=ReportSingleton.getInstance();
+    public static ReportNewFragment newInstance(Report report){
+        Bundle bundle;
+        ReportNewFragment reportNewFragment;
+
+        bundle = new Bundle();
+        bundle.putSerializable(REPORT_ARGS, report);
+        reportNewFragment = new ReportNewFragment();
+
+        reportNewFragment.setArguments(bundle);
+        return  reportNewFragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_report_new, container, false);
+        View rootView;
+
+        rootView = inflater.inflate(R.layout.fragment_report_new, container, false);
+
+        _report=(Report)getArguments().getSerializable(REPORT_ARGS);
 
         setControls(rootView);
         setAttributes();
@@ -85,15 +95,21 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
     private void setEvents(){
 
         _equipmentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent;
-                Equipment equipment;
+                Bundle bundle;
+                SiteEquipment siteEquipment;
 
-                equipment = (Equipment) parent.getItemAtPosition(position);
-                _reportSingleton.setEquipment(equipment);
+                siteEquipment = (SiteEquipment) parent.getItemAtPosition(position);
+
+                bundle=new Bundle();
+                bundle.putSerializable(SITE_EQUIPMENT_BUNDLE, siteEquipment);
+                bundle.putSerializable(REPORT_BUNDLE, _report);
 
                 intent = new Intent(getActivity(), ReportNewEquipmentActivity.class);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -101,26 +117,28 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
 
     // The siteId needs to be an integer the check will be here but nothing will happen if it isn't
     private void setReport(int siteId){
+        SiteEquipmentDbModel siteEquipmentDbModel;
 
-        if (_reportSingleton.getReport()==null) {
+        siteEquipmentDbModel=new SiteEquipmentDbModel(getActivity());
 
-            _report = _reportSingleton.initializeReport(getActivity(), -1, siteId, _engineerNameTextViewVm.getText(), _dateEditTextVm.getText());
+        if (_report.getId()==-1) {
+
             setSiteSpinnerVmEnabled(true);
 
-        }else if (_reportSingleton.getReport().getId()<0){
-
-            _reportSingleton.setSiteId(getActivity(), siteId);
+            _report.setSiteEquipmentList(siteEquipmentDbModel.getSiteEquipments(siteId));
 
         } else {
-            // this report already exists switch of the spinner
+            // this report already exists switch off the spinner
             setSiteSpinnerVmEnabled(false);
 
-            _report=_reportSingleton.initializeEquipmentList(getActivity());
+            if (_report.getSiteEquipmentList()==null)
+                _report.setSiteEquipmentList(siteEquipmentDbModel.getSiteEquipmentListForReport(_report.getId()));
+
             _engineerNameTextViewVm.setText(_report.getEngineerName());
         }
 
-        _equipmentAdapter = new EquipmentAdapter(_report.getEquipmentList(), getActivity());
-        _equipmentListView.setAdapter(_equipmentAdapter);
+        _siteEquipmentAdapter = new SiteEquipmentAdapter(_report.getSiteEquipmentList(), getActivity());
+        _equipmentListView.setAdapter(_siteEquipmentAdapter);
     }
 
     // This is the delegate called from the SiteSpinnerViewModel

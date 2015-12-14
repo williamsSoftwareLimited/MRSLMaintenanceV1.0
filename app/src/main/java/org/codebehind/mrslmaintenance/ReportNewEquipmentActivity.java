@@ -3,64 +3,45 @@ package org.codebehind.mrslmaintenance;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
-import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
-import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
+import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IViewPagerViewModelDelegate;
+import org.codebehind.mrslmaintenance.ViewModels.ViewPagerViewModel;
 
-public class ReportNewEquipmentActivity extends ActionBarActivityBase {
-    private ViewPager _viewPager;
-    private ReportSingleton _reportSingleton;
+public class ReportNewEquipmentActivity extends ActionBarActivityBase implements IViewPagerViewModelDelegate {
+
+    private ViewPagerViewModel _viewPagerVm;
     private Report _report;
-    private Equipment _equipment;
+    private SiteEquipment _siteEquipment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FragmentManager fragmentManager;
+        Bundle bundle;
 
         super.onCreate(savedInstanceState);
 
-        _viewPager=new ViewPager(this);
-        _viewPager.setId(R.id.report_new_equipment_view_pager);
-        setContentView(_viewPager);
         if (savedInstanceState != null) return; // if ths has been created before then don't recreate
 
-        _reportSingleton=ReportSingleton.getInstance();
-        _report=_reportSingleton.getReport();
-        _equipment=_reportSingleton.getEquipment();
+        bundle=getIntent().getExtras();
 
-        fragmentManager=getSupportFragmentManager();
+        _report=(Report)bundle.getSerializable(ReportNewFragment.REPORT_BUNDLE);
+        _siteEquipment=(SiteEquipment)bundle.getSerializable(ReportNewFragment.SITE_EQUIPMENT_BUNDLE);
 
-        _viewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
+        _viewPagerVm=new ViewPagerViewModel(new ViewPager(this), this, _report.getSiteEquipmentList().size());
+        setContentView(_viewPagerVm.getViewPager());
 
-            @Override
-            public Fragment getItem(int position) {
-                Equipment equipment;
+        for (int i = 0; i < _report.getSiteEquipmentList().size(); i++) {
 
-                equipment = _report.getEquipmentList().get(position);
-                _reportSingleton.setEquipment(equipment);
+            if (_report.getSiteEquipmentList().get(i).getEquipmentId() == _siteEquipment.getId()) {
 
-                return new ReportNewEquipmentFragment();
-            }
-
-            @Override
-            public int getCount() {
-                return _report.getEquipmentList().size();
-            }
-
-        });
-
-        for (int i = 0; i < _report.getEquipmentList().size(); i++) {
-
-            if (_report.getEquipmentList().get(i).getId() == _equipment.getId()) {
-
-                _viewPager.setCurrentItem(i);
+                _viewPagerVm.setCurrentItem(i);
                 break;
             }
         } // end for loop
@@ -90,5 +71,19 @@ public class ReportNewEquipmentActivity extends ActionBarActivityBase {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        SiteEquipment siteEquipment;
+
+        siteEquipment = _report.getSiteEquipmentList().get(position);
+
+        return ReportNewEquipmentFragment.newInstance(siteEquipment);
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
     }
 }

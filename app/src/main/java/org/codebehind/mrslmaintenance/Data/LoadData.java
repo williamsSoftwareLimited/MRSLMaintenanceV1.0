@@ -10,6 +10,7 @@ import org.codebehind.mrslmaintenance.Entities.ParameterType;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.ReportEquipmentParameters;
 import org.codebehind.mrslmaintenance.Entities.Site;
+import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
@@ -17,6 +18,7 @@ import org.codebehind.mrslmaintenance.Models.ParameterTypeDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportEquipmentParametersDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
+import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 import org.codebehind.mrslmaintenance.Singletons.ParameterTypesSingleton;
 
 import java.util.Hashtable;
@@ -30,6 +32,7 @@ public class LoadData {
         populateEquipmentData(context);
         popSiteData(context);
         populateReportData(context);
+        populateSiteEquipmentData(context);
         populateParameterTypesData(context);
         populateParameterData(context);
         populateEquipmentParamsData(context);
@@ -44,23 +47,23 @@ public class LoadData {
 
         if (mod.getCount()>0) return;
 
-        site = new Site("Mars Plant", "Outer Mongolia, Spain.");
+        site = new Site("SITE 1", "Outer Mongolia, Spain.");
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
 
-        site = new Site("Alien Plant", "Lost in space.");
+        site = new Site("SITE 2", "Lost in space.");
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
 
-        site = new Site("Superman Plant", "Banana land.");
+        site = new Site("SITE 3", "Banana land.");
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
 
-        site = new Site("Kojak Plant", "Who loves ya.");
+        site = new Site("SITE 4", "Who loves ya.");
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
 
-        site = new Site("Dylan the Hippy Plant", "Magic Roundabout.");
+        site = new Site("SITE 5", "Magic Roundabout.");
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
     }
@@ -99,57 +102,110 @@ public class LoadData {
         // test if there's any data in the database populate if not
         if (model.getCount()>0)return;
 
-        equipment=new Equipment(1, "COMPRESSOR - LT1", 1);
+        equipment=new Equipment("EQUIPMENT - 1", 1);
         model.add(equipment);
 
-        equipment=new Equipment(1, "COMPRESSOR - HT1", 2);
+        equipment=new Equipment("EQUIPMENT - 2", 2);
         model.add(equipment);
 
-        equipment=new Equipment(1, "VALVE STATION", 1);
+        equipment=new Equipment("EQUIPMENT - 3", 1);
         model.add(equipment);
 
-        equipment=new Equipment(1, "Coolers in Rooms", 1);
+        equipment=new Equipment("EQUIPMENT - 4", 1);
         model.add(equipment);
 
-        equipment=new Equipment(1, "Oil", 1);
+        equipment=new Equipment("EQUIPMENT - 5", 1);
         model.add(equipment);
 
-        equipment=new Equipment(1, "Magic Oil", 1);
+        equipment=new Equipment("EQUIPMENT - 6", 1);
         model.add(equipment);
 
-        equipment=new Equipment(1, "Chocolate makers", 1);
+        equipment=new Equipment("EQUIPMENT - 7", 1);
         model.add(equipment);
 
-        equipment=new Equipment(2, "COMPRESSOR - LT1", 1);
-        model.add(equipment);
-
-        equipment=new Equipment(2, "COMPRESSOR - HT1", 2);
-        model.add(equipment);
-
-        equipment=new Equipment(2, "VALVE STATION", 1);
-        model.add(equipment);
-
-        equipment=new Equipment(2, "Coolers in Rooms", 1);
-        model.add(equipment);
-
-        equipment=new Equipment(2, "Oil", 1);
-        model.add(equipment);
-
-        equipment=new Equipment(3, "COMPRESSOR - LT1", 1);
-        model.add(equipment);
-
-        equipment=new Equipment(3, "COMPRESSOR - HT1", 2);
-        model.add(equipment);
-
-        equipment=new Equipment(3, "VALVE STATION", 1);
-        model.add(equipment);
-
-        equipment=new Equipment(4, "Coolers in Rooms", 1);
-        model.add(equipment);
-
-        equipment=new Equipment(4, "Oil", 1);
-        model.add(equipment);
     }
+
+    public void populateSiteEquipmentData(Context c) {
+        SiteEquipmentDbModel model;
+        SiteEquipment siteEquip;
+
+        model = new SiteEquipmentDbModel(c);
+
+        // test if there's any data in the database populate if not
+        if (model.getCount()>0)return;
+
+        siteEquip = new  SiteEquipment(1, 1, "Site1_Equipment1");
+        model.add(siteEquip);
+
+        siteEquip.setEquipmentId(2);
+        siteEquip.setName("Site1_Equipment2");
+        model.add(siteEquip);
+
+        siteEquip.setEquipmentId(3);
+        siteEquip.setName("Site1_Equipment3");
+        model.add(siteEquip);
+
+        siteEquip.setEquipmentId(4);
+        siteEquip.setName("Site1_Equipment4");
+        model.add(siteEquip);
+
+        siteEquip.setEquipmentId(5);
+        siteEquip.setName("Site1_Equipment5");
+        model.add(siteEquip);
+
+
+        siteEquip.setSiteId(2);
+        siteEquip.setEquipmentId(1);
+        siteEquip.setName("Site2_Equipment1");
+        model.add(siteEquip);
+
+        siteEquip.setEquipmentId(2);
+        siteEquip.setName("Site2_Equipment2");
+        model.add(siteEquip);
+
+        siteEquip.setEquipmentId(3);
+        siteEquip.setName("Site2_Equipment3");
+        model.add(siteEquip);
+
+        siteEquip.setEquipmentId(4);
+        siteEquip.setName("Site2_Equipment4");
+        model.add(siteEquip);
+
+        siteEquip.setEquipmentId(5);
+        siteEquip.setName("Site2_Equipment5");
+        model.add(siteEquip);
+
+
+        siteEquip.setSiteId(3);
+        siteEquip.setEquipmentId(6);
+        siteEquip.setName("Site3_Equipment6");
+        model.add(siteEquip);
+
+
+        siteEquip.setSiteId(4);
+        siteEquip.setEquipmentId(1);
+        siteEquip.setName("Site4_Equipment1");
+        model.add(siteEquip);
+
+        siteEquip.setEquipmentId(2);
+        siteEquip.setName("Site4_Equipment2");
+        model.add(siteEquip);
+
+        siteEquip.setEquipmentId(7);
+        siteEquip.setName("Site4_Equipment7");
+        model.add(siteEquip);
+
+
+        siteEquip.setSiteId(5);
+        siteEquip.setEquipmentId(3);
+        siteEquip.setName("Site5_Equipment3");
+        model.add(siteEquip);
+
+        siteEquip.setEquipmentId(5);
+        siteEquip.setName("Site5_Equipment5");
+        model.add(siteEquip);
+    }
+
 
     private void populateParameterTypesData(Context context){
         ParameterType parameterType;

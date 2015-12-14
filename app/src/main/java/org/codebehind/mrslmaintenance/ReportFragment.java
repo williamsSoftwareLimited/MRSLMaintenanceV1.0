@@ -7,15 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import org.codebehind.mrslmaintenance.Entities.Equipment;
+import org.codebehind.mrslmaintenance.Adapters.SiteEquipmentAdapter;
 import org.codebehind.mrslmaintenance.Entities.Report;
-import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
+import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
-import org.codebehind.mrslmaintenance.Singletons.ReportSingleton;
+import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.DateEditTextViewModel;
 import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
@@ -28,14 +27,14 @@ public class ReportFragment extends Fragment implements IEditTextViewModelDelega
     private Report _report;
     private EditTextViewModel siteFieldVm, engineerFieldVm;
     private DateEditTextViewModel _datefieldVm;
-    private ListView _equipListView;
-    private ArrayAdapter<Equipment> _equipmentAdapter;
+    private ListView _siteEquipmentListView;
+    private SiteEquipmentAdapter _siteEquipmentAdapter;
     private ReportDbModel _reportModel;
-    private EquipmentDbModel _equipmentModel;
+    private SiteEquipmentDbModel _siteEquipmentModel;
 
 
-    public static final String BUNDLE_REPORT = "org.CodeBehind.REPORT_FRAGMENT_BUNDLE_FLY_REPORT",
-                               BUNDLE_EQUIPMENT = "org.CodeBehind.REPORT_FRAGMENT_BUNDLE_FLY_EQUIPMENT";
+    public static final String BUNDLE_REPORT = "REPORT_FRAGMENT_BUNDLE_FLY_REPORT",
+                               BUNDLE_SITE_EQUIPMENT = "REPORT_FRAGMENT_BUNDLE_FLY_SITE_EQUIPMENT";
 
     public static ReportFragment newInstance(int id){
         Bundle args;
@@ -52,7 +51,7 @@ public class ReportFragment extends Fragment implements IEditTextViewModelDelega
     public ReportFragment() {
 
         _reportModel=new ReportDbModel(getActivity());
-        _equipmentModel=new EquipmentDbModel(getActivity());
+        _siteEquipmentModel=new SiteEquipmentDbModel(getActivity());
     }
 
     @Override
@@ -84,7 +83,7 @@ public class ReportFragment extends Fragment implements IEditTextViewModelDelega
         siteFieldVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.report_site), this);
         engineerFieldVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.report_engineer), this);
         engineerFieldVm.setNonEditable();
-        _equipListView=((ListView)rootView.findViewById(R.id.report_equipment_ListView));
+        _siteEquipmentListView=((ListView)rootView.findViewById(R.id.report_equipment_ListView));
         _datefieldVm=new DateEditTextViewModel((EditText)rootView.findViewById(R.id.report_date), this);
     }
 
@@ -94,25 +93,27 @@ public class ReportFragment extends Fragment implements IEditTextViewModelDelega
         engineerFieldVm.setText(_report.getEngineerName());
         _datefieldVm.setText(_report.getReportDate());
 
-        _report.setEquipmentList(_equipmentModel.getList(_report.getSiteId())); // this is a bit strange but it allow the equipment list to bundled in the intent to the EquipmentActivity
+        _report.setSiteEquipmentList(_siteEquipmentModel.getSiteEquipments(_report.getSiteId())); // this is a bit strange but it allow the equipment list to bundled in the intent to the EquipmentActivity
 
-        _equipmentAdapter=new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, _equipmentModel.getList(_report.getSiteId()));
-        _equipListView.setAdapter(_equipmentAdapter);
+        _siteEquipmentAdapter=new SiteEquipmentAdapter(_siteEquipmentModel.getSiteEquipments(_report.getSiteId()), getActivity());
+        _siteEquipmentListView.setAdapter(_siteEquipmentAdapter);
     }
 
     private void setEvents() {
 
-        _equipListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        _siteEquipmentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent;
                 Bundle bundle;
-                Equipment equipment = (Equipment) parent.getItemAtPosition(position);
+                SiteEquipment siteEquipment;
+
+                siteEquipment = (SiteEquipment) parent.getItemAtPosition(position);
 
                 intent = new Intent(getActivity(), EquipmentActivity.class);
                 bundle = new Bundle();
                 bundle.putSerializable(BUNDLE_REPORT, _report);
-                bundle.putSerializable(BUNDLE_EQUIPMENT, equipment);
+                bundle.putSerializable(BUNDLE_SITE_EQUIPMENT, siteEquipment);
                 intent.putExtras(bundle);
 
                 startActivity(intent);

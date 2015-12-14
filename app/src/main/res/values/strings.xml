@@ -56,5 +56,8 @@
     <string name="menu_site_new_save">Save Site</string>
     <string name="menu_site_edit">Edit Site</string>
     <string name="menu_site_save">Save Site</string>
+    <string name="equipment_title">Equipment:</string>
+    <string name="site_address_title">Address:</string>
+    <string name="name_title">Name:</string>
 
 </resources>

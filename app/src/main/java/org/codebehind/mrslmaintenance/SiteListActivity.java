@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
+import org.codebehind.mrslmaintenance.Entities.Site;
 
 
 public class SiteListActivity extends ActionBarActivityBase {
@@ -37,14 +38,20 @@ public class SiteListActivity extends ActionBarActivityBase {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        Bundle bundle;
         Intent intent;
+        int id = item.getItemId();
 
         switch(id){
 
             case R.id.menu_site_list_new:
 
+                bundle = new Bundle();
+                bundle.putSerializable(SiteNewActivity.SITE_BUNDLE, new Site("",""));
+
                 intent = new Intent(this, SiteNewActivity.class);
+                intent.putExtras(bundle);
+
                 startActivity(intent);
 
                 return true;

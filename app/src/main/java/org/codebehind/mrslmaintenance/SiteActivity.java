@@ -71,7 +71,7 @@ public class SiteActivity extends ActionBarActivityBase implements IViewPagerVie
         if (id == R.id.menu_site_edit) {
 
             bundle = new Bundle();
-            bundle.putSerializable(BUNDLE_SITE, _site);
+            bundle.putSerializable(SiteNewActivity.SITE_BUNDLE, _site);
 
             intent = new Intent(this, SiteNewActivity.class);
             intent.putExtras(bundle);

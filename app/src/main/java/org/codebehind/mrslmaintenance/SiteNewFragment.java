@@ -94,26 +94,6 @@ public class SiteNewFragment extends Fragment implements IEditTextViewModelDeleg
 
     private void setEvents() {
 
-        _equipmentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Equipment equipment;
-                Bundle bundle;
-                Intent intent;
-
-                equipment=(Equipment)parent.getItemAtPosition(position);
-
-                Log.d(LOG_TAG, "Equipment with id="+equipment.getId()+" selected.");
-
-                bundle=new Bundle();
-                bundle.putSerializable(SITE_NEW_FRAGMENT_BUNDLE, equipment);
-                intent=new Intent(getActivity(), EquipmentActivity.class);
-                intent.putExtras(bundle);
-
-                startActivity(intent);
-            }
-        });
     }
 
     @Override

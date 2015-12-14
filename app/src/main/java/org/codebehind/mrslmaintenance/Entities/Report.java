@@ -12,18 +12,18 @@ public class Report implements Serializable {
     private int _id, _siteId;;
     private UUID _uuid;
     private String _siteName, _engineerName;
-    private ArrayList<Equipment> _equipmentList;
+    private ArrayList<SiteEquipment> _siteEquipmentList;
     private Date _reportDate;
     private Boolean _deleted;
 
-    public Report(int siteId, String engineerName, ArrayList<Equipment> equipmentList, Date reportDate) {
-        this(-1, siteId, engineerName, equipmentList, reportDate);
+    public Report(int siteId, String engineerName, ArrayList<SiteEquipment> siteEquipmentList, Date reportDate) {
+        this(-1, siteId, engineerName, siteEquipmentList, reportDate);
     }
-    public Report(int id, int siteId, String engineerName, ArrayList<Equipment> equipmentList, Date reportDate){
+    public Report(int id, int siteId, String engineerName, ArrayList<SiteEquipment> siteEquipmentList, Date reportDate){
         setId(id);
         setSiteId(siteId);
         setEngineerName(engineerName);
-        setEquipmentList(equipmentList);
+        setSiteEquipmentList(siteEquipmentList);
         setReportDate(reportDate);
         setDeleted(false); //Explicitly set deleted if need for an update etc
     }
@@ -56,11 +56,12 @@ public class Report implements Serializable {
         this._engineerName = _engineerName;
     }
 
-    public ArrayList<Equipment> getEquipmentList() {
-        return _equipmentList;
+    public ArrayList<SiteEquipment> getSiteEquipmentList() {
+        return _siteEquipmentList;
     }
-    public void setEquipmentList(ArrayList<Equipment> _equipmentList) {
-        this._equipmentList = _equipmentList;
+
+    public void setSiteEquipmentList(ArrayList<SiteEquipment> siteEquipmentList) {
+        _siteEquipmentList = siteEquipmentList;
     }
 
     public Date getReportDate() {
