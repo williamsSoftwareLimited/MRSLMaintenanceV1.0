@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.codebehind.mrslmaintenance.Adapters.Abstract.ASpinnerAdapter;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.R;
 
@@ -15,14 +16,11 @@ import java.util.ArrayList;
 /**
  * Created by root on 25/10/15.
  */
-public class EquipmentAdapter extends ArrayAdapter<Equipment> {
+public class EquipmentAdapter extends ASpinnerAdapter<Equipment> {
 
-    private Activity _activity;
 
     public EquipmentAdapter(ArrayList<Equipment> equips, Activity activity) {
         super(activity, android.R.layout.simple_list_item_1, equips);
-
-        _activity=activity;
     }
 
     @Override
@@ -33,8 +31,7 @@ public class EquipmentAdapter extends ArrayAdapter<Equipment> {
 
         if (null == convertView) {
 
-            convertView = _activity.getLayoutInflater()
-                    .inflate(R.layout.equipment_list_listitem, null);
+            convertView = _activity.getLayoutInflater().inflate(R.layout.equipment_list_listitem, null);
         }
 
         equip = getItem(position);

@@ -1,5 +1,6 @@
 package org.codebehind.mrslmaintenance.Entities;
 
+import org.codebehind.mrslmaintenance.Entities.Abstract.AEntity;
 import org.codebehind.mrslmaintenance.Models.ParameterModel;
 
 import java.io.Serializable;
@@ -9,8 +10,7 @@ import java.util.UUID;
 /**
  * Created by Gavin on 23/12/2014.
  */
-public class Equipment implements Serializable, Comparable<Equipment>{
-    private int _id;
+public class Equipment extends AEntity implements Serializable, Comparable<Equipment>{
     private String _equipmentName;
     private int _imageId;
     private byte[] _image;
@@ -29,14 +29,6 @@ public class Equipment implements Serializable, Comparable<Equipment>{
         setId(id);
         setEquipmentName(equipmentName);
         setImgId(imageId);
-    }
-
-    public int getId() {
-        return _id;
-    }
-
-    public void setId(int _id) {
-        this._id = _id;
     }
 
     public String getEquipmentName() {

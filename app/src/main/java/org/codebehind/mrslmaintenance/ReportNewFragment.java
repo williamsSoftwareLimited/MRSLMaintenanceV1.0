@@ -22,7 +22,7 @@ import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.ISpinnerViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
-import org.codebehind.mrslmaintenance.ViewModels.SiteSpinnerViewModel;
+import org.codebehind.mrslmaintenance.ViewModels.SpinnerViewModel;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -36,7 +36,7 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
                                SITE_EQUIPMENT_BUNDLE="REPORT_NEW_FRAGMENT_SITE_EQUIPMENT_BUNDLE";
     private static final String REPORT_ARGS = "REPORT_NEW_FRAGMENT_REPORT_ARGS",
                                 LOG_TAG="ReportNewFragment";
-    private SiteSpinnerViewModel _siteSpinnerVm;
+    private SpinnerViewModel<Site> _siteSpinnerVm;
     private EditTextViewModel _dateEditTextVm, _engineerNameTextViewVm;
     private ListView _equipmentListView;
     private SiteEquipmentAdapter _siteEquipmentAdapter;
@@ -76,7 +76,7 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
         siteDbModel=new SiteDbModel(getActivity());
         siteAdapter=new SiteAdapter(siteDbModel.getList(), getActivity());
 
-        _siteSpinnerVm=(new SiteSpinnerViewModel((Spinner)rootView.findViewById(R.id.report_new_spinner), siteAdapter, this));
+        _siteSpinnerVm=(new SpinnerViewModel((Spinner)rootView.findViewById(R.id.report_new_spinner), siteAdapter, this));
         _dateEditTextVm = new EditTextViewModel((EditText)rootView.findViewById(R.id.report_new_date), this);
         _engineerNameTextViewVm=new EditTextViewModel((EditText)rootView.findViewById(R.id.report_engineer_name), this);
         _equipmentListView=(ListView)rootView.findViewById(R.id.report_new_equipment_ListView);
@@ -85,7 +85,7 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
     private void setAttributes(){
 
         _engineerNameTextViewVm.setText(_report.getEngineerName());
-        _siteSpinnerVm.setSiteId(_report.getSiteId());
+        _siteSpinnerVm.setId(_report.getSiteId());
         _dateEditTextVm.setText(DateFormat.getDateTimeInstance().format(new Date()));
     }
 
@@ -116,7 +116,7 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
         });
     }
 
-    // This is the delegate called from the SiteSpinnerViewModel
+    // This is the delegate called from the SpinnerViewModel
     @Override
     public void itemSelected(int pos) {
         SiteEquipmentDbModel siteEquipmentDbModel;

@@ -1,12 +1,14 @@
 package org.codebehind.mrslmaintenance.Entities;
 
+import org.codebehind.mrslmaintenance.Entities.Abstract.AEntity;
+
 import java.io.Serializable;
 
 /**
  * Created by Gavin on 09/02/2015.
  */
-public class Parameter implements Serializable {
-    private int _id, _parameterTypeId;
+public class Parameter extends AEntity implements Serializable {
+    private int _parameterTypeId;
     private String _name, _units;
 
     private String _newValue; // outlier this is for the ReportEquipmentParameter table and it's for the UI - EquipmentNewFragment
@@ -20,14 +22,6 @@ public class Parameter implements Serializable {
         setName(name);
         setUnits(units);
         setParameterTypeId(parameterTypeId);
-    }
-
-    public int getId() {
-        return _id;
-    }
-
-    public void setId(int id) {
-        _id = id;
     }
 
     public String getName() {

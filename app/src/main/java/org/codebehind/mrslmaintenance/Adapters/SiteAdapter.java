@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import org.codebehind.mrslmaintenance.Adapters.Abstract.ASpinnerAdapter;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.R;
 
@@ -15,30 +16,10 @@ import java.util.ArrayList;
 /**
  * Created by root on 26/11/15.
  */
-public class SiteAdapter extends ArrayAdapter<Site> implements SpinnerAdapter {
-
-    private Activity _activity;
-    private ArrayList<Site> _siteList;
-
-    public ArrayList<Site> getSiteList(){
-        return _siteList;
-    }
+public class SiteAdapter extends ASpinnerAdapter<Site> {
 
     public SiteAdapter(ArrayList<Site> siteList, Activity activity) {
         super(activity, R.layout.spinner_parameters, siteList);
-
-        _siteList=siteList;
-        _activity=activity;
-    }
-
-    @Override
-    public View getDropDownView(int position, View cnvtView, ViewGroup prnt) {
-        return getView(position, cnvtView, prnt);
-    }
-
-    @Override
-    public int getCount() {
-        return _siteList.size();
     }
 
     @Override
@@ -47,13 +28,14 @@ public class SiteAdapter extends ArrayAdapter<Site> implements SpinnerAdapter {
         TextView nameTextView, idTextView;
         View row;
 
-        row=_activity.getLayoutInflater().inflate(R.layout.spinner_parameters, null);
+        row = _activity.getLayoutInflater().inflate(R.layout.spinner_parameters, null);
         site = getItem(position);
-        nameTextView=(TextView)row.findViewById(R.id.spinner_parameters_name);
+        nameTextView = (TextView) row.findViewById(R.id.spinner_parameters_name);
         nameTextView.setText(site.getName());
-        idTextView=(TextView)row.findViewById(R.id.spinner_parameters_id);
-        idTextView.setText(""+site.getId());
+        idTextView = (TextView) row.findViewById(R.id.spinner_parameters_id);
+        idTextView.setText("" + site.getId());
 
         return row;
     }
+
 }

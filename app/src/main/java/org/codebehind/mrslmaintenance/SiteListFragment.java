@@ -21,7 +21,7 @@ public class SiteListFragment extends Fragment {
     private static final String LOG_TAG="SiteListFragment";
     private ListView _siteListView;
     private SiteAdapter _siteAdapter;
-    public static final String BUNDLE_SITE="org.Codebehind.SiteListFragment_Site_Bundle";
+    public static final String BUNDLE_SITE="SITELISTFRAGMENT_SITE_BUNDLE";
 
     public SiteListFragment() {}
 
@@ -76,4 +76,5 @@ public class SiteListFragment extends Fragment {
             }
         });
     }
+
 }

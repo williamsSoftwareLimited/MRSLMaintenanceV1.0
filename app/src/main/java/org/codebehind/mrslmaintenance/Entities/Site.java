@@ -2,17 +2,18 @@ package org.codebehind.mrslmaintenance.Entities;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import org.codebehind.mrslmaintenance.Entities.Abstract.AEntity;
+
 import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Created by Gavin on 23/12/2014.
  */
-public class Site implements Serializable{
+public class Site extends AEntity implements Serializable{
 
     UUID _idOLD; // this has to be deleted
 
-    private int _id;
     private String _name;
     private String _system;
     private String _address;
@@ -33,12 +34,6 @@ public class Site implements Serializable{
         setAddress(address);
     }
 
-    public int getId() {
-        return _id;
-    }
-    public void setId(int _id) {
-        this._id = _id;
-    }
     public UUID getUUID() {
         return _idOLD;
     }
