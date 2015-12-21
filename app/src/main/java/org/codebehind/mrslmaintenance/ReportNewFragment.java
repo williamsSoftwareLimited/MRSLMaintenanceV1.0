@@ -3,6 +3,7 @@ package org.codebehind.mrslmaintenance;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,16 +34,13 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
 
     public static final String REPORT_BUNDLE="REPORT_NEW_FRAGMENT_REPORT_BUNDLE",
                                SITE_EQUIPMENT_BUNDLE="REPORT_NEW_FRAGMENT_SITE_EQUIPMENT_BUNDLE";
-    private static final String REPORT_ARGS = "REPORT_NEW_FRAGMENT_REPORT_ARGS";
+    private static final String REPORT_ARGS = "REPORT_NEW_FRAGMENT_REPORT_ARGS",
+                                LOG_TAG="ReportNewFragment";
     private SiteSpinnerViewModel _siteSpinnerVm;
     private EditTextViewModel _dateEditTextVm, _engineerNameTextViewVm;
     private ListView _equipmentListView;
     private SiteEquipmentAdapter _siteEquipmentAdapter;
     private Report _report;
-
-    public void setSiteSpinnerVmEnabled(boolean b){
-        _siteSpinnerVm.setEnabled(b);
-    }
 
     public static ReportNewFragment newInstance(Report report){
         Bundle bundle;
@@ -86,8 +84,7 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
 
     private void setAttributes(){
 
-        setReport(1);
-
+        _engineerNameTextViewVm.setText(_report.getEngineerName());
         _siteSpinnerVm.setSiteId(_report.getSiteId());
         _dateEditTextVm.setText(DateFormat.getDateTimeInstance().format(new Date()));
     }
@@ -106,47 +103,58 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
 
                 bundle=new Bundle();
                 bundle.putSerializable(SITE_EQUIPMENT_BUNDLE, siteEquipment);
+
+
+                if (_report.getId()<0) _report.setId(-2);
                 bundle.putSerializable(REPORT_BUNDLE, _report);
 
                 intent = new Intent(getActivity(), ReportNewEquipmentActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
     }
 
-    // The siteId needs to be an integer the check will be here but nothing will happen if it isn't
-    private void setReport(int siteId){
+    // This is the delegate called from the SiteSpinnerViewModel
+    @Override
+    public void itemSelected(int pos) {
         SiteEquipmentDbModel siteEquipmentDbModel;
+        Site site;
+        int siteId;
+
+        // invariant 0<=pos<siteEquip.Count
+        if (pos<0) Log.wtf(LOG_TAG, "itemSelected: Invariant 0<=pos<siteEquip.Count violation.");
 
         siteEquipmentDbModel=new SiteEquipmentDbModel(getActivity());
 
-        if (_report.getId()==-1) {
+        site = _siteSpinnerVm.getSpinnerAdapter().getItem(pos);
+        siteId = site.getId();
 
-            setSiteSpinnerVmEnabled(true);
+        if (_report.getId()==-2){
+
+            _siteSpinnerVm.setEnabled(false);
+
+        } else if (_report.getId()==-1) {
+
+            _siteSpinnerVm.setEnabled(true);
 
             _report.setSiteEquipmentList(siteEquipmentDbModel.getSiteEquipments(siteId));
 
+            _report.setSiteId(siteId);
+
         } else {
             // this report already exists switch off the spinner
-            setSiteSpinnerVmEnabled(false);
+            _siteSpinnerVm.setEnabled(false);
 
             if (_report.getSiteEquipmentList()==null)
-                _report.setSiteEquipmentList(siteEquipmentDbModel.getSiteEquipmentListForReport(_report.getId()));
+                _report.setSiteEquipmentList(siteEquipmentDbModel.getSiteEquipmentListForReport(_report.getId(), _report.getSiteId()));
 
             _engineerNameTextViewVm.setText(_report.getEngineerName());
         }
 
         _siteEquipmentAdapter = new SiteEquipmentAdapter(_report.getSiteEquipmentList(), getActivity());
         _equipmentListView.setAdapter(_siteEquipmentAdapter);
-    }
-
-    // This is the delegate called from the SiteSpinnerViewModel
-    @Override
-    public void itemSelected(int position) {
-
-        Site site = _siteSpinnerVm.getSpinnerAdapter().getItem(position);
-        setReport(site.getId());
     }
 
     @Override

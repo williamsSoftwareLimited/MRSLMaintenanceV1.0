@@ -11,6 +11,7 @@ import android.widget.Toast;
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
+import org.codebehind.mrslmaintenance.Models.ReportEquipParamsDbModel;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IViewPagerViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.ViewPagerViewModel;
 
@@ -32,7 +33,7 @@ public class ReportActivity  extends ActionBarActivityBase implements IViewPager
 
         if (savedInstanceState != null) return; // if ths has been created before then don't recreate
 
-        _reportDbmodel = new ReportDbModel(this);
+        _reportDbmodel = new ReportDbModel(this, new ReportEquipParamsDbModel(this));
         reportId=getIntent().getIntExtra(StaticConstants.EXTRA_REPORT_ID, -1);
         _report=_reportDbmodel.getReport(reportId);
         _reports = _reportDbmodel.getAll();
@@ -69,7 +70,7 @@ public class ReportActivity  extends ActionBarActivityBase implements IViewPager
                 Toast.makeText(this, "Report " + _report.getId() + " to be edited.", Toast.LENGTH_SHORT).show();
 
                 bundle = new Bundle();
-                bundle.putSerializable(ReportNewActivity.REPORT_NEW_ACTIVITY_BUNDLE, _report);
+                bundle.putSerializable(ReportNewActivity.REPORT_BUNDLE, _report);
 
                 intent=new Intent(this, ReportNewActivity.class);
                 intent.putExtras(bundle);

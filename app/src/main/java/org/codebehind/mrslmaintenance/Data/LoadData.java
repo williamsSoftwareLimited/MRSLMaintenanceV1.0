@@ -8,7 +8,7 @@ import org.codebehind.mrslmaintenance.Entities.EquipmentParameters;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.ParameterType;
 import org.codebehind.mrslmaintenance.Entities.Report;
-import org.codebehind.mrslmaintenance.Entities.ReportEquipmentParameters;
+import org.codebehind.mrslmaintenance.Entities.ReportEquipParams;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
@@ -16,7 +16,7 @@ import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterTypeDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
-import org.codebehind.mrslmaintenance.Models.ReportEquipmentParametersDbModel;
+import org.codebehind.mrslmaintenance.Models.ReportEquipParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 import org.codebehind.mrslmaintenance.Singletons.ParameterTypesSingleton;
@@ -70,7 +70,7 @@ public class LoadData {
 
     public void populateReportData(Context c) {
 
-        ReportDbModel mod = new ReportDbModel(c);
+        ReportDbModel mod = new ReportDbModel(c, new ReportEquipParamsDbModel(c));
         if (mod.getCount()>0) return;
 
         Report rep = new Report(1, "He Man", null, null);
@@ -300,58 +300,58 @@ public class LoadData {
     }
 
     private void populateReportParametersData(Context context){
-        ReportEquipmentParametersDbModel reportEquipmentParametersDbModel = new ReportEquipmentParametersDbModel(context);
-        ReportEquipmentParameters reportEquipmentParameters;
+        ReportEquipParamsDbModel reportEquipParamsDbModel = new ReportEquipParamsDbModel(context);
+        ReportEquipParams reportEquipParams;
 
-        if (reportEquipmentParametersDbModel.getCount()>0) return;
+        if (reportEquipParamsDbModel.getCount()>0) return;
 
-        reportEquipmentParameters = new ReportEquipmentParameters(1, 1, 1, "111");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
-        reportEquipmentParameters = new ReportEquipmentParameters(1, 1, 2, "112");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
-        reportEquipmentParameters = new ReportEquipmentParameters(1, 1, 5, "115");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipParams = new ReportEquipParams(1, 1, 1, "111");
+        reportEquipParamsDbModel.add(reportEquipParams);
+        reportEquipParams = new ReportEquipParams(1, 1, 2, "112");
+        reportEquipParamsDbModel.add(reportEquipParams);
+        reportEquipParams = new ReportEquipParams(1, 1, 5, "115");
+        reportEquipParamsDbModel.add(reportEquipParams);
 
-        reportEquipmentParameters = new ReportEquipmentParameters(1, 2, 1, "121");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
-        reportEquipmentParameters = new ReportEquipmentParameters(1, 2, 3, "123");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
-        reportEquipmentParameters = new ReportEquipmentParameters(1, 2, 5, "125");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipParams = new ReportEquipParams(1, 2, 1, "121");
+        reportEquipParamsDbModel.add(reportEquipParams);
+        reportEquipParams = new ReportEquipParams(1, 2, 3, "123");
+        reportEquipParamsDbModel.add(reportEquipParams);
+        reportEquipParams = new ReportEquipParams(1, 2, 5, "125");
+        reportEquipParamsDbModel.add(reportEquipParams);
 
-        reportEquipmentParameters = new ReportEquipmentParameters(2, 1, 1, "211");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
-        reportEquipmentParameters = new ReportEquipmentParameters(2, 1, 2, "212");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
-        reportEquipmentParameters = new ReportEquipmentParameters(2, 1, 5, "215");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipParams = new ReportEquipParams(2, 1, 1, "211");
+        reportEquipParamsDbModel.add(reportEquipParams);
+        reportEquipParams = new ReportEquipParams(2, 1, 2, "212");
+        reportEquipParamsDbModel.add(reportEquipParams);
+        reportEquipParams = new ReportEquipParams(2, 1, 5, "215");
+        reportEquipParamsDbModel.add(reportEquipParams);
 
-        reportEquipmentParameters = new ReportEquipmentParameters(2, 2, 1, "221");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
-        reportEquipmentParameters = new ReportEquipmentParameters(2, 2, 3, "223");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
-        reportEquipmentParameters = new ReportEquipmentParameters(2, 2, 5, "225");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipParams = new ReportEquipParams(2, 2, 1, "221");
+        reportEquipParamsDbModel.add(reportEquipParams);
+        reportEquipParams = new ReportEquipParams(2, 2, 3, "223");
+        reportEquipParamsDbModel.add(reportEquipParams);
+        reportEquipParams = new ReportEquipParams(2, 2, 5, "225");
+        reportEquipParamsDbModel.add(reportEquipParams);
 
-        reportEquipmentParameters = new ReportEquipmentParameters(3, 3, 1, "331");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
-        reportEquipmentParameters = new ReportEquipmentParameters(3, 3, 5, "335");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipParams = new ReportEquipParams(3, 3, 1, "331");
+        reportEquipParamsDbModel.add(reportEquipParams);
+        reportEquipParams = new ReportEquipParams(3, 3, 5, "335");
+        reportEquipParamsDbModel.add(reportEquipParams);
 
-        reportEquipmentParameters = new ReportEquipmentParameters(3, 4, 5, "345");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipParams = new ReportEquipParams(3, 4, 5, "345");
+        reportEquipParamsDbModel.add(reportEquipParams);
 
-        reportEquipmentParameters = new ReportEquipmentParameters(3, 5, 1, "351");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
-        reportEquipmentParameters = new ReportEquipmentParameters(3, 5, 2, "352");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
-        reportEquipmentParameters = new ReportEquipmentParameters(3, 5, 5, "355");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipParams = new ReportEquipParams(3, 5, 1, "351");
+        reportEquipParamsDbModel.add(reportEquipParams);
+        reportEquipParams = new ReportEquipParams(3, 5, 2, "352");
+        reportEquipParamsDbModel.add(reportEquipParams);
+        reportEquipParams = new ReportEquipParams(3, 5, 5, "355");
+        reportEquipParamsDbModel.add(reportEquipParams);
 
-        reportEquipmentParameters = new ReportEquipmentParameters(4, 6, 1, "461");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
-        reportEquipmentParameters = new ReportEquipmentParameters(4, 6, 2, "462");
-        reportEquipmentParametersDbModel.add(reportEquipmentParameters);
+        reportEquipParams = new ReportEquipParams(4, 6, 1, "461");
+        reportEquipParamsDbModel.add(reportEquipParams);
+        reportEquipParams = new ReportEquipParams(4, 6, 2, "462");
+        reportEquipParamsDbModel.add(reportEquipParams);
 
     }
 }

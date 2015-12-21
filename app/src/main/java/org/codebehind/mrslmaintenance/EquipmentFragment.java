@@ -15,7 +15,7 @@ import android.widget.TextView;
 import org.codebehind.mrslmaintenance.Adapters.ReportEquipmentParamsAdapter;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
-import org.codebehind.mrslmaintenance.Models.ReportEquipmentParametersDbModel;
+import org.codebehind.mrslmaintenance.Models.ReportEquipParamsDbModel;
 
 /**
  * Created by Gavin on 05/01/2015.
@@ -29,10 +29,10 @@ public class EquipmentFragment extends Fragment {
     TextView _nameView;
     ImageButton _imageButton;
     ListView _parameterListView;
-    ReportEquipmentParametersDbModel _reportEquipmentParametersDbModel;
+    ReportEquipParamsDbModel _reportEquipParamsDbModel;
 
     public EquipmentFragment() {
-        _reportEquipmentParametersDbModel = new ReportEquipmentParametersDbModel(getActivity());
+        _reportEquipParamsDbModel = new ReportEquipParamsDbModel(getActivity());
     }
     public static EquipmentFragment newInstance(Report report, Equipment equipment){
         Bundle args = new Bundle();
@@ -70,7 +70,7 @@ public class EquipmentFragment extends Fragment {
     private void setAttributes(){
 
         _nameView.setText(_equipment.getEquipmentName());
-        _parameterListView.setAdapter(new ReportEquipmentParamsAdapter(_reportEquipmentParametersDbModel.getReportEquipmentParameters(_report.getId(), _equipment.getId()), getActivity()));
+        _parameterListView.setAdapter(new ReportEquipmentParamsAdapter(_reportEquipParamsDbModel.getReportEquipmentParameters(_report.getId(), _equipment.getId()), getActivity()));
     }
 
     private void setEvents(){

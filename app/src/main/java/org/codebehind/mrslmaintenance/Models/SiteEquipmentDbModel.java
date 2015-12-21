@@ -3,7 +3,6 @@ package org.codebehind.mrslmaintenance.Models;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
@@ -56,10 +55,16 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
 
     public ArrayList<SiteEquipment> getSiteEquipments(int siteId) {
         ArrayList<SiteEquipment> siteEquipmentList;
+        ArrayList<Parameter> parameters;
         SiteEquipment siteEquipment;
         Equipment equipment;
 
+        ParameterDbModel parameterDbModel;
+
         siteEquipmentList = new ArrayList<>();
+
+        parameterDbModel=new ParameterDbModel(_context);
+        parameters=new ArrayList<>();
 
         String query = "select "
                 +"se."+FIELDS[ID]+", "
@@ -81,6 +86,10 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
 
             siteEquipment=new SiteEquipment(c.getInt(ID), c.getInt(SITE_ID), c.getInt(EQUIPMENT_ID), c.getString(NAME));
             equipment=new Equipment(c.getInt(EQUIPMENT_ID), c.getString(EQUIPMENT_NAME), c.getInt(EQUIPMENT_IMAGE_ID));
+
+            parameters=parameterDbModel.getNewParameters(equipment.getId()); // this is a bit of a cheat and so much can go wrong!
+            equipment.setParameterList(parameters);
+
             siteEquipment.setEquipment(equipment);
 
             siteEquipmentList.add(siteEquipment);
@@ -91,7 +100,7 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
         return siteEquipmentList;
     }
 
-    public ArrayList<SiteEquipment>getSiteEquipmentListForReport(int reportId){
+    public ArrayList<SiteEquipment>getSiteEquipmentListForReport(int reportId, int siteId){
         ArrayList<SiteEquipment> siteEquipmentList;
         SiteEquipment siteEquipment;
         Equipment equipment;
@@ -108,16 +117,17 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
                 +"se."+FIELDS[DELETED]+", "
                 +"e."+EquipmentDbModel.FIELDS[EquipmentDbModel.NAME]+", "
                 +"e."+EquipmentDbModel.FIELDS[EquipmentDbModel.IMAGE_ID]+", "
-                +"rep."+ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.PARAMETER_ID]+", "
+                +"rep."+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.PARAMETER_ID]+", "
                 +"p."+ParameterDbModel.FIELDS[ParameterDbModel.NAME]+", "
                 +"p."+ParameterDbModel.FIELDS[ParameterDbModel.UNITS]+", "
                 +"p."+ParameterDbModel.FIELDS[ParameterDbModel.PARAMETER_TYPE_ID]+", "
-                +"rep."+ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.VALUE]+" "
+                +"rep."+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.VALUE]+" "
                 +" from " + TABLE + " se "
                 +" join " + EquipmentDbModel.TABLE+" e on se."+FIELDS[EQUIPMENT_ID]+"= e."+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]
-                +" join " + ReportEquipmentParametersDbModel.TABLE + " rep on e."+FIELDS[ID]+" = rep."+ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.EQUIPMENT_ID]
-                +" join " + ParameterDbModel.TABLE + " p on rep."+ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.PARAMETER_ID]+" = p."+ParameterDbModel.FIELDS[ParameterDbModel.ID]
-                +" where rep."+ReportEquipmentParametersDbModel.FIELDS[ReportEquipmentParametersDbModel.REPORT_ID]+"="+reportId;
+                +" join " + ReportEquipParamsDbModel.TABLE + " rep on e."+FIELDS[ID]+" = rep."+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.EQUIPMENT_ID]
+                +" join " + ParameterDbModel.TABLE + " p on rep."+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.PARAMETER_ID]+" = p."+ParameterDbModel.FIELDS[ParameterDbModel.ID]
+                +" where rep."+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.REPORT_ID]+"="+reportId
+                +" and se."+FIELDS[SITE_ID]+"="+siteId;
 
         Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
         c.moveToFirst();

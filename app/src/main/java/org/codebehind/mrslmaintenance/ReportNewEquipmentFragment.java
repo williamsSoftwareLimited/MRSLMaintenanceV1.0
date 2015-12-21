@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.Adapters.ParameterAdapter;
+import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.ViewModels.TextViewViewModel;
 
@@ -19,20 +20,20 @@ import org.codebehind.mrslmaintenance.ViewModels.TextViewViewModel;
  */
 public class ReportNewEquipmentFragment extends Fragment {
 
-    private static final String REPORT_NEW_EQUIPMENT_FRAGMENT_BUNDLE="REPORT_NEW_EQUIPMENT_FRAGMENT_BUNDLE";
+    private static final String SITE_EQUIPMENT_ARG="REPORT_NEW_EQUIPMENT_SITE_EQUIPMENT_ARG";
     private SiteEquipment _siteEquipment;
     private TextViewViewModel _equipmentNameTextView, _equipmentIdTextView;
     private ListView _parametersListView;
 
     public static ReportNewEquipmentFragment newInstance(SiteEquipment siteEquipment){
-        Bundle args;
+        Bundle bundle;
         ReportNewEquipmentFragment reportNewEquipmentFragment;
 
-        args = new Bundle();
-        args.putSerializable(REPORT_NEW_EQUIPMENT_FRAGMENT_BUNDLE, siteEquipment);
+        bundle = new Bundle();
+        bundle.putSerializable(SITE_EQUIPMENT_ARG, siteEquipment);
 
         reportNewEquipmentFragment = new ReportNewEquipmentFragment();
-        reportNewEquipmentFragment.setArguments(args);
+        reportNewEquipmentFragment.setArguments(bundle);
         return reportNewEquipmentFragment;
     }
 
@@ -42,7 +43,7 @@ public class ReportNewEquipmentFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_report_new_equipment, container, false);
 
-        _siteEquipment = (SiteEquipment)getArguments().getSerializable(REPORT_NEW_EQUIPMENT_FRAGMENT_BUNDLE);
+        _siteEquipment = (SiteEquipment)getArguments().getSerializable(SITE_EQUIPMENT_ARG);
 
         setControls(rootView);
         setText();

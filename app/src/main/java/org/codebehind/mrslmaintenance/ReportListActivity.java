@@ -53,7 +53,7 @@ public class ReportListActivity extends ActionBarActivityBase {
                 i = new Intent(this,ReportNewActivity.class);
 
                 bundle=new Bundle();
-                bundle.putSerializable(ReportNewActivity.REPORT_NEW_ACTIVITY_BUNDLE, new Report(-1, "", null, null));
+                bundle.putSerializable(ReportNewActivity.REPORT_BUNDLE, new Report(-1, "", null, null));
 
                 i.putExtras(bundle);
                 startActivity(i);

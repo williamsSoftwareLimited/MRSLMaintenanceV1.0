@@ -13,6 +13,7 @@ import android.widget.ListView;
 import org.codebehind.mrslmaintenance.Adapters.ReportAdapter;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
+import org.codebehind.mrslmaintenance.Models.ReportEquipParamsDbModel;
 
 /**
  * Created by root on 05/11/15.
@@ -24,7 +25,7 @@ public class ReportListFragment extends Fragment {
     private ReportDbModel _reportModel;
 
     public ReportListFragment() {
-        _reportModel = new ReportDbModel(getActivity());
+        _reportModel = new ReportDbModel(getActivity(), new ReportEquipParamsDbModel(getActivity()));
     }
 
     @Override

@@ -1,8 +1,8 @@
 package org.codebehind.mrslmaintenance;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +22,6 @@ public class ReportNewEquipmentActivity extends ActionBarActivityBase implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FragmentManager fragmentManager;
         Bundle bundle;
 
         super.onCreate(savedInstanceState);
@@ -39,7 +38,7 @@ public class ReportNewEquipmentActivity extends ActionBarActivityBase implements
 
         for (int i = 0; i < _report.getSiteEquipmentList().size(); i++) {
 
-            if (_report.getSiteEquipmentList().get(i).getEquipmentId() == _siteEquipment.getId()) {
+            if (_report.getSiteEquipmentList().get(i).getId() == _siteEquipment.getId()) {
 
                 _viewPagerVm.setCurrentItem(i);
                 break;
@@ -58,12 +57,22 @@ public class ReportNewEquipmentActivity extends ActionBarActivityBase implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id;
+        Intent intent;
+        Bundle bundle;
 
         id = item.getItemId();
 
         switch(id) {
 
             case R.id.menu_new_equipment_return:
+
+                intent=new Intent(this, ReportNewActivity.class);
+                bundle=new Bundle();
+
+                bundle.putSerializable(ReportNewActivity.REPORT_BUNDLE, _report);
+
+                intent.putExtras(bundle);
+                startActivity(intent);
 
                 finish();
                 return true;

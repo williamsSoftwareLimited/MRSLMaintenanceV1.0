@@ -3,7 +3,7 @@ package org.codebehind.mrslmaintenance.Entities;
 /**
  * Created by Gavin on 29/01/2015.
  */
-public class ReportEquipmentParameters {
+public class ReportEquipParams {
     private int _id;
     private int _reportId;
     private int _parameterId;
@@ -11,15 +11,15 @@ public class ReportEquipmentParameters {
     private String _value; // the Value can be string, integer, boolean etc
     private Parameter _parameter;
 
-    public ReportEquipmentParameters(int reportId, int equipmentId, int parameterId, String value){
+    public ReportEquipParams(int reportId, int equipmentId, int parameterId, String value){
         this(-1, reportId, parameterId, equipmentId, value);
     }
 
-    public ReportEquipmentParameters(int id, int reportId, int equipmentId, int parameterId, String value){
+    public ReportEquipParams(int id, int reportId, int equipmentId, int parameterId, String value){
         this(-1, reportId, parameterId, equipmentId, value, null);
     }
 
-    public ReportEquipmentParameters(int id, int reportId, int equipmentId, int parameterId, String value, Parameter parameter){
+    public ReportEquipParams(int id, int reportId, int equipmentId, int parameterId, String value, Parameter parameter){
         setId(id);
         setReportId(reportId);
         setParameterId(parameterId);

@@ -14,6 +14,7 @@ import org.codebehind.mrslmaintenance.Adapters.SiteEquipmentAdapter;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
+import org.codebehind.mrslmaintenance.Models.ReportEquipParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.DateEditTextViewModel;
@@ -50,7 +51,7 @@ public class ReportFragment extends Fragment implements IEditTextViewModelDelega
 
     public ReportFragment() {
 
-        _reportModel=new ReportDbModel(getActivity());
+        _reportModel=new ReportDbModel(getActivity(), new ReportEquipParamsDbModel(getActivity()));
         _siteEquipmentModel=new SiteEquipmentDbModel(getActivity());
     }
 

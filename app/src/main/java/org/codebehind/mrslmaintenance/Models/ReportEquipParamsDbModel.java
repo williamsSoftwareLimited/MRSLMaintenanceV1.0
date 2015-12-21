@@ -6,8 +6,9 @@ import android.database.Cursor;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
-import org.codebehind.mrslmaintenance.Entities.ReportEquipmentParameters;
+import org.codebehind.mrslmaintenance.Entities.ReportEquipParams;
 import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
+import org.codebehind.mrslmaintenance.Models.Abstract.IReportEquipParamsModel;
 import org.codebehind.mrslmaintenance.StaticConstants;
 
 import java.util.ArrayList;
@@ -16,54 +17,54 @@ import java.util.Date;
 /**
  * Created by root on 11/11/15.
  */
-public class ReportEquipmentParametersDbModel extends DbAbstractModelBase {
+public class ReportEquipParamsDbModel extends DbAbstractModelBase implements IReportEquipParamsModel {
 
-    public static final String TABLE="ReportEquipmentParameters";
+    public static final String TABLE="ReportEquipParams";
     public static final String[] FIELDS =  new String[]{"_id", "ReportId", "EquipmentId", "ParameterId", "Value", "Timestamp", "Deleted"};
     public static final int ID=0, REPORT_ID=1, EQUIPMENT_ID=2, PARAMETER_ID=3, VALUE=4, TIMESTAMP=5, DELETED=6;
     private static final int PARAMETER_NAME=7, PARAMETER_TYPE=8, PARAMETER_TYPE_ID=9;
 
-    public ReportEquipmentParametersDbModel(Context context) {
+    public ReportEquipParamsDbModel(Context context) {
         super(context, TABLE);
     }
 
-    public int add(ReportEquipmentParameters reportEquipmentParameters){
+    public int add(ReportEquipParams reportEquipParams){
         ContentValues contentValues;
 
-        if (reportEquipmentParameters==null) return StaticConstants.BAD_DB;
+        if (reportEquipParams ==null) return StaticConstants.BAD_DB;
         contentValues= new ContentValues();
-        contentValues.put(FIELDS[REPORT_ID], reportEquipmentParameters.getReportId());
-        contentValues.put(FIELDS[EQUIPMENT_ID], reportEquipmentParameters.getEquipmentId());
-        contentValues.put(FIELDS[PARAMETER_ID], reportEquipmentParameters.getParameterId());
-        contentValues.put(FIELDS[VALUE], reportEquipmentParameters.getValue());
+        contentValues.put(FIELDS[REPORT_ID], reportEquipParams.getReportId());
+        contentValues.put(FIELDS[EQUIPMENT_ID], reportEquipParams.getEquipmentId());
+        contentValues.put(FIELDS[PARAMETER_ID], reportEquipParams.getParameterId());
+        contentValues.put(FIELDS[VALUE], reportEquipParams.getValue());
         contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
 
         return (int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, contentValues);
     }
 
-    public int update(ReportEquipmentParameters reportEquipmentParameters){
+    public int update(ReportEquipParams reportEquipParams){
         ContentValues contentValues;
         String whereClause;
         int updateCount;
 
-        if (reportEquipmentParameters==null) return StaticConstants.BAD_DB;
-        if (reportEquipmentParameters.getReportId()==-1) return 0;
+        if (reportEquipParams ==null) return StaticConstants.BAD_DB;
+        if (reportEquipParams.getReportId()==-1) return 0;
 
         contentValues= new ContentValues();
-        contentValues.put(FIELDS[VALUE], reportEquipmentParameters.getValue());
+        contentValues.put(FIELDS[VALUE], reportEquipParams.getValue());
         contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
 
-        whereClause=FIELDS[REPORT_ID]+"="+reportEquipmentParameters.getReportId()+" and "
-                +FIELDS[EQUIPMENT_ID]+"="+reportEquipmentParameters.getEquipmentId()+" and "
-                +FIELDS[PARAMETER_ID]+"="+reportEquipmentParameters.getParameterId();
+        whereClause=FIELDS[REPORT_ID]+"="+ reportEquipParams.getReportId()+" and "
+                +FIELDS[EQUIPMENT_ID]+"="+ reportEquipParams.getEquipmentId()+" and "
+                +FIELDS[PARAMETER_ID]+"="+ reportEquipParams.getParameterId();
 
-        updateCount=  DatabaseHelper.getInstance(_context).getWritableDatabase().update(TABLE,contentValues,whereClause,null); // return's number of rows affected
+        updateCount=DatabaseHelper.getInstance(_context).getWritableDatabase().update(TABLE,contentValues,whereClause,null); // return's number of rows affected
 
         return updateCount;
     }
 
-    public ArrayList<ReportEquipmentParameters> getReportEquipmentParameters(int reportId, int equipmentId){
-        ArrayList<ReportEquipmentParameters> list = new ArrayList<>();
+    public ArrayList<ReportEquipParams> getReportEquipmentParameters(int reportId, int equipmentId){
+        ArrayList<ReportEquipParams> list = new ArrayList<>();
 
         String query = "select "
                 +"rep."+FIELDS[ID]+", "
@@ -101,9 +102,9 @@ public class ReportEquipmentParametersDbModel extends DbAbstractModelBase {
             parameter = new Parameter(parameterId, parameterName, parameterType, parameterTypeId);
             parameter.setNewValue(value);
 
-            ReportEquipmentParameters reportEquipmentParameters=new ReportEquipmentParameters(id, reportId2, equipmentId2, parameterId, value, parameter);
+            ReportEquipParams reportEquipParams =new ReportEquipParams(id, reportId2, equipmentId2, parameterId, value, parameter);
 
-            list.add(reportEquipmentParameters);
+            list.add(reportEquipParams);
             cursor.moveToNext();
         }
         return list;
