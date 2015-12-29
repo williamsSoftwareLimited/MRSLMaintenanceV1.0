@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
-import org.codebehind.mrslmaintenance.Adapters.Abstract.ASpinnerAdapter;
+import org.codebehind.mrslmaintenance.Adapters.Abstract.AbstractAdapter;
 import org.codebehind.mrslmaintenance.Entities.Abstract.AEntity;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.ISpinnerViewModelDelegate;
 
@@ -15,10 +15,17 @@ public class SpinnerViewModel<t> {
 
     protected Spinner _spinner;
     protected ISpinnerViewModelDelegate _spinnerViewModelDelegate; // this is used to call the calling classes delegate method
-    protected ASpinnerAdapter<t> _spinnerAdapter;
+    protected AbstractAdapter<t> _spinnerAdapter;
 
-    public ASpinnerAdapter<t> getSpinnerAdapter(){
+    public AbstractAdapter<t> getSpinnerAdapter(){
         return _spinnerAdapter;
+    }
+
+    public t getSelectedItem(){
+        int pos;
+
+        pos=_spinner.getSelectedItemPosition();
+        return _spinnerAdapter.getItem(pos);
     }
 
     public void setId(int id){
@@ -26,6 +33,7 @@ public class SpinnerViewModel<t> {
         AEntity aEntity;
 
         position=0;
+
         for(t entity : _spinnerAdapter.getList()){
 
             aEntity =(AEntity)entity; // uncomfortable cast (Ensure entity has inherited from AEntity)
@@ -33,12 +41,13 @@ public class SpinnerViewModel<t> {
             if (id==aEntity.getId()) break;
             position++;
         }
+
         if (position>=_spinnerAdapter.getList().size()) position=0; // just in-case it's not found
 
         _spinner.setSelection(position);
     }
 
-    public SpinnerViewModel(Spinner spinner, ASpinnerAdapter<t> spinnerAdapter, final ISpinnerViewModelDelegate spinnerViewModelDelegate){
+    public SpinnerViewModel(Spinner spinner, AbstractAdapter<t> spinnerAdapter, final ISpinnerViewModelDelegate spinnerViewModelDelegate){
 
         _spinner=spinner;
 

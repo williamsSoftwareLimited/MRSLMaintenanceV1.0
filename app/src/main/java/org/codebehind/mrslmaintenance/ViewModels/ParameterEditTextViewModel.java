@@ -12,7 +12,6 @@ import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDele
  */
 public class ParameterEditTextViewModel extends EditTextViewModel {
 
-    private static final int MIN_TEXT_LENGTH=2; //the is ems
     private Parameter _parameter;
 
     public void setParameter(Parameter parameter){
@@ -21,12 +20,8 @@ public class ParameterEditTextViewModel extends EditTextViewModel {
 
     public ParameterEditTextViewModel(TextView textViewType, final IEditTextViewModelDelegate editTextViewModelDelegate) {
         super(textViewType, editTextViewModelDelegate);
-        setAttributes();
-        setEvent();
-    }
 
-    private void setAttributes(){
-        _editText.setMinEms(MIN_TEXT_LENGTH);
+        setEvent();
     }
 
     private void setEvent(){

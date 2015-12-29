@@ -8,16 +8,13 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/equipment_list_item_name_textview"/>
+        android:id="@+id/site_equipment_list_item_name_textview"/>
 
-    <!--
-    <ImageView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_action_picture"
         android:padding="5dp"
-        android:id="@+id/equipment_list_item_imagebutton"/>
-    -->
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/site_equipment_list_item_type_textview"/>
 
 </LinearLayout>

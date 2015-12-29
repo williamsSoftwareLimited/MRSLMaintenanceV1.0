@@ -8,28 +8,29 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
+import org.codebehind.mrslmaintenance.Abstract.ISiteActAllowDelete;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
-
-import java.security.PublicKey;
 
 
 /**
  * Created by Gavin on 02/02/2015.
  */
-public class SiteNewActivity extends ActionBarActivityBase {
+public class SiteNewActivity extends ActionBarActivityBase implements ISiteActAllowDelete {
 
+    public static final String SITE_BUNDLE="SITE_NEW_ACTIVITY_BUNDLE";
     private Site _site;
     private static final String SAVED_NOTICE="Site saved to database.",
                                 LOG_TAG="SiteNewActivity",
                                 NEW_SITE="New Site",
-                                EDIT_SITE="Edit Site"        ;
-    public static final String SITE_BUNDLE="SITE_NEW_ACTIVITY_BUNDLE";
+                                EDIT_SITE="Edit Site";
+    private MenuItem _deleteMenuItem;
+    private SiteNewFragment _siteNewFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FragmentTransaction ft;
-        SiteNewFragment siteNewFragment;
         Bundle bundle;
 
         super.onCreate(savedInstanceState);
@@ -55,10 +56,10 @@ public class SiteNewActivity extends ActionBarActivityBase {
 
         ft=getSupportFragmentManager().beginTransaction();
 
-        siteNewFragment=SiteNewFragment.newInstance(_site);
-        siteNewFragment.setFragmentMode(FragmentMode.NEW);
+        _siteNewFragment=SiteNewFragment.newInstance(_site);
+        _siteNewFragment.setFragmentMode(FragmentMode.NEW);
 
-        ft.add(R.id.activity_site_new_container, siteNewFragment);
+        ft.add(R.id.activity_site_new_container, _siteNewFragment);
 
         ft.commit();
     }
@@ -67,6 +68,9 @@ public class SiteNewActivity extends ActionBarActivityBase {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_new_site, menu);
+
+        _deleteMenuItem=menu.findItem(R.id.menu_site_new_delete);
+
         return true;
     }
 
@@ -89,10 +93,25 @@ public class SiteNewActivity extends ActionBarActivityBase {
 
                 Toast.makeText(this, SAVED_NOTICE, Toast.LENGTH_SHORT).show();
 
+                finish();
+
+                return true;
+
+            case R.id.menu_site_new_delete:
+
+                _siteNewFragment.deleteSelectedEquip();
+
                 return true;
 
             default: return true;
         }
     }
 
+    @Override
+    public void showDeleteIcon(boolean b) {
+
+        Log.d(LOG_TAG, "Callback to show/hide delete icon, b="+b);
+
+        _deleteMenuItem.setVisible(b);
+    }
 }

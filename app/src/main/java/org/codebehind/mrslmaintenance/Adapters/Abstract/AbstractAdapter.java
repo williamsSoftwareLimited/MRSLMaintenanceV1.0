@@ -10,9 +10,8 @@ import java.util.ArrayList;
 
 /**
  * Created by root on 21/12/15.
- * Even-though this is called a SpinnerAdapter it can be used as the Adapter for a ListView
  */
-public abstract class ASpinnerAdapter<t> extends ArrayAdapter<t> implements SpinnerAdapter {
+public abstract class AbstractAdapter<t> extends ArrayAdapter<t> implements SpinnerAdapter {
 
     protected Activity _activity;
     protected ArrayList<t> _list;
@@ -21,7 +20,7 @@ public abstract class ASpinnerAdapter<t> extends ArrayAdapter<t> implements Spin
         return _list;
     }
 
-    public ASpinnerAdapter(Activity activity, int layoutId, ArrayList<t> list) {
+    public AbstractAdapter(Activity activity, int layoutId, ArrayList<t> list) {
         super(activity, layoutId, list);
 
         _list=list;

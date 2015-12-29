@@ -31,14 +31,13 @@ public class EquipmentActivity  extends ActionBarActivityBase implements IViewPa
         _report = (Report)bundle.getSerializable(ReportFragment.BUNDLE_REPORT);
         _siteEquipment = (SiteEquipment)bundle.getSerializable(ReportFragment.BUNDLE_SITE_EQUIPMENT);
 
-        // todo: start here, the call from the SiteNewFragment both the above are null and need to assign the _equipment from it's bundle
-        // the _report will have to be new'd and the equipment List added to it and the Id=-1
-
         _viewPagerVm=new ViewPagerViewModel(new ViewPager(this), this, _report.getSiteEquipmentList().size());
         setContentView(_viewPagerVm.getViewPager());
 
         for (int i = 0; i < _report.getSiteEquipmentList().size(); i++) {
+
             if (_report.getSiteEquipmentList().get(i).getId() ==_siteEquipment.getId()) {
+
                 _viewPagerVm.setCurrentItem(i);
                 break;
             }
@@ -67,11 +66,12 @@ public class EquipmentActivity  extends ActionBarActivityBase implements IViewPa
 
     @Override
     public Fragment getItem(int position) {
-        return EquipmentFragment.newInstance(_report, _report.getSiteEquipmentList().get(position).getEquipment());
+        return EquipmentFragment.newInstance(_report, _report.getSiteEquipmentList().get(position));
     }
 
     @Override
     public void onPageSelected(int position) {
 
     }
+
 }

@@ -3,11 +3,9 @@ package org.codebehind.mrslmaintenance.Adapters;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import org.codebehind.mrslmaintenance.Adapters.Abstract.ASpinnerAdapter;
+import org.codebehind.mrslmaintenance.Adapters.Abstract.AbstractAdapter;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.R;
 
@@ -16,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by root on 26/11/15.
  */
-public class SiteAdapter extends ASpinnerAdapter<Site> {
+public class SiteAdapter extends AbstractAdapter<Site> {
 
     public SiteAdapter(ArrayList<Site> siteList, Activity activity) {
         super(activity, R.layout.spinner_parameters, siteList);

@@ -37,14 +37,14 @@ public class SiteDbModel extends DbAbstractModelBase {
         int siteId;
 
         if (site==null) {
-            Log.d(LOG_TAG, "add: The site argument is null.");
+            Log.wtf(LOG_TAG, "add: The site argument is null.");
             return -1;
         }
 
         contentValues=new ContentValues();
 
         contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
-        contentValues.put(FIELDS[DELETED], false);
+        contentValues.put(FIELDS[DELETED], 0);
         contentValues.put(FIELDS[NAME], site.getName());
         contentValues.put(FIELDS[ADDRESS], site.getAddress());
         contentValues.put(FIELDS[IMAGE_ID], site.getImageId());
@@ -57,61 +57,42 @@ public class SiteDbModel extends DbAbstractModelBase {
         return siteId;
     }
 
-    public int update(Site site){
-        int rowCount; // invariance: 0 or 1
-        ContentValues contentValues;
-        Site siteInList;
-        String whereClause;
+    public int update(Site site) {
 
-        if (site==null) {
-
-            Log.d(LOG_TAG, "update: The site argument is null.");
-            return 0;
-        }
-
-        if (site.getId()==-1) {
-
-            Log.d(LOG_TAG, "update: The site has an id of -1 and is therefore new.");
-            return 0;
-        }
-
-        siteInList=getSite(site.getId());
-
-        if (siteInList==null) {
-
-            Log.e(LOG_TAG, "update: There's been a siteId (not equal to -1) but no Site in the list.");
-            return 0; // Something seriously bad has happened here
-        }
-
-        contentValues=new ContentValues();
-
-        contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
-        contentValues.put(FIELDS[NAME], site.getName());
-        contentValues.put(FIELDS[ADDRESS], site.getAddress());
-        //contentValues.put(FIELDS[IMAGE_ID], site.getImageId());
-
-        whereClause=FIELDS[ID]+"="+site.getId();
-
-        rowCount=DatabaseHelper.getInstance(_context).getWritableDatabase().update(TABLE, contentValues, whereClause, null);
-
-        if (rowCount>0) {
-            _list.remove(siteInList);
-            _list.add(site);
-        }
-
-        return rowCount;
+     return updateWithDelete(site, false);
     }
 
-    public Cursor getcursor(){
-        return DatabaseHelper.getInstance(_context).getReadableDatabase().query(TABLE, FIELDS,null,null,null,null,null);
+    // Returns the siteId if successful and -1 if not
+    // !!!!!!!!I've left this with an issue in that the _list is NOT changed if this delete is used!!!!!!!!!!!!
+    public int delete(Site site){
+        int rowCount;
+
+        rowCount=updateWithDelete(site, true);
+
+        if (rowCount<1) {
+            Log.d(LOG_TAG, "delete: Delete unsuccessful check update message above.");
+            return -1;
+        }
+        else return site.getId();
     }
 
     public ArrayList<Site> getList(){
         Cursor c;
+        String query = "select "
+                +"s."+FIELDS[ID]+", "
+                +"s."+FIELDS[TIMESTAMP]+", "
+                +"s."+FIELDS[DELETED]+", "
+                +"s."+FIELDS[NAME]+", "
+                +"s."+FIELDS[ADDRESS]+", "
+                +"s."+FIELDS[IMAGE_ID]
+                +" from " + TABLE + " s"
+                +" where s."+FIELDS[DELETED]+"=0";
+
         // lazy load
         if (_list==null){
             _list=new ArrayList<>();
-            c= getcursor();
+
+            c=DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
             c.moveToFirst();
 
             while(c.isAfterLast()==false){
@@ -132,6 +113,52 @@ public class SiteDbModel extends DbAbstractModelBase {
         }
 
         return new Site(-1, "", "");
+    }
+
+    private int updateWithDelete(Site site, boolean deleted){
+        int rowCount; // invariance: 0 or 1
+        ContentValues contentValues;
+        Site siteInList;
+        String whereClause;
+
+        if (site==null) {
+
+            Log.wtf(LOG_TAG, "update: The site argument is null.");
+            return 0;
+        }
+
+        if (site.getId()==-1) {
+
+            Log.wtf(LOG_TAG, "update: The site has an id of -1 and is therefore new.");
+            return 0;
+        }
+
+        siteInList=getSite(site.getId());
+
+        if (siteInList==null) {
+
+            Log.e(LOG_TAG, "update: There's been a siteId (not equal to -1) but no Site in the list.");
+            return 0; // Something seriously bad has happened here
+        }
+
+        contentValues=new ContentValues();
+
+        contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
+        contentValues.put(FIELDS[DELETED], deleted?1:0);
+        contentValues.put(FIELDS[NAME], site.getName());
+        contentValues.put(FIELDS[ADDRESS], site.getAddress());
+        //contentValues.put(FIELDS[IMAGE_ID], site.getImageId());
+
+        whereClause=FIELDS[ID]+"="+site.getId();
+
+        rowCount=DatabaseHelper.getInstance(_context).getWritableDatabase().update(TABLE, contentValues, whereClause, null);
+
+        if (rowCount>0) {
+            _list.remove(siteInList);
+            _list.add(site);
+        }
+
+        return rowCount;
     }
 
 }

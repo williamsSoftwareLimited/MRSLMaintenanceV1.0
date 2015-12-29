@@ -3,11 +3,9 @@ package org.codebehind.mrslmaintenance.Adapters;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.codebehind.mrslmaintenance.Adapters.Abstract.ASpinnerAdapter;
+import org.codebehind.mrslmaintenance.Adapters.Abstract.AbstractAdapter;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.R;
 
@@ -16,8 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by root on 25/10/15.
  */
-public class EquipmentAdapter extends ASpinnerAdapter<Equipment> {
-
+public class EquipmentAdapter extends AbstractAdapter<Equipment> {
 
     public EquipmentAdapter(ArrayList<Equipment> equips, Activity activity) {
         super(activity, android.R.layout.simple_list_item_1, equips);
@@ -26,8 +23,8 @@ public class EquipmentAdapter extends ASpinnerAdapter<Equipment> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Equipment equip;
-        TextView tvName;
-        ImageView imageBtn;
+        TextView nameTv;
+        //ImageView imageBtn;
 
         if (null == convertView) {
 
@@ -35,10 +32,12 @@ public class EquipmentAdapter extends ASpinnerAdapter<Equipment> {
         }
 
         equip = getItem(position);
-        tvName = (TextView)convertView.findViewById((R.id.equipment_list_item_nametextview));
-        tvName.setText(equip.getEquipmentName());
-        imageBtn = (ImageView)convertView.findViewById(R.id.equipment_list_item_imagebutton);
-        imageBtn.setImageResource(R.drawable.ic_action_picture);
+        nameTv = (TextView)convertView.findViewById((R.id.equipment_list_item_name_textview));
+        nameTv.setText(equip.getEquipmentName());
+
+
+        //imageBtn = (ImageView)convertView.findViewById(R.id.equipment_list_item_imagebutton);
+        //imageBtn.setImageResource(R.drawable.ic_action_picture);
 
         return convertView;
     }

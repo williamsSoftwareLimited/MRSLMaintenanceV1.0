@@ -3,6 +3,7 @@ package org.codebehind.mrslmaintenance.Models;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
@@ -13,6 +14,7 @@ import org.codebehind.mrslmaintenance.StaticConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Hashtable;
 
 /**
@@ -31,6 +33,7 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
                              PARAMETER_ID=DELETED+3, PARAMETER_NAME=DELETED+4,
                              PARAMETER_UNIT=DELETED+5, PARAMETER_TYPE_ID=DELETED+6,
                              VALUE=DELETED+7;
+    private static final String LOG_TAG="SiteEquipmentDbModel";
 
     public SiteEquipmentDbModel(Context context) {
         super(context, TABLE);
@@ -39,18 +42,49 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
 
     public int add(SiteEquipment entity) {
         ContentValues cv;
-        int dbRetNo;
-        if (entity==null)return StaticConstants.BAD_DB;
+        int siteId;
+
+        if (entity==null)return -1;
 
         cv = new ContentValues();
         cv.put(FIELDS[SITE_ID], entity.getSiteId());
         cv.put(FIELDS[EQUIPMENT_ID], entity.getEquipmentId());
         cv.put(FIELDS[NAME], entity.getName());
+        cv.put(FIELDS[TIMESTAMP], new Date().getTime());
+        cv.put(FIELDS[DELETED], 0);
 
-        dbRetNo = (int)DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE,null,cv);
-        if (dbRetNo>0) _list.add(entity);
+        siteId = (int)DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE,null,cv);
+        if (siteId>0) _list.add(entity);
 
-        return dbRetNo;
+        return siteId;
+    }
+
+    public int delete(SiteEquipment entity) {
+        ContentValues cv;
+        int rowCount;
+        String whereClause;
+
+        if (entity==null){
+
+            Log.wtf(LOG_TAG, "delete: SiteEquip arg is null.");
+            return -1;
+        }
+
+        cv = new ContentValues();
+        cv.put(FIELDS[TIMESTAMP], new Date().getTime());
+        cv.put(FIELDS[DELETED], 1);
+
+        whereClause=FIELDS[ID]+"="+entity.getId();
+
+        rowCount = DatabaseHelper.getInstance(_context).getWritableDatabase().update(TABLE,cv,whereClause,null);
+
+        if (rowCount>0) {
+
+            Log.d(LOG_TAG, "delete: SiteEquipId="+entity.getId()+", was deleted.");
+            _list.remove(entity);
+        }
+
+        return rowCount;
     }
 
     public ArrayList<SiteEquipment> getSiteEquipments(int siteId) {
@@ -58,13 +92,10 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
         ArrayList<Parameter> parameters;
         SiteEquipment siteEquipment;
         Equipment equipment;
-
         ParameterDbModel parameterDbModel;
 
         siteEquipmentList = new ArrayList<>();
-
         parameterDbModel=new ParameterDbModel(_context);
-        parameters=new ArrayList<>();
 
         String query = "select "
                 +"se."+FIELDS[ID]+", "
@@ -77,7 +108,8 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
                 +"e."+EquipmentDbModel.FIELDS[EquipmentDbModel.IMAGE_ID]+" "
                 +" from " + TABLE + " se"
                 +" join " + EquipmentDbModel.TABLE + " e on se."+FIELDS[EQUIPMENT_ID]+" = e."+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]
-                +" where se."+FIELDS[SITE_ID]+"="+siteId;
+                +" where se."+FIELDS[SITE_ID]+"="+siteId
+                +" and se."+FIELDS[DELETED]+"=0";
 
         Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
         c.moveToFirst();

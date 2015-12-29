@@ -1,9 +1,11 @@
 package org.codebehind.mrslmaintenance.Entities.Abstract;
 
+import java.io.Serializable;
+
 /**
  * Created by root on 21/12/15.
  */
-public class AEntity {
+public class AEntity implements Serializable {
     private int _id;
 
     public int getId() {

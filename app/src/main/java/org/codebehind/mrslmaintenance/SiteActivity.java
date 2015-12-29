@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
+import org.codebehind.mrslmaintenance.Abstract.ISiteActAllowDelete;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IViewPagerViewModelDelegate;
@@ -16,9 +17,9 @@ import org.codebehind.mrslmaintenance.ViewModels.ViewPagerViewModel;
 import java.util.ArrayList;
 
 
-public class SiteActivity extends ActionBarActivityBase implements IViewPagerViewModelDelegate {
+public class SiteActivity extends ActionBarActivityBase implements IViewPagerViewModelDelegate, ISiteActAllowDelete {
 
-    public static final String BUNDLE_SITE="org.codebehind.SiteActivity_Site_Bundle";
+    public static final String BUNDLE_SITE="SiteActivity_Site_Bundle";
     private Site _site;
     ArrayList<Site> _sites;
     private ViewPagerViewModel _viewPagerVm;
@@ -85,6 +86,7 @@ public class SiteActivity extends ActionBarActivityBase implements IViewPagerVie
         return super.onOptionsItemSelected(item);
     }
 
+    // =====Delegates from ViewPageVm=====
     @Override
     public Fragment getItem(int position) {
         SiteNewFragment siteNewFragment;
@@ -100,4 +102,12 @@ public class SiteActivity extends ActionBarActivityBase implements IViewPagerVie
     public void onPageSelected(int position) {
         _site = _sites.get(position);
     }
+
+    //=====================================
+
+    @Override
+    public void showDeleteIcon(boolean b) {
+        // this is the delegate from SiteNewFragment
+    }
+
 }

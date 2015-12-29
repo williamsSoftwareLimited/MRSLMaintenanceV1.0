@@ -16,6 +16,7 @@ import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDele
  */
 public class EditTextViewModel  extends AbstractTextViewViewModel{
 
+    private static final int MIN_TEXT_LENGTH=2; //the is ems
     protected EditText _editText;
     private IEditTextViewModelDelegate _editTextViewModelDelegate;
     private int _uniqueNo; // this is for the event to update the passed in delegate
@@ -31,6 +32,7 @@ public class EditTextViewModel  extends AbstractTextViewViewModel{
         _uniqueNo=textViewType.getId();
         _editTextViewModelDelegate=editTextViewModelDelegate;
 
+        setAttributes();
         setEvents();
     }
 
@@ -71,6 +73,10 @@ public class EditTextViewModel  extends AbstractTextViewViewModel{
                 _editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE); // Text
                 break;
         }
+    }
+
+    private void setAttributes(){
+        _editText.setMinEms(MIN_TEXT_LENGTH);
     }
 
     private void setEvents(){

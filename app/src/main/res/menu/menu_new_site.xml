@@ -8,4 +8,10 @@
         android:title="@string/menu_site_new_save"
         app:showAsAction="ifRoom" />
 
+    <item android:id="@+id/menu_site_new_delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/menu_site_new_delete"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
 </menu>

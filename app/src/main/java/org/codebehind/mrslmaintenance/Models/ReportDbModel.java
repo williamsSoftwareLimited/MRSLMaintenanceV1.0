@@ -59,7 +59,7 @@ public class ReportDbModel extends DbAbstractModelBase {
         contentValues= new ContentValues();
 
         contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
-        contentValues.put(FIELDS[DELETED], false);
+        contentValues.put(FIELDS[DELETED], 0);
         contentValues.put(FIELDS[SITEID], report.getSiteId());
         contentValues.put(FIELDS[ENGINEER_NAME], report.getEngineerName());
 
@@ -182,11 +182,14 @@ public class ReportDbModel extends DbAbstractModelBase {
         c.moveToFirst();
 
         while(c.isAfterLast()==false){
+
             report = new Report(c.getInt(ID), c.getInt(SITEID), c.getString(ENGINEER_NAME), null, new Date(c.getLong(TIMESTAMP)));
             report.setSiteName(c.getString(SITE_NAME));
             _list.add(report);
             c.moveToNext();
         }
+
         return _list;
     }
+
 }
