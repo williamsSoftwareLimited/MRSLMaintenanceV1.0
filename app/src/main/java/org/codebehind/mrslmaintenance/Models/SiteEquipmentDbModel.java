@@ -19,8 +19,6 @@ import java.util.Hashtable;
 
 /**
  * Created by root on 02/11/15.
- * This is all a little pointless but it keeps it in-line with the other Db models and contains the correct statics for creation
- * This is a many to many table from the site to the equipment table
  */
 public class SiteEquipmentDbModel extends DbAbstractModelBase{
 
