@@ -66,7 +66,10 @@ public class EquipmentActivity  extends ActionBarActivityBase implements IViewPa
 
     @Override
     public Fragment getItem(int position) {
-        return EquipmentFragment.newInstance(_report, _report.getSiteEquipmentList().get(position));
+        SiteEquipment siteEquipment;
+
+        siteEquipment = _report.getSiteEquipmentList().get(position);
+        return EquipmentFragment.newInstance(_report, siteEquipment);
     }
 
     @Override

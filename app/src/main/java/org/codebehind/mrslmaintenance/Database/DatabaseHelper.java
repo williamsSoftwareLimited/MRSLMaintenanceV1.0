@@ -20,7 +20,7 @@ import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=80;
+    public static final int DATABASE_VERSION=82;
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -100,13 +100,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.ID]+" integer primary key autoincrement,"
                 + ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.REPORT_ID]+ " integer, "
                 + ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.PARAMETER_ID]+ " integer , "
-                + ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.EQUIPMENT_ID]+ " integer , "
+                + ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.SITE_EQUIP_ID]+ " integer , "
                 + ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.VALUE]+ " varchar(255) , "
                 + ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.TIMESTAMP]+" integer, "
                 + ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.DELETED]+" boolean "
                 +", foreign key("+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.REPORT_ID]+") references "+ReportDbModel.TABLE+"("+ReportDbModel.FIELDS[ReportDbModel.ID]+"),"
                 +"foreign key("+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.PARAMETER_ID]+") references "+ ParameterDbModel.TABLE+"("+ParameterDbModel.FIELDS[ParameterDbModel.ID]+"),"
-                +"foreign key("+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.EQUIPMENT_ID]+") references "+ EquipmentDbModel.TABLE+"("+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+")"
+                +"foreign key("+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.SITE_EQUIP_ID]+") references "+ SiteEquipmentDbModel.TABLE+"("+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.ID]+")"
                 +");");
     }
     @Override

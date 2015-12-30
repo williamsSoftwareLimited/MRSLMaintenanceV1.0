@@ -13,7 +13,7 @@ public class StaticConstants {
     public static debugModes Debug = debugModes.debug; // set to false to get rid of debugging messages
     public static boolean DebugLog = false; // set to true to write to file
     public static final String EXTRA_REPORT_ID="org.CodeBehind.REPORT_ID";
-    public static final String EXTRA_EQUIPMENT_ID="org.CodeBehind.EQUIPMENT_ID";
+    public static final String EXTRA_EQUIPMENT_ID="org.CodeBehind.SITE_EQUIP_ID";
     public static final String EXTRA_EQUIPMENT_MODE="org.CodeBehind.EQUIPMENT_MODE";
     public enum fragmentModes{ none, newer, alter, view, delete, add }
     public enum debugModes{none, debug, warning, error, off}

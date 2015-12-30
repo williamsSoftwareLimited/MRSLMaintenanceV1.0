@@ -10,7 +10,6 @@ import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
-import org.codebehind.mrslmaintenance.StaticConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -130,7 +129,7 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
         return siteEquipmentList;
     }
 
-    public ArrayList<SiteEquipment>getSiteEquipmentListForReport(int reportId, int siteId){
+    public ArrayList<SiteEquipment>getSiteEquipmentListForReport(int reportId){
         ArrayList<SiteEquipment> siteEquipmentList;
         SiteEquipment siteEquipment;
         Equipment equipment;
@@ -154,10 +153,9 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
                 +"rep."+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.VALUE]+" "
                 +" from " + TABLE + " se "
                 +" join " + EquipmentDbModel.TABLE+" e on se."+FIELDS[EQUIPMENT_ID]+"= e."+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]
-                +" join " + ReportEquipParamsDbModel.TABLE + " rep on e."+FIELDS[ID]+" = rep."+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.EQUIPMENT_ID]
+                +" join " + ReportEquipParamsDbModel.TABLE + " rep on se."+FIELDS[ID]+" = rep."+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.SITE_EQUIP_ID]
                 +" join " + ParameterDbModel.TABLE + " p on rep."+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.PARAMETER_ID]+" = p."+ParameterDbModel.FIELDS[ParameterDbModel.ID]
-                +" where rep."+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.REPORT_ID]+"="+reportId
-                +" and se."+FIELDS[SITE_ID]+"="+siteId;
+                +" where rep."+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.REPORT_ID]+"="+reportId;
 
         Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
         c.moveToFirst();

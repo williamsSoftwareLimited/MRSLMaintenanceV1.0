@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
@@ -86,14 +87,25 @@ public class SiteNewActivity extends ActionBarActivityBase implements ISiteActAl
 
             case R.id.menu_site_new_save:
 
-                if (_site.getId()==-1)
-                    siteDbModel.add(_site);
-                else
+                if (_site.getName()==null || _site.getName().equals("")){
+
+                    Toast.makeText(this, "The site must have a name!", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+
+                if (_site.getId()==-1){
+
+                    _site.setId(siteDbModel.add(_site));
+                    _siteNewFragment.setSite(_site);
+                    _siteNewFragment.setAddEquipMode(View.VISIBLE);
+
+                } else {
+
                     siteDbModel.update(_site);
+                    finish();
+                }
 
                 Toast.makeText(this, SAVED_NOTICE, Toast.LENGTH_SHORT).show();
-
-                finish();
 
                 return true;
 

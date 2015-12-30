@@ -148,7 +148,7 @@ public class ReportNewFragment extends Fragment implements ISpinnerViewModelDele
             _siteSpinnerVm.setEnabled(false);
 
             if (_report.getSiteEquipmentList()==null)
-                _report.setSiteEquipmentList(siteEquipmentDbModel.getSiteEquipmentListForReport(_report.getId(), _report.getSiteId()));
+                _report.setSiteEquipmentList(siteEquipmentDbModel.getSiteEquipmentListForReport(_report.getId()));
 
             _engineerNameTextViewVm.setText(_report.getEngineerName());
         }

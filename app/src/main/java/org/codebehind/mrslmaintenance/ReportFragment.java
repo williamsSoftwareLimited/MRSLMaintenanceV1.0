@@ -94,7 +94,7 @@ public class ReportFragment extends Fragment implements IEditTextViewModelDelega
         engineerFieldVm.setText(_report.getEngineerName());
         _datefieldVm.setText(_report.getReportDate());
 
-        _report.setSiteEquipmentList(_siteEquipmentModel.getSiteEquipmentListForReport(_report.getId(), _report.getSiteId())); // this is a bit strange but it allow the equipment list to bundled in the intent to the EquipmentActivity
+        _report.setSiteEquipmentList(_siteEquipmentModel.getSiteEquipmentListForReport(_report.getId()));
 
         _siteEquipmentAdapter=new SiteEquipmentAdapter(_report.getSiteEquipmentList(), getActivity());
         _siteEquipmentListView.setAdapter(_siteEquipmentAdapter);

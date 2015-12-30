@@ -7,7 +7,7 @@ public class ReportEquipParams {
     private int _id;
     private int _reportId;
     private int _parameterId;
-    private int _equipmentId;
+    private int _siteEquipId;
     private String _value; // the Value can be string, integer, boolean etc
     private Parameter _parameter;
 
@@ -23,7 +23,7 @@ public class ReportEquipParams {
         setId(id);
         setReportId(reportId);
         setParameterId(parameterId);
-        setEquipmentId(equipmentId);
+        setSiteEquipId(equipmentId);
         setValue(value);
         setParameter(parameter); // this is for the UI
     }
@@ -44,12 +44,12 @@ public class ReportEquipParams {
         _reportId = reportId;
     }
 
-    public int getEquipmentId() {
-        return _equipmentId;
+    public int getSiteEquipId() {
+        return _siteEquipId;
     }
 
-    public void setEquipmentId(int equipmentId) {
-        _equipmentId = equipmentId;
+    public void setSiteEquipId(int siteEquipId) {
+        _siteEquipId = siteEquipId;
     }
 
     public int getParameterId() {

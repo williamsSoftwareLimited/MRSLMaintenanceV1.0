@@ -48,6 +48,20 @@ public class SiteNewFragment extends Fragment implements IEditTextViewModelDeleg
         _fragmentMode=fragmentMode;
     }
 
+    public void setAddEquipMode(int mode){
+
+        if (_addEquipBox==null) return;
+
+        _addEquipBox.setVisibility(mode);
+    }
+
+    public void setSite(Site site){
+
+        if (site==null) return;
+
+        _site=site;
+    }
+
     public SiteNewFragment() { }
 
     public static SiteNewFragment newInstance(Site site){
@@ -128,12 +142,12 @@ public class SiteNewFragment extends Fragment implements IEditTextViewModelDeleg
             _nameEditTextVm.setNonEditable();
             _addressEditTextVm.setNonEditable();
 
-            _addEquipBox.setVisibility(View.GONE);
+            setAddEquipMode(View.GONE);
             _siteEquipListViewVm.setSelection(false);
 
         } else {
 
-            _addEquipBox.setVisibility(View.VISIBLE);
+            setAddEquipMode(_site.getId()==-1 ? View.GONE : View.VISIBLE);
             _siteEquipListViewVm.setSelection(true);
         }
 
@@ -164,6 +178,7 @@ public class SiteNewFragment extends Fragment implements IEditTextViewModelDeleg
                     _siteEquipListViewVm.add(se);
 
                 } else {
+
                     _addEquipBtn.setEnabled(false);
                 }
             }

@@ -73,7 +73,7 @@ public class EquipmentFragment extends Fragment {
     private void setAttributes(){
 
         _nameView.setText(_siteEquip.getEquipment().getEquipmentName());
-        _parameterListView.setAdapter(new ReportEquipmentParamsAdapter(_reportEquipParamsDbModel.getReportEquipmentParameters(_report.getId(), _siteEquip.getEquipmentId()), getActivity()));
+        _parameterListView.setAdapter(new ReportEquipmentParamsAdapter(_reportEquipParamsDbModel.getReportEquipmentParameters(_report.getId(), _siteEquip.getId()), getActivity()));
     }
 
     private void setEvents(){

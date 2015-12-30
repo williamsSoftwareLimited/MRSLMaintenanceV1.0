@@ -20,8 +20,8 @@ import java.util.Date;
 public class ReportEquipParamsDbModel extends DbAbstractModelBase implements IReportEquipParamsModel {
 
     public static final String TABLE="ReportEquipParams";
-    public static final String[] FIELDS =  new String[]{"_id", "ReportId", "EquipmentId", "ParameterId", "Value", "Timestamp", "Deleted"};
-    public static final int ID=0, REPORT_ID=1, EQUIPMENT_ID=2, PARAMETER_ID=3, VALUE=4, TIMESTAMP=5, DELETED=6;
+    public static final String[] FIELDS =  new String[]{"_id", "ReportId", "SiteEquipId", "ParameterId", "Value", "Timestamp", "Deleted"};
+    public static final int ID=0, REPORT_ID=1, SITE_EQUIP_ID =2, PARAMETER_ID=3, VALUE=4, TIMESTAMP=5, DELETED=6;
     private static final int PARAMETER_NAME=7, PARAMETER_TYPE=8, PARAMETER_TYPE_ID=9;
 
     public ReportEquipParamsDbModel(Context context) {
@@ -34,7 +34,7 @@ public class ReportEquipParamsDbModel extends DbAbstractModelBase implements IRe
         if (reportEquipParams ==null) return StaticConstants.BAD_DB;
         contentValues= new ContentValues();
         contentValues.put(FIELDS[REPORT_ID], reportEquipParams.getReportId());
-        contentValues.put(FIELDS[EQUIPMENT_ID], reportEquipParams.getEquipmentId());
+        contentValues.put(FIELDS[SITE_EQUIP_ID], reportEquipParams.getSiteEquipId());
         contentValues.put(FIELDS[PARAMETER_ID], reportEquipParams.getParameterId());
         contentValues.put(FIELDS[VALUE], reportEquipParams.getValue());
         contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
@@ -55,7 +55,7 @@ public class ReportEquipParamsDbModel extends DbAbstractModelBase implements IRe
         contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
 
         whereClause=FIELDS[REPORT_ID]+"="+ reportEquipParams.getReportId()+" and "
-                +FIELDS[EQUIPMENT_ID]+"="+ reportEquipParams.getEquipmentId()+" and "
+                +FIELDS[SITE_EQUIP_ID]+"="+ reportEquipParams.getSiteEquipId()+" and "
                 +FIELDS[PARAMETER_ID]+"="+ reportEquipParams.getParameterId();
 
         updateCount=DatabaseHelper.getInstance(_context).getWritableDatabase().update(TABLE,contentValues,whereClause,null); // return's number of rows affected
@@ -69,7 +69,7 @@ public class ReportEquipParamsDbModel extends DbAbstractModelBase implements IRe
         String query = "select "
                 +"rep."+FIELDS[ID]+", "
                 +"rep."+FIELDS[REPORT_ID]+", "
-                +"rep."+FIELDS[EQUIPMENT_ID]+", "
+                +"rep."+FIELDS[SITE_EQUIP_ID]+", "
                 +"rep."+FIELDS[PARAMETER_ID]+", "
                 +"rep."+FIELDS[VALUE]+", "
                 +"rep."+FIELDS[TIMESTAMP]+", "
@@ -80,7 +80,7 @@ public class ReportEquipParamsDbModel extends DbAbstractModelBase implements IRe
                 +" from " + TABLE + " rep"
                 +" join " + ParameterDbModel.TABLE + " p on rep."+FIELDS[PARAMETER_ID]+" = p."+ParameterDbModel.FIELDS[ParameterDbModel.ID]
                 +" where rep."+FIELDS[REPORT_ID]+"="+reportId
-                +" and rep."+FIELDS[EQUIPMENT_ID]+"="+equipmentId;
+                +" and rep."+FIELDS[SITE_EQUIP_ID]+"="+equipmentId;
 
         Cursor cursor= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
         cursor.moveToFirst();
@@ -92,7 +92,7 @@ public class ReportEquipParamsDbModel extends DbAbstractModelBase implements IRe
 
             id=cursor.getInt(ID);
             reportId2=cursor.getInt(REPORT_ID);
-            equipmentId2=cursor.getInt(EQUIPMENT_ID);
+            equipmentId2=cursor.getInt(SITE_EQUIP_ID);
             parameterId=cursor.getInt(PARAMETER_ID);
             value = cursor.getString(VALUE);
             parameterName = cursor.getString(PARAMETER_NAME);

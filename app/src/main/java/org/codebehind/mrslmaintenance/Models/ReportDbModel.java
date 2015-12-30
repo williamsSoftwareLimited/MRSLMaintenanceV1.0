@@ -81,7 +81,7 @@ public class ReportDbModel extends DbAbstractModelBase {
 
         for(SiteEquipment se : report.getSiteEquipmentList()){
 
-            reportEquipParams=new ReportEquipParams(reportId, se.getEquipmentId(), -1,"");
+            reportEquipParams=new ReportEquipParams(reportId, se.getId(), -1,"");
 
             for(Parameter p:se.getEquipment().getParameterList()){
 
@@ -142,7 +142,7 @@ public class ReportDbModel extends DbAbstractModelBase {
 
         for(SiteEquipment se : report.getSiteEquipmentList()){
 
-            reportEquipParams=new ReportEquipParams(reportId, se.getEquipmentId(), -1,"");
+            reportEquipParams=new ReportEquipParams(reportId, se.getId(), -1,"");
 
             for(Parameter p:se.getEquipment().getParameterList()){
 
