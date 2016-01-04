@@ -32,9 +32,9 @@ public class ListViewViewModel<t> {
 
     public ListViewViewModel(ListView listview, AbstractAdapter adapter, IListViewVmDelegate<t> delegate){
 
-        if(listview==null) Log.wtf(LOG_TAG, "constuct: arg violation listview can't be null");
-        if(adapter==null) Log.wtf(LOG_TAG, "constuct: arg violation adapter can't be null");
-        if(delegate==null) Log.wtf(LOG_TAG, "constuct: arg violation delegate can't be null");
+        if(listview==null) Log.wtf(LOG_TAG, "construct: arg violation listview can't be null");
+        if(adapter==null) Log.wtf(LOG_TAG, "construct: arg violation adapter can't be null");
+        if(delegate==null) Log.wtf(LOG_TAG, "construct: arg violation delegate can't be null");
 
         _listview=listview;
         _listview.setAdapter(adapter);

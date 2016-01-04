@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.codebehind.mrslmaintenance.Adapters.Abstract.AbstractAdapter;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.R;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
@@ -18,16 +19,14 @@ import java.util.ArrayList;
 /**
  * Created by root on 11/11/15.
  */
-public class ParameterAdapter extends ArrayAdapter<Parameter> implements IEditTextViewModelDelegate{
+public class ParameterAdapter extends AbstractAdapter<Parameter> implements IEditTextViewModelDelegate{
 
-    private Activity _activity;
     private Parameter _parameter;
     private TextViewViewModel _textViewId, _textViewName,_textViewType;
     private ParameterEditTextViewModel _parameterEditTextViewModel;
 
-    public ParameterAdapter(ArrayList<Parameter> reports, Activity activity) {
-        super(activity, android.R.layout.simple_list_item_1, reports);
-        _activity = activity;
+    public ParameterAdapter(ArrayList<Parameter> params, Activity activity) {
+        super(activity, android.R.layout.simple_list_item_1, params);
     }
 
     @Override
@@ -40,7 +39,7 @@ public class ParameterAdapter extends ArrayAdapter<Parameter> implements IEditTe
         _parameter = getItem(position);
         setControls(convertView);
         setText();
-        setEvents();
+        //setEvents();
 
         _parameterEditTextViewModel.setParameter(_parameter);
 
@@ -64,9 +63,7 @@ public class ParameterAdapter extends ArrayAdapter<Parameter> implements IEditTe
         _textViewType.setText(_parameter.getUnits());
     }
 
-    private void setEvents() {
-
-    }
+    private void setEvents() {}
 
     @Override
     public void textUpdated(int uniqueId, String text) {

@@ -13,39 +13,40 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.Adapters.ReportEquipmentParamsAdapter;
-import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.ReportEquipParamsDbModel;
+import org.codebehind.mrslmaintenance.ViewModels.TextViewViewModel;
 
 /**
  * Created by Gavin on 05/01/2015.
  */
-public class EquipmentFragment extends Fragment {
+public class RepEquipFragment extends Fragment {
     private final static String REPORT_ARG = "EQUIPMENT_FRAGMENT_REPORT",
                                 SITE_EQUIP_ARG ="EQUIPMENT_FRAGMENT_SITE_EQUIPMENT";
-    Report _report;
-    SiteEquipment _siteEquip;
+    private Report _report;
+    private SiteEquipment _siteEquip;
     private static final int REQUEST_PHOTO=1;
-    private static final String LOG_TAG = "EquipmentFragment";
-    TextView _nameView;
-    ImageButton _imageButton;
-    ListView _parameterListView;
-    ReportEquipParamsDbModel _reportEquipParamsDbModel;
+    private static final String LOG_TAG = "RepEquipFragment";
+    private TextViewViewModel _nameViewVm, _siteEquipNameTextViewVm;
+    private ImageButton _imageButton;
+    private ListView _parameterListView;
+    private ReportEquipParamsDbModel _reportEquipParamsDbModel;
 
-    public EquipmentFragment() {
+    public RepEquipFragment() {
         _reportEquipParamsDbModel = new ReportEquipParamsDbModel(getActivity());
     }
-    public static EquipmentFragment newInstance(Report report, SiteEquipment siteEquip){
+    public static RepEquipFragment newInstance(Report report, SiteEquipment siteEquip){
         Bundle args = new Bundle();
 
         args.putSerializable(REPORT_ARG, report);
         args.putSerializable(SITE_EQUIP_ARG, siteEquip);
-        EquipmentFragment em = new EquipmentFragment();
+        RepEquipFragment em = new RepEquipFragment();
         em.setArguments(args);
 
         return em;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +54,10 @@ public class EquipmentFragment extends Fragment {
         _report = (Report)getArguments().getSerializable(REPORT_ARG);
         _siteEquip = (SiteEquipment)getArguments().getSerializable(SITE_EQUIP_ARG);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_equipment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_rep_equip, container, false);
 
         setControls(rootView);
         setAttributes();
@@ -63,16 +65,19 @@ public class EquipmentFragment extends Fragment {
 
         return rootView;
     }
+
     private void setControls(View rootView){
 
-        _nameView = (TextView)rootView.findViewById(R.id.equipment_name);
+        _siteEquipNameTextViewVm=new TextViewViewModel((TextView)rootView.findViewById(R.id.equip_site_equip_name));
+        _nameViewVm = new TextViewViewModel((TextView)rootView.findViewById(R.id.equipment_name));
         _imageButton=(ImageButton)rootView.findViewById(R.id.equipment_imagebtn);
         _parameterListView=(ListView)rootView.findViewById(R.id.fragment_equipment_params);
     }
 
     private void setAttributes(){
 
-        _nameView.setText(_siteEquip.getEquipment().getEquipmentName());
+        _siteEquipNameTextViewVm.setText(_siteEquip.getName());
+        _nameViewVm.setText(_siteEquip.getEquipment().getEquipmentName());
         _parameterListView.setAdapter(new ReportEquipmentParamsAdapter(_reportEquipParamsDbModel.getReportEquipmentParameters(_report.getId(), _siteEquip.getId()), getActivity()));
     }
 

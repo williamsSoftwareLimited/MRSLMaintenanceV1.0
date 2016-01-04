@@ -13,15 +13,16 @@ import android.widget.ListView;
 import org.codebehind.mrslmaintenance.Adapters.SiteAdapter;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IListViewVmDelegate;
+import org.codebehind.mrslmaintenance.ViewModels.ListViewViewModel;
 
 /**
  * Created by Gavin on 18/01/2015.
  */
-public class SiteListFragment extends Fragment {
+public class SiteListFragment extends Fragment implements IListViewVmDelegate<Site> {
     private static final String LOG_TAG="SiteListFragment";
-    private ListView _siteListView;
-    private SiteAdapter _siteAdapter;
-    public static final String BUNDLE_SITE="SITELISTFRAGMENT_SITE_BUNDLE";
+    private ListViewViewModel<Site> _siteListViewVm;
+    public static final String BUNDLE_SITE="SITE_LIST_FRAGMENT_SITE_BUNDLE";
 
     public SiteListFragment() {}
 
@@ -37,44 +38,38 @@ public class SiteListFragment extends Fragment {
         super.onResume();
 
         setControls(getView());
-        setAttributes();
-        setEvents();
+        //setAttributes();
+        //setEvents();
     }
 
     private void setControls(View rootView){
-        _siteListView = (ListView) rootView.findViewById(R.id.site_list_listview);
-    }
-
-    private void setAttributes(){
         SiteDbModel siteDbModel;
+        SiteAdapter siteAdapter;
 
         siteDbModel=new SiteDbModel(getActivity());
-        _siteAdapter=new SiteAdapter(siteDbModel.getList() ,getActivity());
-        _siteListView.setAdapter(_siteAdapter);
+        siteAdapter=new SiteAdapter(siteDbModel.getList() ,getActivity());
+
+        _siteListViewVm=new ListViewViewModel<>((ListView) rootView.findViewById(R.id.site_list_listview), siteAdapter, this);
     }
 
-    private void setEvents(){
+    private void setAttributes(){}
 
-        _siteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void setEvents(){}
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Site selectedSite;
-                Bundle bundle;
-                Intent intent;
+    @Override
+    public void onItemClick(Site selectedSite) {
+        Bundle bundle;
+        Intent intent;
 
-                selectedSite=_siteAdapter.getItem(position);
-                Log.d(LOG_TAG,"The selected siteId is "+selectedSite.getId());
+        Log.d(LOG_TAG, "The selected siteId is " + selectedSite.getId());
 
-                bundle=new Bundle();
-                bundle.putSerializable(BUNDLE_SITE, selectedSite);
+        bundle = new Bundle();
+        bundle.putSerializable(BUNDLE_SITE, selectedSite);
 
-                intent=new Intent(getActivity(), SiteActivity.class);
-                intent.putExtras(bundle);
+        intent = new Intent(getActivity(), SiteActivity.class);
+        intent.putExtras(bundle);
 
-                startActivity(intent);
-            }
-        });
+        startActivity(intent);
     }
 
 }

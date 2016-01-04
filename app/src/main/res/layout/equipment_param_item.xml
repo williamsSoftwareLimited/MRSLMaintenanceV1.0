@@ -3,9 +3,28 @@
     android:layout_width="match_parent"
     android:padding="6dip"
     android:layout_height="?android:attr/listPreferredItemHeight">
-    <EditText
-        android:layout_width="match_parent"
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/equipment_param_item_edittext"/>
+        android:padding="5dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/equipment_param_name_tv"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/equipment_param_name_tv"
+        android:padding="5dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/equipment_param_type_tv"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/equipment_param_type_tv"
+        android:padding="5dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/equipment_param_unit_tv"/>
 
 </RelativeLayout>

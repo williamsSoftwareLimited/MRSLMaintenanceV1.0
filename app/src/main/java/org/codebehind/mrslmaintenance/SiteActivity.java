@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class SiteActivity extends ActionBarActivityBase implements IViewPagerViewModelDelegate, ISiteActAllowDelete {
 
-    public static final String BUNDLE_SITE="SiteActivity_Site_Bundle";
+    public static final String BUNDLE_SITE="SITE_ACTIVITY_SITE_BUNDLE";
     private Site _site;
     ArrayList<Site> _sites;
     private ViewPagerViewModel _viewPagerVm;
@@ -52,6 +52,7 @@ public class SiteActivity extends ActionBarActivityBase implements IViewPagerVie
                 break;
             }
         }
+
     }
 
     @Override

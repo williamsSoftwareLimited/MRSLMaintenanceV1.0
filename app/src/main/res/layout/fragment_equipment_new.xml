@@ -1,51 +1,83 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <EditText
-        android:id="@+id/equipment_new_name_edittext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-    <ImageView
-        android:id="@+id/equipment_new_preview_imageview"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:padding="5dp"
-        android:paddingLeft="50dp"
-        android:scaleType="centerInside"
-        android:background="@android:color/darker_gray"
-        android:cropToPadding="true"
-        android:layout_toRightOf="@id/equipment_new_name_edittext"
-        android:layout_alignTop="@id/equipment_new_name_edittext" />
-    <TextView
-        android:id="@+id/equipment_new_param_textView"
+    android:layout_height="match_parent"
+    android:baselineAligned="false">
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@id/equipment_new_name_edittext"
-        android:text="Parameters" />
-    <ListView
-        android:id="@+id/equipment_new_param_listview"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/name_title" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_below="@id/equipment_new_param_textView" />
-    <EditText
-        android:id="@+id/equipment_new_param_addParamEditText"
+        android:padding="5dp">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/equipment_new_name_edittext"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="5dp"
+            android:paddingLeft="50dp"
+            android:scaleType="centerInside"
+            android:background="@android:color/darker_gray"
+            android:cropToPadding="true"
+            android:id="@+id/equipment_new_preview_imageview"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray">
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Parameters" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:padding="5dp"
-        android:layout_below="@id/equipment_new_param_listview"
-        android:hint="Add new parameter and press save."
-        android:visibility="invisible" />
-    <Spinner
-        android:id="@+id/equipment_new_param_selectParamSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_below="@id/equipment_new_param_addParamEditText"
-        android:visibility="invisible" />
-</RelativeLayout>
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:id="@+id/equipment_new_param_listview" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

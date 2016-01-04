@@ -1,66 +1,73 @@
 package org.codebehind.mrslmaintenance;
 
-import android.app.Activity;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import org.codebehind.mrslmaintenance.Abstract.IFragmentCallbackUUID;
+import org.codebehind.mrslmaintenance.Adapters.Abstract.AbstractAdapter;
 import org.codebehind.mrslmaintenance.Adapters.EquipmentAdapter;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
-import org.codebehind.mrslmaintenance.Models.EquipmentModel;
+import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IListViewVmDelegate;
+import org.codebehind.mrslmaintenance.ViewModels.ListViewViewModel;
 
 /**
  * Created by Gavin on 27/01/2015.
  */
-public class EquipmentListFragment extends Fragment implements AdapterView.OnItemClickListener{
-    ListView _equipListview;
-    IFragmentCallbackUUID _fragmentCallback;
+public class EquipmentListFragment extends Fragment implements IListViewVmDelegate<Equipment> {
+    private ListViewViewModel<Equipment> _equipListviewVm;
+    private static final String LOG_TAG="EquipmentListFragment";
+    public static final String BUNDLE_EQUIP="EQUIP_LIST_FRAGMENT_SITE_BUNDLE";
 
     public EquipmentListFragment() {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            _fragmentCallback = (IFragmentCallbackUUID) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement IFragmentCallbackUUID");
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView;
-        ArrayAdapter<Equipment> equipAdapter;
+
 
         rootView = inflater.inflate(R.layout.fragment_equipment_list, container, false);
-        equipAdapter = new EquipmentAdapter(EquipmentModel.getInstance().getList(), getActivity());
 
-        _equipListview = (ListView)rootView.findViewById(R.id.equipment_list_listview);
-        _equipListview.setAdapter(equipAdapter);
-        _equipListview.setOnItemClickListener(this);
+        setControls(rootView);
+        //setAttributes();
+        //setEvents();
 
         return rootView;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        int equipmentId;
-        View v = _equipListview.getChildAt(position);
-        for (int i=0; i<_equipListview.getCount();i++)
-            _equipListview.getChildAt(i).setBackgroundColor(0);
-        v.setBackgroundColor(Color.WHITE);
+    private  void setControls(View rootView){
+        AbstractAdapter<Equipment> equipAdapter;
+        EquipmentDbModel equipMod;
 
-        equipmentId = EquipmentModel.getInstance().getList().get(position).getId();
-        _fragmentCallback.onFragmentCallback(equipmentId);
+        equipMod=new EquipmentDbModel(getActivity());
+
+        equipAdapter = new EquipmentAdapter(equipMod.getList(), getActivity());
+        _equipListviewVm=new ListViewViewModel<>((ListView)rootView.findViewById(R.id.equipment_list_listview), equipAdapter, this);
     }
 
+    private void setAttributes(){}
+
+    private void setEvents() {}
+
+    @Override
+    public void onItemClick(Equipment selectedEquip) {
+        Bundle bundle;
+        Intent intent;
+
+        Log.d(LOG_TAG, "The selected siteId is " + selectedEquip.getId());
+
+        bundle = new Bundle();
+        bundle.putSerializable(BUNDLE_EQUIP, selectedEquip);
+
+        intent = new Intent(getActivity(), EquipmentNewActivity.class);
+        intent.putExtras(bundle);
+
+        startActivity(intent);
+    }
 }

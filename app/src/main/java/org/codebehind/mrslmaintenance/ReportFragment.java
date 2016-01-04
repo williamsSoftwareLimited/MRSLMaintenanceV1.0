@@ -111,7 +111,7 @@ public class ReportFragment extends Fragment implements IEditTextViewModelDelega
 
                 siteEquipment = (SiteEquipment) parent.getItemAtPosition(position);
 
-                intent = new Intent(getActivity(), EquipmentActivity.class);
+                intent = new Intent(getActivity(), RepEquipActivity.class);
                 bundle = new Bundle();
                 bundle.putSerializable(BUNDLE_REPORT, _report);
                 bundle.putSerializable(BUNDLE_SITE_EQUIPMENT, siteEquipment);

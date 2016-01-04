@@ -2,21 +2,18 @@ package org.codebehind.mrslmaintenance;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
-import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IViewPagerViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.ViewPagerViewModel;
 
 
-public class EquipmentActivity  extends ActionBarActivityBase implements IViewPagerViewModelDelegate {
+public class RepEquipActivity extends ActionBarActivityBase implements IViewPagerViewModelDelegate {
     ViewPagerViewModel _viewPagerVm;
     Report _report;
     SiteEquipment _siteEquipment;
@@ -69,7 +66,7 @@ public class EquipmentActivity  extends ActionBarActivityBase implements IViewPa
         SiteEquipment siteEquipment;
 
         siteEquipment = _report.getSiteEquipmentList().get(position);
-        return EquipmentFragment.newInstance(_report, siteEquipment);
+        return RepEquipFragment.newInstance(_report, siteEquipment);
     }
 
     @Override
