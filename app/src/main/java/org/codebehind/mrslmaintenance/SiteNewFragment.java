@@ -155,6 +155,8 @@ public class SiteNewFragment extends Fragment implements IEditTextViewModelDeleg
         _addressEditTextVm.setText(_site.getAddress());
 
         _addEquipBtn.setEnabled(false);
+
+        _addEquipBox.setBackgroundResource(R.drawable.add_site_equip_box);
     }
 
     private void setEvents() {

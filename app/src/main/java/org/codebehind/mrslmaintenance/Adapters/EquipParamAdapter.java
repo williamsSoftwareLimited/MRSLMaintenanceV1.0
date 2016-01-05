@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.Adapters.Abstract.AbstractAdapter;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
+import org.codebehind.mrslmaintenance.Entities.ParameterType;
 import org.codebehind.mrslmaintenance.R;
 import org.codebehind.mrslmaintenance.Singletons.ParameterTypesSingleton;
 import org.codebehind.mrslmaintenance.ViewModels.TextViewViewModel;
@@ -47,12 +48,12 @@ public class EquipParamAdapter extends AbstractAdapter<Parameter> {
     }
 
     private void setText(){
-        String type;
+        ParameterType type;
 
-        type= ParameterTypesSingleton.getInstance().getParameterTypeList().get(_parameter.getParameterTypeId());
+        type= ParameterTypesSingleton.getInstance().getParamTypes().get(_parameter.getParameterTypeId());
 
         _nameTextViewVm.setText(_parameter.getName());
-        _typeTextViewNameVm.setText(type);
+        _typeTextViewNameVm.setText(type.getName());
         _unitTextViewVm.setText(_parameter.getUnits());
     }
 

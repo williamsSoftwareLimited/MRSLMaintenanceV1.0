@@ -21,6 +21,7 @@ import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 import org.codebehind.mrslmaintenance.Singletons.ParameterTypesSingleton;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -208,19 +209,16 @@ public class LoadData {
 
 
     private void populateParameterTypesData(Context context){
-        ParameterType parameterType;
         ParameterTypeDbModel parameterTypeDbModel;
-        Hashtable<Integer, String> parameterTypesHashTable;
 
         parameterTypeDbModel=new ParameterTypeDbModel(context);
-        parameterTypesHashTable = ParameterTypesSingleton.getInstance().getParameterTypeList();
-
         if (parameterTypeDbModel.getCount()>0)return;
 
-        for (int i=1;i<=parameterTypesHashTable.values().size();i++) {
-            parameterType = new ParameterType(i, parameterTypesHashTable.get(i));
-            parameterTypeDbModel.add(parameterType);
+        for (ParameterType pt : ParameterTypesSingleton.getInstance().getParamTypes()) {
+
+            parameterTypeDbModel.add(pt);
         }
+
     }
 
     private void populateParameterData(Context context) {

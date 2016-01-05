@@ -25,6 +25,10 @@ public class EditTextViewModel  extends AbstractTextViewViewModel{
         _editText.setEnabled(b);
     }
 
+    public void setEms(int ems){
+        _editText.setMinEms(ems);
+    }
+
     public EditTextViewModel(TextView textViewType, final IEditTextViewModelDelegate editTextViewModelDelegate){
         super(textViewType);
 
@@ -76,7 +80,7 @@ public class EditTextViewModel  extends AbstractTextViewViewModel{
     }
 
     private void setAttributes(){
-        _editText.setMinEms(MIN_TEXT_LENGTH);
+        setEms(MIN_TEXT_LENGTH);
     }
 
     private void setEvents(){

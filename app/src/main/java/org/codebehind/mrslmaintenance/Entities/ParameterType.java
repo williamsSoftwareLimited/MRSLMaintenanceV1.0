@@ -10,6 +10,7 @@ public class ParameterType {
     public ParameterType(String name) {
         this(-1,name);
     }
+
     public ParameterType(int id, String name){
         setId(id);
         setName(name);

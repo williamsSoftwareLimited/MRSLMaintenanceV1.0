@@ -1,37 +1,47 @@
 package org.codebehind.mrslmaintenance.Singletons;
 
+import org.codebehind.mrslmaintenance.Entities.ParameterType;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Hashtable;
 
 /**
  * Created by root on 18/11/15.
  */
 public class ParameterTypesSingleton {
-    private Hashtable<Integer, String> _parameterTypeList;
+
+    private ArrayList<ParameterType> _paramTypes;
     private static ParameterTypesSingleton _instance;
 
-    public Hashtable<Integer, String> getParameterTypeList(){
-        return _parameterTypeList;
-    }
+    public ArrayList<ParameterType> getParamTypes(){ return _paramTypes;}
 
     public static ParameterTypesSingleton getInstance(){
+
         if (_instance==null)_instance=new ParameterTypesSingleton();
 
         return _instance;
     }
 
     private ParameterTypesSingleton(){
-        populate();
-    }
+        ParameterType type;
 
-    private void populate(){
-        if (_parameterTypeList==null){
-            _parameterTypeList=new Hashtable<>();
-            _parameterTypeList.put(1, "Decimal");
-            _parameterTypeList.put(2, "Number");
-            _parameterTypeList.put(3, "Date");
-            _parameterTypeList.put(4, "Password");
-            _parameterTypeList.put(5, "Text");
-            _parameterTypeList.put(6, "TextLarge");
+        if (_paramTypes==null){
+
+            _paramTypes=new ArrayList<>();
+            type=new ParameterType(1, "Decimal");
+            _paramTypes.add(type);
+            type=new ParameterType(2, "Number");
+            _paramTypes.add(type);
+            type=new ParameterType(3, "Date");
+            _paramTypes.add(type);
+            type=new ParameterType(4, "Password");
+            _paramTypes.add(type);
+            type=new ParameterType(5, "Text");
+            _paramTypes.add(type);
+            type=new ParameterType(6, "TextLarge");
+            _paramTypes.add(type);
         }
     }
 
