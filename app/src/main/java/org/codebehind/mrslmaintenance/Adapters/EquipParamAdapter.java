@@ -50,7 +50,7 @@ public class EquipParamAdapter extends AbstractAdapter<Parameter> {
     private void setText(){
         ParameterType type;
 
-        type= ParameterTypesSingleton.getInstance().getParamTypes().get(_parameter.getParameterTypeId());
+        type=ParameterTypesSingleton.getInstance().getParamType(_parameter.getParameterTypeId());
 
         _nameTextViewVm.setText(_parameter.getName());
         _typeTextViewNameVm.setText(type.getName());

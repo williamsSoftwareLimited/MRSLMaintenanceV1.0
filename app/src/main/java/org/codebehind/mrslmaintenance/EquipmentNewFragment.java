@@ -17,8 +17,10 @@ import org.codebehind.mrslmaintenance.Adapters.Abstract.AbstractAdapter;
 import org.codebehind.mrslmaintenance.Adapters.EquipParamAdapter;
 import org.codebehind.mrslmaintenance.Adapters.ParamSpinnerAdapter;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
+import org.codebehind.mrslmaintenance.Entities.EquipmentParameters;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.ParameterType;
+import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
 import org.codebehind.mrslmaintenance.Singletons.ParameterTypesSingleton;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
@@ -49,6 +51,23 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
 
     public void setFragmentMode(FragmentMode fragmentMode){
         _fragmentMode=fragmentMode;
+
+        if (_nameEditTextVm==null||_newParamNameEtVm==null||_newParamUnitsEtVm==null||_newParamBox==null)return;
+
+        if (_fragmentMode==FragmentMode.VIEW){
+
+            _nameEditTextVm.setEnabled(false);
+            _newParamNameEtVm.setEnabled(false);
+            _newParamUnitsEtVm.setEnabled(false);
+            _newParamBox.setVisibility(View.INVISIBLE);
+
+        }else{
+
+            _nameEditTextVm.setEnabled(true);
+            _newParamNameEtVm.setEnabled(true);
+            _newParamUnitsEtVm.setEnabled(true);
+            _newParamBox.setVisibility(View.VISIBLE);
+        }
     }
 
     public EquipmentNewFragment(){}
@@ -112,6 +131,10 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
 
         _newParamNameEtVm.setEms(10);
         _newParamBox.setBackgroundResource(R.drawable.add_param_box);
+
+        _addParamBtn.setEnabled(false);
+
+        setFragmentMode(_fragmentMode);
     }
 
     private void setEvents(){
@@ -121,9 +144,31 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
             @Override
             public void onClick(View v) {
                 Parameter param;
+                EquipmentParameters equipParam;
+                ParameterDbModel paramModel;
+                EquipmentParamsDbModel equipParamModel;
 
-                param=new Parameter(_newParamNameEtVm.getText(), _newParamUnitsEtVm.getText(), _newParamTypeSpinVm.getSelectedItem().getId());
+                param = new Parameter(_newParamNameEtVm.getText(), _newParamUnitsEtVm.getText(), _newParamTypeSpinVm.getSelectedItem().getId());
+
+                paramModel = new ParameterDbModel(getActivity());
+                param.setId(paramModel.add(param));
+
+                if (param.getId() < 1) return;
+
+                equipParam = new EquipmentParameters(_equipment.getId(), param.getId());
+
+                equipParamModel = new EquipmentParamsDbModel(getActivity());
+                equipParam.setId(equipParamModel.add(equipParam));
+
+                if (equipParam.getId() < 1) {
+
+                    // rollback
+                    //paramModel.delete(param);
+                    return;
+                }
+
                 _paramListViewVm.add(param);
+
             }
         });
 
@@ -135,8 +180,19 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
         switch(uniqueId){
 
             case R.id.equipment_new_name_edittext:
+
+                _equipment.setEquipmentName(_nameEditTextVm.getText());
                 break;
 
+            case R.id.equipment_new_param_name_et:
+
+                if (_newParamNameEtVm.getText().equals("")) _addParamBtn.setEnabled(false);
+                else _addParamBtn.setEnabled(true);
+                break;
+
+            case R.id.equipment_new_param_units_et:
+
+                break;
         }
     }
 
@@ -148,6 +204,6 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
 
     @Override
     public void itemSelected(int pos) {
-    // Param Type Spinner callback
+        // Param Type Spinner callback
     }
 }

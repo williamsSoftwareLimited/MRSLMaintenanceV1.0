@@ -1,19 +1,22 @@
 package org.codebehind.mrslmaintenance.Singletons;
 
+import android.util.Log;
+
+import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.ParameterType;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Hashtable;
+
 
 /**
  * Created by root on 18/11/15.
  */
 public class ParameterTypesSingleton {
 
+    private static final String LOG_TAG="ParameterTypesSingleton";
     private ArrayList<ParameterType> _paramTypes;
     private static ParameterTypesSingleton _instance;
+    private static final int DEFAULT_PARAM=4;
 
     public ArrayList<ParameterType> getParamTypes(){ return _paramTypes;}
 
@@ -38,11 +41,22 @@ public class ParameterTypesSingleton {
             _paramTypes.add(type);
             type=new ParameterType(4, "Password");
             _paramTypes.add(type);
-            type=new ParameterType(5, "Text");
+            type=new ParameterType(5, "Text"); // this is the default
             _paramTypes.add(type);
             type=new ParameterType(6, "TextLarge");
             _paramTypes.add(type);
         }
+    }
+
+    public ParameterType getParamType(int id){
+
+        if (id<1 )Log.wtf(LOG_TAG, "getParamType: invariant violation id<1, id="+id);
+
+
+        for (ParameterType pt:_paramTypes)
+            if (pt.getId()==id) return pt;
+
+        return _paramTypes.get(DEFAULT_PARAM); // this is 'text'
     }
 
 }

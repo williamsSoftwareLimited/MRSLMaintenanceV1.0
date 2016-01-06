@@ -207,6 +207,7 @@ public class SiteNewFragment extends Fragment implements IEditTextViewModelDeleg
 
                 if (_newEquipNameEditTextVm.getText().equals("")) _addEquipBtn.setEnabled(false);
                 else _addEquipBtn.setEnabled(true);
+                break;
         }
     }
 

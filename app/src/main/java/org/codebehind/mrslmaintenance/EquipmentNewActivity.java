@@ -2,7 +2,6 @@ package org.codebehind.mrslmaintenance;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
@@ -22,7 +21,7 @@ public class EquipmentNewActivity extends ActionBarActivityBase implements IView
     public static final String BUNDLE_EQUIP="EQUIP_NEW_ACTIVITY_SITE_BUNDLE",
                                LOG_TAG="EquipmentNewActivity";
     private Equipment _equip;
-    ArrayList<Equipment> _equips;
+    private ArrayList<Equipment> _equips;
     private ViewPagerViewModel _viewPagerVm;
     private EquipmentDbModel _equipDbModel;
 
@@ -74,8 +73,11 @@ public class EquipmentNewActivity extends ActionBarActivityBase implements IView
         switch (id){
 
             case R.id.menu_equipment_edit:
-                // check the equipment is valid
-                //equipmentNewFragment.addParameter();
+
+                // GAVIN start here=>
+                // =====create a separate EquipFragment!!!=====
+
+
                 return true;
         }
 
