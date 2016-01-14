@@ -23,6 +23,7 @@ public class SiteDbModel extends DbAbstractModelBase {
     public static final String TABLE="Site";
     public static final String[] FIELDS = new String[]{"_id", "timestamp", "deleted", "name", "address", "imageId" };
     public static final int ID=0, TIMESTAMP=1, DELETED=2, NAME=3, ADDRESS=4, IMAGE_ID=5;
+
     private static final String LOG_TAG="SiteDbModel";
     private ArrayList<Site> _list;
 
@@ -59,7 +60,7 @@ public class SiteDbModel extends DbAbstractModelBase {
 
     public int update(Site site) {
 
-     return updateWithDelete(site, false);
+        return updateWithDelete(site, false);
     }
 
     // Returns the siteId if successful and -1 if not
@@ -70,10 +71,10 @@ public class SiteDbModel extends DbAbstractModelBase {
         rowCount=updateWithDelete(site, true);
 
         if (rowCount<1) {
+
             Log.d(LOG_TAG, "delete: Delete unsuccessful check update message above.");
             return -1;
-        }
-        else return site.getId();
+        } else return site.getId();
     }
 
     public ArrayList<Site> getList(){

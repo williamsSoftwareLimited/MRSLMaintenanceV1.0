@@ -3,6 +3,7 @@ package org.codebehind.mrslmaintenance.Models;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
@@ -12,6 +13,7 @@ import org.codebehind.mrslmaintenance.StaticConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Hashtable;
 
 /**
@@ -24,17 +26,23 @@ public class EquipmentDbModel extends DbAbstractModelBase {
             FILTER_SELECTION_END="%'";
     public static final String[] FIELDS =  new String[]{"_id", "name", "imageId", "timestamp", "deleted" };
     public static final int ID=0, NAME=1, IMAGE_ID=2, TIMESTAMP=3, DELETED=4;
+
+    private static final String LOG_TAG="EquipmentDbModel";
     private int _length; // this checks the size of the list and iff it's different
     private ArrayList<Equipment> _list;
 
     public EquipmentDbModel(Context context){
         super(context, TABLE);
+
         _length = -1;
         _list = new ArrayList<>();
     }
 
-    public Equipment getEntity(int id) {
-        for(Equipment e: getList()) if (e.getId()==id)return e;
+    public Equipment getEquip(int id) {
+
+        for(Equipment e: getList())
+            if (e.getId()==id)return e;
+
         return null;
     }
 
@@ -42,14 +50,35 @@ public class EquipmentDbModel extends DbAbstractModelBase {
         ContentValues v;
 
         // equipment is invariant and must not be null
-        if (equipment==null) return StaticConstants.BAD_DB;
+        if (equipment==null) return -1;
+
         v= new ContentValues();
         v.put(FIELDS[NAME], equipment.getEquipmentName());
         v.put(FIELDS[IMAGE_ID], equipment.getImgId());
+
         return (int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, v);
     }
 
+    public int update(Equipment equip){
+
+        return updateWithDelete(equip, false);
+    }
+
+    public int delete(Equipment equip){
+        int rowCount;
+
+        rowCount=updateWithDelete(equip, true);
+
+        if (rowCount<1) {
+
+            Log.d(LOG_TAG, "delete: Delete unsuccessful check update message above.");
+            return -1;
+        } else return equip.getId();
+
+    }
+
     public ArrayList<Equipment> getList() {
+
         populateList();
         return _list;
     }
@@ -85,21 +114,27 @@ public class EquipmentDbModel extends DbAbstractModelBase {
     }
 
     public ArrayList<Equipment> getFilterList(String filter) {
+
         filterList(filter);
         return _list;
     }
 
     private void populateList(){
+
         if (_list.size()==_length)return;
+
         filterList("");
         _length=_list.size();
     }
 
     private void filterList(String filter){
+
         _list.clear();
         Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().query(TABLE, FIELDS,FILTER_SELECTION_START+filter+FILTER_SELECTION_END,null,null,null,null);
         c.moveToFirst();
+
         while(c.isAfterLast()==false){
+
             Equipment e=new Equipment();
             e.setId(c.getInt(ID));
             e.setEquipmentName(c.getString(NAME));
@@ -107,5 +142,52 @@ public class EquipmentDbModel extends DbAbstractModelBase {
             _list.add(e);
             c.moveToNext();
         }
+
     }
+
+    private int updateWithDelete(Equipment equip, boolean deleted){
+        int rowCount; // invariance: 0 or 1
+        ContentValues contentValues;
+        Equipment equipInList;
+        String whereClause;
+
+        contentValues=new ContentValues();
+
+        if (equip==null) {
+
+            Log.wtf(LOG_TAG, "update: The equip argument is null.");
+            return 0;
+        }
+
+        if (equip.getId()==-1) {
+
+            Log.wtf(LOG_TAG, "update: The equip has an id of -1 and is therefore new.");
+            return 0;
+        }
+
+        equipInList=getEquip(equip.getId());
+
+        if (equipInList==null) {
+
+            Log.e(LOG_TAG, "update: There's been a equipId (not equal to -1) but no equip in the list.");
+            return 0; // Something seriously bad has happened here
+        }
+
+        contentValues.put(FIELDS[NAME], equip.getEquipmentName());
+        //contentValues.put(FIELDS[IMAGE_ID], site.getImageId());
+        contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
+        contentValues.put(FIELDS[DELETED], deleted?1:0);
+
+        whereClause=FIELDS[ID]+"="+equip.getId();
+
+        rowCount=DatabaseHelper.getInstance(_context).getWritableDatabase().update(TABLE, contentValues, whereClause, null);
+
+        if (rowCount>0) {
+            _list.remove(equipInList);
+            _list.add(equip);
+        }
+
+        return rowCount;
+    }
+
 }

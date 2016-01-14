@@ -22,13 +22,6 @@ public abstract class ActionBarActivityBase  extends ActionBarActivity {
         getSupportActionBar().setLogo(R.drawable.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
-        // hide the keyboard, http://stackoverflow.com/questions/18977187/how-to-hide-soft-keyboard-when-activity-starts
-        if(getCurrentFocus()!=null) {
-
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
-
         // set the orientation to portrait
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }

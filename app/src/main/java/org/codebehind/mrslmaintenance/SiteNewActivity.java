@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
-import org.codebehind.mrslmaintenance.Abstract.ISiteActAllowDelete;
+import org.codebehind.mrslmaintenance.Abstract.IActAllowDelete;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 
@@ -17,7 +17,7 @@ import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 /**
  * Created by Gavin on 02/02/2015.
  */
-public class SiteNewActivity extends ActionBarActivityBase implements ISiteActAllowDelete {
+public class SiteNewActivity extends ActionBarActivityBase implements IActAllowDelete {
 
     public static final String SITE_BUNDLE="SITE_NEW_ACTIVITY_BUNDLE";
     private Site _site;

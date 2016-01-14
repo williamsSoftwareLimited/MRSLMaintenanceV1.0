@@ -1,15 +1,20 @@
 package org.codebehind.mrslmaintenance;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
+import org.codebehind.mrslmaintenance.Entities.Equipment;
 
 
 public class EquipmentListActivity extends ActionBarActivityBase{
+
+    private static final String LOG_TAG="EquipmentListActivity";
     private Menu _menu;
 
     @Override
@@ -40,7 +45,12 @@ public class EquipmentListActivity extends ActionBarActivityBase{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        int id;
+        Bundle bundle;
+        Intent intent;
+        Equipment equip;
+
+        id = item.getItemId();
 
         switch(id){
 
@@ -51,9 +61,19 @@ public class EquipmentListActivity extends ActionBarActivityBase{
                 recreate();
                 return true;
 
-            case R.id.menu_add_equipment_list:
+            case R.id.menu_new_equipment_list:
 
-                Toast.makeText(this,"Add selected", Toast.LENGTH_SHORT).show();
+                Log.d(LOG_TAG, "onOptionsItemSelected: Add new equip from menu selected.");
+
+                equip=new Equipment("",1);
+
+                bundle=new Bundle();
+                bundle.putSerializable(EquipmentListFragment.BUNDLE_EQUIP, equip);
+
+                intent=new Intent(this, EquipmentNewActivity.class);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
                 return true;
 
             default: return true;

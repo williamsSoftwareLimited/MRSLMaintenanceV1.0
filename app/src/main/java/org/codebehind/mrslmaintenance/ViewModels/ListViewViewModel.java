@@ -75,11 +75,15 @@ public class ListViewViewModel<t> {
     }
 
     private void selection(View view, t entity){
+        View v;
 
         if (!_allowSelection) return;
 
-        for (int i=0; i<_listview.getCount();i++)
-            _listview.getChildAt(i).setBackgroundColor(0);
+        for (int i=0; i<_listview.getCount();i++) {
+
+            v=_listview.getChildAt(i);
+            if (v!=null) v.setBackgroundColor(0);
+        }
 
         view.setBackgroundColor(Color.CYAN);
 

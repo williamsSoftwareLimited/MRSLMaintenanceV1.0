@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import org.codebehind.mrslmaintenance.Abstract.ISiteActAllowDelete;
+import org.codebehind.mrslmaintenance.Abstract.IActAllowDelete;
 import org.codebehind.mrslmaintenance.Adapters.Abstract.AbstractAdapter;
 import org.codebehind.mrslmaintenance.Adapters.EquipmentAdapter;
 import org.codebehind.mrslmaintenance.Adapters.SiteEquipmentAdapter;
@@ -99,7 +99,7 @@ public class SiteNewFragment extends Fragment implements IEditTextViewModelDeleg
     }
 
     public void deleteSelectedEquip(){
-        // this is called from the Activity when the delete icon is pressed
+        // this is called from the SiteActivity when the delete icon is pressed
         int rowCount;
 
         Log.d(LOG_TAG, "deleteSelectedEquip: deleting siteEquipId="+_siteEquipListViewVm.getEntity().getId()+".");
@@ -219,10 +219,10 @@ public class SiteNewFragment extends Fragment implements IEditTextViewModelDeleg
     @Override
     public void onItemClick(SiteEquipment item) {
         // this is the click event from the SiteEquipListView
-        ISiteActAllowDelete siteNewAct;
+        IActAllowDelete siteNewAct;
 
         // callback to activity to show the delete icon
-        siteNewAct=(ISiteActAllowDelete)getActivity(); // this is an uncomfortable cast
+        siteNewAct=(IActAllowDelete)getActivity(); // this is an uncomfortable cast
 
         siteNewAct.showDeleteIcon(true);
     }

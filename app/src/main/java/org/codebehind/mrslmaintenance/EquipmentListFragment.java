@@ -31,14 +31,18 @@ public class EquipmentListFragment extends Fragment implements IListViewVmDelega
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView;
 
-
         rootView = inflater.inflate(R.layout.fragment_equipment_list, container, false);
 
-        setControls(rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        setControls(getView());
         //setAttributes();
         //setEvents();
-
-        return rootView;
     }
 
     private  void setControls(View rootView){
@@ -60,7 +64,7 @@ public class EquipmentListFragment extends Fragment implements IListViewVmDelega
         Bundle bundle;
         Intent intent;
 
-        Log.d(LOG_TAG, "The selected siteId is " + selectedEquip.getId());
+        Log.d(LOG_TAG, "The selected equipId is " + selectedEquip.getId());
 
         bundle = new Bundle();
         bundle.putSerializable(BUNDLE_EQUIP, selectedEquip);

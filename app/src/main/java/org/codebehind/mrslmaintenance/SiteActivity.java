@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
-import org.codebehind.mrslmaintenance.Abstract.ISiteActAllowDelete;
+import org.codebehind.mrslmaintenance.Abstract.IActAllowDelete;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IViewPagerViewModelDelegate;
@@ -17,7 +17,7 @@ import org.codebehind.mrslmaintenance.ViewModels.ViewPagerViewModel;
 import java.util.ArrayList;
 
 
-public class SiteActivity extends ActionBarActivityBase implements IViewPagerViewModelDelegate, ISiteActAllowDelete {
+public class SiteActivity extends ActionBarActivityBase implements IViewPagerViewModelDelegate, IActAllowDelete {
 
     public static final String BUNDLE_SITE="SITE_ACTIVITY_SITE_BUNDLE";
     private Site _site;

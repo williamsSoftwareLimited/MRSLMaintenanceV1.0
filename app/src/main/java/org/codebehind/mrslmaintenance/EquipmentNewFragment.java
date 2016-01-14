@@ -1,5 +1,7 @@
 package org.codebehind.mrslmaintenance;
 
+import android.app.*;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import org.codebehind.mrslmaintenance.Abstract.IActAllowDelete;
+import org.codebehind.mrslmaintenance.Abstract.IEquipParamDelegate;
 import org.codebehind.mrslmaintenance.Adapters.Abstract.AbstractAdapter;
 import org.codebehind.mrslmaintenance.Adapters.EquipParamAdapter;
 import org.codebehind.mrslmaintenance.Adapters.ParamSpinnerAdapter;
@@ -39,6 +43,7 @@ import java.util.Hashtable;
 public class EquipmentNewFragment extends Fragment implements IEditTextViewModelDelegate, IListViewVmDelegate<Parameter>,ISpinnerViewModelDelegate {
 
     public static final String EQUIP_ARG="EQUIP_NEW_FRAG_EQUIP_ARG",
+                                MODE_ARG="EQUIP_MODE_FRAG_EQUIP_ARG",
                                LOG_TAG="EquipmentNewFragment";
     private static final String EDIT_EQUIP="Edit Equipment", VIEW_EQUIP="Equipment", NEW_EQUIP="New Equipment";
     private Equipment _equipment;
@@ -49,37 +54,21 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
     private LinearLayout _newParamBox;
     private ListViewViewModel<Parameter> _paramListViewVm;
 
-    public void setFragmentMode(FragmentMode fragmentMode){
-        _fragmentMode=fragmentMode;
-
-        if (_nameEditTextVm==null||_newParamNameEtVm==null||_newParamUnitsEtVm==null||_newParamBox==null)return;
-
-        if (_fragmentMode==FragmentMode.VIEW){
-
-            _nameEditTextVm.setEnabled(false);
-            _newParamNameEtVm.setEnabled(false);
-            _newParamUnitsEtVm.setEnabled(false);
-            _newParamBox.setVisibility(View.INVISIBLE);
-
-        }else{
-
-            _nameEditTextVm.setEnabled(true);
-            _newParamNameEtVm.setEnabled(true);
-            _newParamUnitsEtVm.setEnabled(true);
-            _newParamBox.setVisibility(View.VISIBLE);
-        }
+    public Equipment getEquip(){
+        return _equipment;
     }
 
     public EquipmentNewFragment(){}
 
-    public static EquipmentNewFragment newInstance(Equipment equip){
+    public static EquipmentNewFragment newInstance(Equipment equip, FragmentMode fragMode){
         Bundle bundle;
         EquipmentNewFragment equipNewFragment;
 
-        if (equip==null) Log.wtf(LOG_TAG, "newInstance: violation site==null.");
+        if (equip==null) Log.wtf(LOG_TAG, "newInstance: violation equip==null.");
 
         bundle = new Bundle();
         bundle.putSerializable(EQUIP_ARG, equip);
+        bundle.putSerializable(MODE_ARG, fragMode);
 
         equipNewFragment=new EquipmentNewFragment();
         equipNewFragment.setArguments(bundle);
@@ -94,6 +83,8 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
 
         _equipment=(Equipment)getArguments().getSerializable(EQUIP_ARG);
 
+        setFragmentMode((FragmentMode) getArguments().getSerializable(MODE_ARG));
+
         if (_equipment==null) Log.wtf(LOG_TAG, "onCreateView: violation _equipment==null. This may cause EquipmentNewFragment to crash.");
 
         setControls(rootView);
@@ -101,6 +92,41 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
         setEvents();
 
         return rootView;
+    }
+
+    private void setFragmentMode(FragmentMode fragmentMode){
+        _fragmentMode=fragmentMode;
+
+        if (_nameEditTextVm==null||_newParamNameEtVm==null||_newParamUnitsEtVm==null||_newParamBox==null)return;
+
+        if (_fragmentMode==FragmentMode.VIEW){
+
+            _nameEditTextVm.setEnabled(false);
+            _newParamNameEtVm.setEnabled(false);
+            _newParamUnitsEtVm.setEnabled(false);
+            _newParamBox.setVisibility(View.GONE);
+
+            _paramListViewVm.setSelection(false);
+
+        }else{
+
+            _nameEditTextVm.setEnabled(true);
+            _newParamNameEtVm.setEnabled(true);
+            _newParamUnitsEtVm.setEnabled(true);
+
+            if (_fragmentMode==FragmentMode.EDIT) {
+
+                _newParamBox.setVisibility(View.VISIBLE);
+
+            }else{
+                // this is SAVE mode
+
+                _newParamBox.setVisibility(View.GONE);
+            }
+
+            _paramListViewVm.setSelection(true);
+        }
+
     }
 
     private void setControls(View rootView){
@@ -129,7 +155,7 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
         else if (_fragmentMode==FragmentMode.NEW) getActivity().setTitle(NEW_EQUIP);
         else getActivity().setTitle(VIEW_EQUIP);
 
-        _newParamNameEtVm.setEms(10);
+        _newParamNameEtVm.setEms(6);
         _newParamBox.setBackgroundResource(R.drawable.add_param_box);
 
         _addParamBtn.setEnabled(false);
@@ -182,12 +208,14 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
             case R.id.equipment_new_name_edittext:
 
                 _equipment.setEquipmentName(_nameEditTextVm.getText());
+
                 break;
 
             case R.id.equipment_new_param_name_et:
 
                 if (_newParamNameEtVm.getText().equals("")) _addParamBtn.setEnabled(false);
                 else _addParamBtn.setEnabled(true);
+
                 break;
 
             case R.id.equipment_new_param_units_et:
@@ -199,11 +227,20 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
     @Override
     public void onItemClick(Parameter item) {
         // Param listview callback
-    }
+        IEquipParamDelegate siteNewAct;
+        EquipmentParameters equipParams;
 
+        // callback to activity to show the delete icon
+        siteNewAct=(IEquipParamDelegate)getActivity(); // this is an uncomfortable cast
+
+        equipParams=new EquipmentParameters(_equipment.getId(), item.getId());
+
+        siteNewAct.onCallback(equipParams);
+    }
 
     @Override
     public void itemSelected(int pos) {
         // Param Type Spinner callback
     }
+
 }

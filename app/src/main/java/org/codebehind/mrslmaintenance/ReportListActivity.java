@@ -13,7 +13,7 @@ import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 
 import java.util.ArrayList;
 
-// this is currently the entry Activity
+// this is currently the entry SiteActivity
 public class ReportListActivity extends ActionBarActivityBase {
 
     @Override
