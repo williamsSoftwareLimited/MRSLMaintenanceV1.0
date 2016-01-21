@@ -20,26 +20,41 @@ import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=82;
+    public static final int DATABASE_VERSION=84;
+
+    //http://stackoverflow.com/questions/9937713/does-sqlite3-not-support-foreign-key-constraints
+    // To enforce the FKs need to add the following to every connection to the Db
+    // PRAGMA foreign_keys = ON;
 
     public DatabaseHelper(Context context){
+
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
     }
+
     public static DatabaseHelper getInstance(Context context) {
+
         if (instance==null)instance=new DatabaseHelper(context);
         return instance;
+
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // keep the ordering of the tables to _id, ts then del as this will help with an abstraction (later)
-        db.execSQL("Create table " + ImageModel.TABLE + "( _id integer primary key autoincrement, image blob, title varchar(100));");
+
+        db.execSQL("Create table " + ImageModel.TABLE + " ("
+                +ImageModel.FIELDS[ImageModel.ID]+" integer primary key autoincrement, "
+                +ImageModel.FIELDS[ImageModel.IMAGE]+" blob, "
+                +ImageModel.FIELDS[ImageModel.TITLE]+" varchar(100) "
+                +");");
 
         db.execSQL("Create table "+ EquipmentDbModel.TABLE+" ("
                 +EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+" integer primary key autoincrement, "
                 +EquipmentDbModel.FIELDS[EquipmentDbModel.NAME]+" varchar(100), "
                 +EquipmentDbModel.FIELDS[EquipmentDbModel.IMAGE_ID]+" integer, "
                 +EquipmentDbModel.FIELDS[EquipmentDbModel.TIMESTAMP]+" integer, "
-                +EquipmentDbModel.FIELDS[EquipmentDbModel.DELETED]+" boolean "
+                +EquipmentDbModel.FIELDS[EquipmentDbModel.DELETED]+" boolean, "
+                +"foreign key("+EquipmentDbModel.FIELDS[EquipmentDbModel.IMAGE_ID]+") references "+ImageModel.TABLE+"("+ImageModel.FIELDS[ImageModel.ID]+")"
                 +");");
 
         db.execSQL("Create table "+ ReportDbModel.TABLE+" ("

@@ -18,7 +18,7 @@ public class EquipmentCameraActivity extends ActionBarActivityBase implements IE
     private ImageListFragment imageListFragment;
     private EquipmentCameraFragment equipmentCameraFragment;
     private ImagePreviewFragment imagePreviewFragment;
-    private IImageModel _imageModel;
+    private ImageModel _imageModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

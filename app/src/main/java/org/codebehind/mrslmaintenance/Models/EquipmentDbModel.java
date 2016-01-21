@@ -7,6 +7,7 @@ import android.util.Log;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
+import org.codebehind.mrslmaintenance.Entities.Image;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
 import org.codebehind.mrslmaintenance.StaticConstants;
@@ -24,8 +25,11 @@ public class EquipmentDbModel extends DbAbstractModelBase {
     public static final String TABLE="Equipment",
             FILTER_SELECTION_START="name like '%",
             FILTER_SELECTION_END="%'";
+
     public static final String[] FIELDS =  new String[]{"_id", "name", "imageId", "timestamp", "deleted" };
     public static final int ID=0, NAME=1, IMAGE_ID=2, TIMESTAMP=3, DELETED=4;
+
+    private static final int IMAGE=DELETED+1;
 
     private static final String LOG_TAG="EquipmentDbModel";
     private int _length; // this checks the size of the list and iff it's different
@@ -85,6 +89,7 @@ public class EquipmentDbModel extends DbAbstractModelBase {
 
     public ArrayList<Equipment> getList(int siteId) {
         ArrayList<Equipment> equipmentList;
+        Image image;
 
         equipmentList = new ArrayList<>();
 
@@ -93,9 +98,11 @@ public class EquipmentDbModel extends DbAbstractModelBase {
                 +"e."+FIELDS[NAME]+", "
                 +"e."+FIELDS[IMAGE_ID]+", "
                 +"e."+FIELDS[TIMESTAMP]+", "
-                +"e."+FIELDS[DELETED]+" "
+                +"e."+FIELDS[DELETED]+", "
+                +"i."+ImageModel.FIELDS[ImageModel.IMAGE]
                 +" from " + TABLE + " e"
                 +" join " + SiteEquipmentDbModel.TABLE + " se on e."+FIELDS[ID]+" = se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.EQUIPMENT_ID]
+                +" join " + ImageModel.TABLE + " i on e."+FIELDS[IMAGE_ID]+" = i."+ImageModel.FIELDS[ImageModel.ID]
                 +" where se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.SITE_ID]+"="+siteId;
 
         Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
@@ -104,6 +111,9 @@ public class EquipmentDbModel extends DbAbstractModelBase {
         while(c.isAfterLast()==false){
 
             Equipment equipment=new Equipment(c.getInt(ID), c.getString(NAME), c.getInt(IMAGE_ID));
+
+            image = new Image(c.getInt(IMAGE_ID), c.getBlob(IMAGE),"");
+            equipment.setImg(image);
 
             equipmentList.add(equipment);
             c.moveToNext();

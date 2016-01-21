@@ -69,21 +69,6 @@
     <LinearLayout
         android:orientation="horizontal"
         android:padding="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:id="@+id/site_new_equipment_listview">
-        </ListView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:padding="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/site_new_add_equip_box">
@@ -105,6 +90,23 @@
             android:id="@+id/site_new_add_equipment_button" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:id="@+id/site_new_equipment_listview">
+        </ListView>
+
+    </LinearLayout>
+
+
 
 
 </LinearLayout>

@@ -1,12 +1,30 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.codebehind.mrslmaintenance.EquipmentNewActivity">
 
-    <item android:id="@+id/menu_equipment_edit"
+    <item
+        android:id="@+id/menu_equipment_edit"
         android:icon="@android:drawable/ic_menu_edit"
         android:visible="true"
         android:title="@string/edit_equip"
         app:showAsAction="ifRoom" />
+
+    <!-- Default the next are invisible -->
+    <item
+        android:id="@+id/menu_equipment_save"
+        android:icon="@android:drawable/ic_menu_save"
+        android:visible="false"
+        android:title="@string/add_equip"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_equipment_delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:visible="false"
+        android:title="@string/del_equip"
+        app:showAsAction="ifRoom" />
+    <!--                                -->
 
 </menu>

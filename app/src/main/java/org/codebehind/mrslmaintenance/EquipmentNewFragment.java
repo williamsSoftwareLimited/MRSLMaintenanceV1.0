@@ -2,6 +2,10 @@ package org.codebehind.mrslmaintenance;
 
 import android.app.*;
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,9 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.IActAllowDelete;
 import org.codebehind.mrslmaintenance.Abstract.IEquipParamDelegate;
@@ -28,19 +34,22 @@ import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
 import org.codebehind.mrslmaintenance.Singletons.ParameterTypesSingleton;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IImageVIewVmDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IListViewVmDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.ISpinnerViewModelDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
+import org.codebehind.mrslmaintenance.ViewModels.ImageViewVm;
 import org.codebehind.mrslmaintenance.ViewModels.ListViewViewModel;
 import org.codebehind.mrslmaintenance.ViewModels.SpinnerViewModel;
 
+import java.io.FileNotFoundException;
 import java.util.Hashtable;
 
 
 /**
  * Created by Gavin on 09/02/2015.
  */
-public class EquipmentNewFragment extends Fragment implements IEditTextViewModelDelegate, IListViewVmDelegate<Parameter>,ISpinnerViewModelDelegate {
+public class EquipmentNewFragment extends Fragment implements IEditTextViewModelDelegate, IListViewVmDelegate<Parameter>,ISpinnerViewModelDelegate, IImageVIewVmDelegate {
 
     public static final String EQUIP_ARG="EQUIP_NEW_FRAG_EQUIP_ARG",
                                 MODE_ARG="EQUIP_MODE_FRAG_EQUIP_ARG",
@@ -53,6 +62,7 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
     private Button _addParamBtn;
     private LinearLayout _newParamBox;
     private ListViewViewModel<Parameter> _paramListViewVm;
+    private ImageViewVm _equipImageVm;
 
     public Equipment getEquip(){
         return _equipment;
@@ -94,7 +104,9 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
         return rootView;
     }
 
+
     private void setFragmentMode(FragmentMode fragmentMode){
+
         _fragmentMode=fragmentMode;
 
         if (_nameEditTextVm==null||_newParamNameEtVm==null||_newParamUnitsEtVm==null||_newParamBox==null)return;
@@ -145,14 +157,18 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
         _newParamTypeSpinVm= new SpinnerViewModel<>((Spinner)rootView.findViewById(R.id.equip_new_param_type_spin), paramSpinAdapt, this);
         _addParamBtn=(Button)rootView.findViewById(R.id.equipment_new_param_add_btn);
         _newParamBox=(LinearLayout)rootView.findViewById(R.id.equip_new_param_box);
+        _equipImageVm=new ImageViewVm((ImageView)rootView.findViewById(R.id.equipment_new_preview_imageview), this);
     }
 
     private void setAttributes(){
+        Uri targetUri;
 
         _nameEditTextVm.setText(_equipment.getEquipmentName());
 
         if (_fragmentMode==FragmentMode.EDIT) getActivity().setTitle(EDIT_EQUIP);
+
         else if (_fragmentMode==FragmentMode.NEW) getActivity().setTitle(NEW_EQUIP);
+
         else getActivity().setTitle(VIEW_EQUIP);
 
         _newParamNameEtVm.setEms(6);
@@ -161,6 +177,11 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
         _addParamBtn.setEnabled(false);
 
         setFragmentMode(_fragmentMode);
+
+        // this needs to get the image from the database
+        //targetUri=Uri.parse(_equipment.getImgPath());
+        //_equipImageVm.setImage(targetUri);
+
     }
 
     private void setEvents(){
@@ -241,6 +262,34 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
     @Override
     public void itemSelected(int pos) {
         // Param Type Spinner callback
+    }
+
+    @Override
+    public void onImageClick() {
+        // this is the equipImageview event called from the vm
+        Intent intent;
+
+        intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Uri targetUri;
+        
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == getActivity().RESULT_OK){
+            
+            targetUri = data.getData();
+
+            Log.d(LOG_TAG, "onActivityResult: the image path is "+targetUri);
+
+            _equipImageVm.setImage(targetUri);
+
+        }
+
     }
 
 }

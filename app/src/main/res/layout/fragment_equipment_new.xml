@@ -32,11 +32,9 @@
             android:id="@+id/equipment_new_name_edittext"/>
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="5dp"
-            android:paddingLeft="50dp"
-            android:scaleType="centerInside"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="centerCrop"
             android:background="@android:color/darker_gray"
             android:cropToPadding="true"
             android:id="@+id/equipment_new_preview_imageview"/>
@@ -68,20 +66,6 @@
     <LinearLayout
         android:orientation="horizontal"
         android:padding="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:id="@+id/equipment_new_param_listview" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:padding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/equip_new_param_box">
@@ -106,6 +90,20 @@
             android:layout_height="wrap_content"
             android:text="@string/add_item"
             android:id="@+id/equipment_new_param_add_btn" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:id="@+id/equipment_new_param_listview" />
 
     </LinearLayout>
 

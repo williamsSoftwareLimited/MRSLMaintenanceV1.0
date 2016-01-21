@@ -1,28 +1,39 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.codebehind.mrslmaintenance.EquipmentListActivity">
-    <item android:id="@+id/menu_view_equipment_list"
+
+    <item
+        android:id="@+id/menu_view_equipment_list"
         android:icon="@android:drawable/ic_menu_view"
         android:title="@string/menu_view_equipment_list"
         android:visible="false"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_add_equipment_list"
+
+    <item
+        android:id="@+id/menu_add_equipment_list"
         android:icon="@android:drawable/ic_menu_set_as"
         android:visible="false"
         android:title="@string/add_item"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_alter_equipment_list"
+
+    <item
+        android:id="@+id/menu_alter_equipment_list"
         android:icon="@android:drawable/ic_menu_edit"
         android:title="@string/change"
         android:visible="false"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_delete_equipment_list"
+
+    <item
+        android:id="@+id/menu_delete_equipment_list"
         android:icon="@android:drawable/ic_menu_delete"
         android:title="@string/delete"
         android:visible="false"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_new_equipment_list"
+
+    <item
+        android:id="@+id/menu_new_equipment_list"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/new_item"
         app:showAsAction="ifRoom" />

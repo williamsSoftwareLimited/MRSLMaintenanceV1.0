@@ -3,5 +3,5 @@
     android:id="@+id/activity_site_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.codebehind.mrslmaintenance.SiteActivity"
+    tools:context=".SiteActivity"
     tools:ignore="MergeRootFrame" />

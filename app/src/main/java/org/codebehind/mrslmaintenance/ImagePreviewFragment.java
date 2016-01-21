@@ -15,19 +15,20 @@ import android.widget.ImageView;
 import org.codebehind.mrslmaintenance.Abstract.IFragmentImagePreviewCallback;
 import org.codebehind.mrslmaintenance.Entities.Image;
 import org.codebehind.mrslmaintenance.Models.Abstract.IImageModel;
+import org.codebehind.mrslmaintenance.Models.ImageModel;
 
 /**
  * Created by Gavin on 02/03/2015.
  */
 public class ImagePreviewFragment  extends Fragment {
-    private IImageModel _imageModel;
+    private ImageModel _imageModel;
     private ImageView _imageView;
     private EditText _titleEditText;
     private Button _saveBtn, _cancelBtn, _deleteBtn;
     private IFragmentImagePreviewCallback _listener;
     private Image _image;
 
-    public void setImageModel(IImageModel imageModel){
+    public void setImageModel(ImageModel imageModel){
         _imageModel=imageModel;
     }
     public void setImage(Image i){

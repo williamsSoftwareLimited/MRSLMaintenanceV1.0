@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Equipment extends AEntity implements Serializable, Comparable<Equipment>{
     private String _equipmentName;
     private int _imageId;
-    private byte[] _image;
+    private Image _image;
     private ArrayList<Parameter> _parameterList;
 
     // this is probably unnecessary
@@ -48,6 +48,7 @@ public class Equipment extends AEntity implements Serializable, Comparable<Equip
     public void setParameterList(ArrayList<Parameter> parameterList) {
         _parameterList = parameterList;
     }
+
     // if the parameter can't be found returns false
     public boolean addParameter(UUID paramId){
         Parameter parameter;
@@ -67,10 +68,11 @@ public class Equipment extends AEntity implements Serializable, Comparable<Equip
         _imageId = imgId;
     }
 
-    public byte[] getImg() {
+    public Image getImg() {
         return _image;
     }
-    public void setImg(byte[] img) {
+
+    public void setImg(Image img) {
         _image= img;
     }
 

@@ -9,7 +9,13 @@ public class Image {
     private String title;
 
     public Image(byte[] image, String title){
-        setId(-1);
+
+        this(-1, image, title);
+    }
+
+    public Image(int id, byte[] image, String title){
+
+        setId(id);
         setImage(image);
         setTitle(title);
     }
@@ -17,19 +23,25 @@ public class Image {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public byte[] getImage() {
         return img;
     }
+
     public void setImage(byte[] img) {
         this.img = img;
     }
+
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
+
 }

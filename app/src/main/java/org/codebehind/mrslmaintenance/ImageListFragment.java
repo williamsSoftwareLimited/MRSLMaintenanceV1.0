@@ -25,11 +25,11 @@ import org.codebehind.mrslmaintenance.Models.ImageModel;
  * A simple {@link Fragment} subclass.
  */
 public class ImageListFragment extends Fragment {
-    private IImageModel _imageModel;
+    private ImageModel _imageModel;
     private ListView imagesListView;
     private IImageListFragmentCallback _listener;
 
-    public void setImageModel(IImageModel imageModel) {
+    public void setImageModel(ImageModel imageModel) {
         _imageModel = imageModel;
     }
 
