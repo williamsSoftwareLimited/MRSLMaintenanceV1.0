@@ -31,9 +31,11 @@ public class ImagePreviewFragment  extends Fragment {
     public void setImageModel(ImageModel imageModel){
         _imageModel=imageModel;
     }
+
     public void setImage(Image i){
         _image = i;
     }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -52,19 +54,25 @@ public class ImagePreviewFragment  extends Fragment {
         setEvents();
         return view;
     }
+
     @Override
     public void onResume() {
+
         // this fixes a weird bug that the edittext doesn't update unless called from here!
         super.onResume();
         setText();
     }
+
     private void setControls(View view){
+
         _imageView = (ImageView)view.findViewById(R.id.fragment_image_preview_imageview);
         _titleEditText=(EditText)view.findViewById(R.id.fragment_image_preview_title_edittext);
         _saveBtn=(Button)view.findViewById(R.id.imagePreviewSaveBtn);
         _cancelBtn=(Button)view.findViewById(R.id.imagePreviewCancelBtn);
         _deleteBtn=(Button)view.findViewById(R.id.imagePreviewDeleteBtn);
+
     }
+
     private void setText(){
         Bitmap bitmap;
         byte[] data;
@@ -77,15 +85,21 @@ public class ImagePreviewFragment  extends Fragment {
         // if the image has an id then it's not new to display the delete button
         if (_image.getId()>0)_deleteBtn.setVisibility(View.VISIBLE);
     }
+
     private void setEvents(){
+
         _saveBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
                 _image.setTitle(_titleEditText.getText().toString());
                 _imageModel.insert(_image);
                 _listener.saved();
             }
+
         });
+
         _cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,5 +113,7 @@ public class ImagePreviewFragment  extends Fragment {
                 _listener.cancelled();
             }
         });
+
     }
+
 }

@@ -38,26 +38,33 @@ public class EquipmentCameraFragment extends Fragment {
             _progressCntr.setVisibility(View.VISIBLE);
         }
     };
+
     private android.hardware.Camera.PictureCallback mJpegCallBack = new android.hardware.Camera.PictureCallback() {
+
         public void onPictureTaken(byte[] data, android.hardware.Camera camera) {
 
-            _image = new Image(data,StaticConstants.IMAGE_TITLE);
+            _image = new Image(data, StaticConstants.IMAGE_TITLE);
             // pass control back to the activity
             _listener.onPhotoTakenCallback(-1);
         }
     };
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_equipment_camera, container, false);
         Button picBtn = (Button)rootView.findViewById(R.id.equipment_camera_button);
         SurfaceView picView = (SurfaceView)rootView.findViewById(R.id.equipment_camera_surfaceview);
         SurfaceHolder holder = picView.getHolder();
+
+
         _progressCntr=(View)rootView.findViewById(R.id.equipment_camera_progressContainer);
 
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         _progressCntr.setVisibility(View.INVISIBLE);
 
         picBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 if(_camera!=null){
@@ -65,7 +72,9 @@ public class EquipmentCameraFragment extends Fragment {
                 }
             }
         });
+
         holder.addCallback(new SurfaceHolder.Callback() {
+
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 try{
@@ -76,6 +85,7 @@ public class EquipmentCameraFragment extends Fragment {
                     Log.e(TAG,"Error setting up the preview display.");
                 }
             }
+
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
@@ -97,43 +107,64 @@ public class EquipmentCameraFragment extends Fragment {
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) { }
         });
+
         return rootView;
+
     }
+
     @Override
     public void onResume(){
         super.onResume();
+
         _camera= android.hardware.Camera.open(0);
     }
+
     @Override
     public void onPause(){
         super.onPause();
+
         if (_camera!=null){
+
             _camera.release();
             _camera=null;
         }
+
     }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
         try {
+
             _listener = (IEquipmentCameraCallback) activity;
+
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement IFragmentCallbackUUID");
         }
+
     }
+
+
     /** a simple algorithm to get the largest size available. For a more
      * robust version, see CameraPreview.java in the ApiDemos
      * sample app from Android. */
     private android.hardware.Camera.Size getBestSupportedSize(List<android.hardware.Camera.Size> sizes, int width, int height) {
         android.hardware.Camera.Size bestSize = sizes.get(0);
         int largestArea = bestSize.width * bestSize.height;
+
         for (android.hardware.Camera.Size s : sizes) {
+
             int area = s.width * s.height;
+
             if (area > largestArea) {
                 bestSize = s;
                 largestArea = area;
             }
         }
+
         return bestSize;
+
     }
+
 }

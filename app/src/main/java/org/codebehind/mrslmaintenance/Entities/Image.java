@@ -1,10 +1,12 @@
 package org.codebehind.mrslmaintenance.Entities;
 
+import org.codebehind.mrslmaintenance.Entities.Abstract.AEntity;
+
+
 /**
  * Created by Gavin on 23/02/2015.
  */
-public class Image {
-    private int id;
+public class Image  extends AEntity {
     private byte[] img;
     private String title;
 
@@ -18,14 +20,6 @@ public class Image {
         setId(id);
         setImage(image);
         setTitle(title);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public byte[] getImage() {

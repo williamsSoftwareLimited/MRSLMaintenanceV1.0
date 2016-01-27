@@ -3,18 +3,18 @@ package org.codebehind.mrslmaintenance.Entities;
 import org.codebehind.mrslmaintenance.Entities.Abstract.AEntity;
 import org.codebehind.mrslmaintenance.Models.ParameterModel;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
 /**
  * Created by Gavin on 23/12/2014.
  */
-public class Equipment extends AEntity implements Serializable, Comparable<Equipment>{
+public class Equipment extends AEntity implements Comparable<Equipment>{
+
     private String _equipmentName;
     private int _imageId;
-    private Image _image;
     private ArrayList<Parameter> _parameterList;
+    private Image _image;
 
     // this is probably unnecessary
     public Equipment(){
@@ -68,12 +68,12 @@ public class Equipment extends AEntity implements Serializable, Comparable<Equip
         _imageId = imgId;
     }
 
-    public Image getImg() {
+    public Image getImage(){
         return _image;
     }
 
-    public void setImg(Image img) {
-        _image= img;
+    public void setImage(Image image){
+        _image=image;
     }
 
     @Override

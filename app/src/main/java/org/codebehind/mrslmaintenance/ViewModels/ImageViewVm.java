@@ -10,10 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IImageVIewVmDelegate;
 
-import java.io.FileNotFoundException;
 
 /**
  * Created by root on 18/01/16.
@@ -23,17 +21,16 @@ public class ImageViewVm {
 
     private static final String LOG_TAG="ImageViewVm";
     private ImageView _imageView;
-    //private IImageVIewVmDelegate _delegate;
-    private Fragment _parentFrag;
+    private IImageVIewVmDelegate _delegate;
 
-    public ImageViewVm(ImageView imageView, Fragment parentFrag){
+    public ImageViewVm(ImageView imageView, IImageVIewVmDelegate delegate){
 
         if (imageView==null) Log.wtf(LOG_TAG, "construct: violation imageView arg is null.");
-        if (parentFrag==null) Log.wtf(LOG_TAG, "construct: violation parentFrag arg is null.");
+        if (delegate==null) Log.wtf(LOG_TAG, "construct: violation parentFrag arg is null.");
 
 
         _imageView=imageView;
-        _parentFrag=parentFrag;
+        _delegate=delegate;
 
         _imageView.setOnClickListener(new View.OnClickListener() {
 
@@ -42,7 +39,7 @@ public class ImageViewVm {
                 IImageVIewVmDelegate delegate;
                 // do whatever processing required
 
-                delegate=(IImageVIewVmDelegate)_parentFrag; // uncomfortable cast
+                delegate=_delegate;
 
                 // defensive programming
                 if (delegate==null) {
@@ -61,27 +58,25 @@ public class ImageViewVm {
 
     }
 
-    public void setImage(Uri targetUri){
+    public void setImage(byte [] data){
         Bitmap bitmap;
+        BitmapFactory.Options options;
 
-        if (targetUri==null) {
+        if (data==null) {
 
-            Log.wtf(LOG_TAG, "setImage: violation targetUri arg is null.");
+            Log.wtf(LOG_TAG, "setImage: violation data arg is null.");
             return;
         }
 
-        try {
+        options = new BitmapFactory.Options();
+        options.inJustDecodeBounds=true;
+        options.inSampleSize=8;
+        options.inJustDecodeBounds=false;
 
-            bitmap = BitmapFactory.decodeStream(_parentFrag.getActivity().getContentResolver().openInputStream(targetUri));
+        bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+        //bitmap = BitmapFactory.decodeStream(_parentFrag.getActivity().getContentResolver().openInputStream(targetUri));
 
-            _imageView.setImageBitmap(bitmap);
-
-        } catch (FileNotFoundException e) {
-
-            Log.wtf(LOG_TAG, "onActivityResult: exception thrown file not found.");
-
-        }
-
+        _imageView.setImageBitmap(bitmap);
 
     }
 

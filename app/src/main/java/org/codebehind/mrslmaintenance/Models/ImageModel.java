@@ -1,8 +1,13 @@
 package org.codebehind.mrslmaintenance.Models;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Log;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Image;
@@ -10,12 +15,17 @@ import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
 import org.codebehind.mrslmaintenance.Models.Abstract.IImageModel;
 import org.codebehind.mrslmaintenance.StaticConstants;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * Created by Gavin on 07/01/2015.
  */
 // this has an invariant context can't be null
 public class ImageModel  extends DbAbstractModelBase {
 
+    private static final String LOG_TAG="ImageModel";
     public static final String TABLE="images", SELECTION="_id=";
     public static final String[] FIELDS = new String[]{ "_id", "image", "title" };
     public static final int ID=0, IMAGE=1, TITLE=2;
@@ -23,6 +33,7 @@ public class ImageModel  extends DbAbstractModelBase {
     public ImageModel(Context context){
         super(context, TABLE);
     }
+
 
     public int insert(Image image){
         ContentValues v;
@@ -36,6 +47,7 @@ public class ImageModel  extends DbAbstractModelBase {
         if (image.getId()<0) {
 
             v.put(FIELDS[IMAGE], image.getImage());
+
             return (int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, v);
 
         }else{
@@ -70,6 +82,31 @@ public class ImageModel  extends DbAbstractModelBase {
         image.setId(cursor.getInt(ID));
 
         return image;
+    }
+
+    public byte[] readBytes(InputStream inputStream) {
+        int len, bufferSize;
+        ByteArrayOutputStream byteBuffer;
+        byte[] buffer;
+
+        byteBuffer = new ByteArrayOutputStream();
+        bufferSize = 1024;
+        buffer = new byte[bufferSize];
+
+        try {
+
+            while ((len = inputStream.read(buffer)) != -1) {
+
+                byteBuffer.write(buffer, 0, len);
+            }
+
+        }catch(IOException e){
+
+            Log.wtf(LOG_TAG, "readBytes: IOException thrown, trying to read the inputStream.");
+            return null;
+        }
+
+        return byteBuffer.toByteArray();
     }
 
 }

@@ -66,6 +66,7 @@ public class ImageListFragment extends Fragment {
         });
         return view;
     }
+
     class imageAdapter extends CursorAdapter {
         private ImageView imageView;
         private TextView titleTextView;
@@ -73,6 +74,7 @@ public class ImageListFragment extends Fragment {
         public imageAdapter(Cursor imageCursor) {
             super(getActivity(), imageCursor);
         }
+
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
             LayoutInflater inflater;
@@ -82,6 +84,7 @@ public class ImageListFragment extends Fragment {
             v = inflater.inflate(R.layout.fragment_image_list_item, parent, false);
             return v;
         }
+
         @Override
         public void bindView(View view, Context context, Cursor cursor){
             byte[] data;
@@ -91,6 +94,7 @@ public class ImageListFragment extends Fragment {
             titleTextView = (TextView) view.findViewById((R.id.fragment_image_list_item_title));
             titleTextView.setText(cursor.getString(ImageModel.TITLE));
             data = cursor.getBlob(ImageModel.IMAGE);
+
             if (data!=null) {
 
                 options = new BitmapFactory.Options();
@@ -101,6 +105,9 @@ public class ImageListFragment extends Fragment {
                 imageView = (ImageView) view.findViewById(R.id.fragment_image_list_item_image);
                 imageView.setImageBitmap(bitmap);
             }
+
         }
+
     }
+
 }

@@ -29,8 +29,6 @@ public class EquipmentDbModel extends DbAbstractModelBase {
     public static final String[] FIELDS =  new String[]{"_id", "name", "imageId", "timestamp", "deleted" };
     public static final int ID=0, NAME=1, IMAGE_ID=2, TIMESTAMP=3, DELETED=4;
 
-    private static final int IMAGE=DELETED+1;
-
     private static final String LOG_TAG="EquipmentDbModel";
     private int _length; // this checks the size of the list and iff it's different
     private ArrayList<Equipment> _list;
@@ -82,14 +80,7 @@ public class EquipmentDbModel extends DbAbstractModelBase {
     }
 
     public ArrayList<Equipment> getList() {
-
-        populateList();
-        return _list;
-    }
-
-    public ArrayList<Equipment> getList(int siteId) {
         ArrayList<Equipment> equipmentList;
-        Image image;
 
         equipmentList = new ArrayList<>();
 
@@ -98,12 +89,8 @@ public class EquipmentDbModel extends DbAbstractModelBase {
                 +"e."+FIELDS[NAME]+", "
                 +"e."+FIELDS[IMAGE_ID]+", "
                 +"e."+FIELDS[TIMESTAMP]+", "
-                +"e."+FIELDS[DELETED]+", "
-                +"i."+ImageModel.FIELDS[ImageModel.IMAGE]
-                +" from " + TABLE + " e"
-                +" join " + SiteEquipmentDbModel.TABLE + " se on e."+FIELDS[ID]+" = se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.EQUIPMENT_ID]
-                +" join " + ImageModel.TABLE + " i on e."+FIELDS[IMAGE_ID]+" = i."+ImageModel.FIELDS[ImageModel.ID]
-                +" where se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.SITE_ID]+"="+siteId;
+                +"e."+FIELDS[DELETED]+" "
+                +" from " + TABLE + " e";
 
         Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
         c.moveToFirst();
@@ -112,8 +99,35 @@ public class EquipmentDbModel extends DbAbstractModelBase {
 
             Equipment equipment=new Equipment(c.getInt(ID), c.getString(NAME), c.getInt(IMAGE_ID));
 
-            image = new Image(c.getInt(IMAGE_ID), c.getBlob(IMAGE),"");
-            equipment.setImg(image);
+            equipmentList.add(equipment);
+            c.moveToNext();
+        }
+
+        Collections.sort(equipmentList);
+        return equipmentList;
+    }
+
+    public ArrayList<Equipment> getList(int siteId) {
+        ArrayList<Equipment> equipmentList;
+
+        equipmentList = new ArrayList<>();
+
+        String query = "select "
+                +"e."+FIELDS[ID]+", "
+                +"e."+FIELDS[NAME]+", "
+                +"e."+FIELDS[IMAGE_ID]+", "
+                +"e."+FIELDS[TIMESTAMP]+", "
+                +"e."+FIELDS[DELETED]+" "
+                +" from " + TABLE + " e"
+                +" join " + SiteEquipmentDbModel.TABLE + " se on e."+FIELDS[ID]+" = se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.EQUIPMENT_ID]
+                +" where se."+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.SITE_ID]+"="+siteId;
+
+        Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
+        c.moveToFirst();
+
+        while(c.isAfterLast()==false){
+
+            Equipment equipment=new Equipment(c.getInt(ID), c.getString(NAME), c.getInt(IMAGE_ID));
 
             equipmentList.add(equipment);
             c.moveToNext();
@@ -184,7 +198,7 @@ public class EquipmentDbModel extends DbAbstractModelBase {
         }
 
         contentValues.put(FIELDS[NAME], equip.getEquipmentName());
-        //contentValues.put(FIELDS[IMAGE_ID], site.getImageId());
+        contentValues.put(FIELDS[IMAGE_ID], equip.getImgId());
         contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
         contentValues.put(FIELDS[DELETED], deleted?1:0);
 

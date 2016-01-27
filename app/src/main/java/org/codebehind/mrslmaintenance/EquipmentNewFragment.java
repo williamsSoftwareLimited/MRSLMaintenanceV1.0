@@ -28,9 +28,12 @@ import org.codebehind.mrslmaintenance.Adapters.EquipParamAdapter;
 import org.codebehind.mrslmaintenance.Adapters.ParamSpinnerAdapter;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.EquipmentParameters;
+import org.codebehind.mrslmaintenance.Entities.Image;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.ParameterType;
+import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
+import org.codebehind.mrslmaintenance.Models.ImageModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
 import org.codebehind.mrslmaintenance.Singletons.ParameterTypesSingleton;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
@@ -42,7 +45,11 @@ import org.codebehind.mrslmaintenance.ViewModels.ImageViewVm;
 import org.codebehind.mrslmaintenance.ViewModels.ListViewViewModel;
 import org.codebehind.mrslmaintenance.ViewModels.SpinnerViewModel;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Hashtable;
 
 
@@ -53,8 +60,11 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
 
     public static final String EQUIP_ARG="EQUIP_NEW_FRAG_EQUIP_ARG",
                                 MODE_ARG="EQUIP_MODE_FRAG_EQUIP_ARG",
-                               LOG_TAG="EquipmentNewFragment";
+                                LOG_TAG="EquipmentNewFragment";
     private static final String EDIT_EQUIP="Edit Equipment", VIEW_EQUIP="Equipment", NEW_EQUIP="New Equipment";
+
+    private static final int IMAGE_LIMIT=1000000; // this is 1mb
+
     private Equipment _equipment;
     private FragmentMode _fragmentMode;
     private EditTextViewModel _nameEditTextVm, _newParamNameEtVm, _newParamUnitsEtVm;
@@ -63,6 +73,7 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
     private LinearLayout _newParamBox;
     private ListViewViewModel<Parameter> _paramListViewVm;
     private ImageViewVm _equipImageVm;
+    private ImageModel _imageModel;
 
     public Equipment getEquip(){
         return _equipment;
@@ -91,6 +102,7 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
 
         rootView = inflater.inflate(R.layout.fragment_equipment_new, container, false);
 
+        _imageModel=new ImageModel(getActivity());
         _equipment=(Equipment)getArguments().getSerializable(EQUIP_ARG);
 
         setFragmentMode((FragmentMode) getArguments().getSerializable(MODE_ARG));
@@ -161,7 +173,9 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
     }
 
     private void setAttributes(){
-        Uri targetUri;
+        Image image;
+
+        image=new Image(null,"");
 
         _nameEditTextVm.setText(_equipment.getEquipmentName());
 
@@ -178,9 +192,16 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
 
         setFragmentMode(_fragmentMode);
 
-        // this needs to get the image from the database
-        //targetUri=Uri.parse(_equipment.getImgPath());
-        //_equipImageVm.setImage(targetUri);
+        if (_equipment.getImage()==null || _equipment.getImgId()<1){
+
+            image=_imageModel.getImage(_equipment.getImgId());
+
+            _equipment.setImage(image);
+            _equipment.setImgId(image.getId());
+
+        }
+
+        _equipImageVm.setImage(_equipment.getImage().getImage());
 
     }
 
@@ -277,6 +298,9 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Uri targetUri;
+        EquipmentDbModel equipModel;
+        InputStream stream;
+        Image image;
         
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -284,9 +308,37 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
             
             targetUri = data.getData();
 
-            Log.d(LOG_TAG, "onActivityResult: the image path is "+targetUri);
+            Log.d(LOG_TAG, "onActivityResult: the image path is " + targetUri);
 
-            _equipImageVm.setImage(targetUri);
+            try {
+
+                stream=getActivity().getContentResolver().openInputStream(targetUri);
+
+                equipModel=new EquipmentDbModel(getActivity());
+
+                image=new Image(null,"");
+
+                image.setImage(_imageModel.readBytes(stream));
+
+                if (image.getImage().length>IMAGE_LIMIT){
+
+                    Toast.makeText(getActivity(), "The image limit has been exceeded! Reduce the size to below 1Mb. Use PhotoEditor or something similar.", Toast.LENGTH_LONG).show();
+                    Log.wtf(LOG_TAG, "onActivityResult: the image size is larger than 1Mb.");
+
+                    return;
+                }
+
+                image.setId(_imageModel.insert(image));
+
+                _equipment.setImgId(image.getId());
+                _equipment.setImage(image);
+
+                equipModel.update(_equipment);
+
+                _equipImageVm.setImage(image.getImage());
+
+
+            } catch (FileNotFoundException e){}
 
         }
 
