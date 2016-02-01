@@ -9,9 +9,6 @@ import android.view.MenuItem;
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Data.LoadData;
 import org.codebehind.mrslmaintenance.Entities.Report;
-import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
-
-import java.util.ArrayList;
 
 // this is currently the entry SiteActivity
 public class ReportListActivity extends ActionBarActivityBase {
@@ -71,8 +68,10 @@ public class ReportListActivity extends ActionBarActivityBase {
                 return true;
 
             case R.id.menu_camera:
-                i = new Intent(this, EquipmentCameraActivity.class);
+
+                i = new Intent(this, ImageListActivity.class);
                 startActivity(i);
+
                 return true;
 
             default:return super.onOptionsItemSelected(item);

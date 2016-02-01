@@ -47,6 +47,7 @@
     <string name="take_picture">Take picture</string>
     <string name="cameras">Cameras</string>
     <string name="new_image">New image</string>
+    <string name="images">Images</string>
     <string name="title_activity_report_new">New Report</string>
     <string name="site_title">Sites:</string>
     <string name="Equipment_title">Equipments:</string>
@@ -63,5 +64,6 @@
     <string name="edit_equip">Edit</string>
     <string name="del_equip">Edit</string>
     <string name="add_equip">Edit</string>
+    <string name="title_activity_image_list">Images</string>
 
 </resources>

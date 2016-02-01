@@ -78,6 +78,9 @@ public class Equipment extends AEntity implements Comparable<Equipment>{
 
     @Override
     public int compareTo(Equipment equipment) {
+
+        if (equipment==null)return -1;
+
         return getId()-equipment.getId();
     }
 }

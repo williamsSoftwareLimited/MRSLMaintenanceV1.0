@@ -1,8 +1,9 @@
 <FrameLayout
+
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/equipment_list_container"
+    android:id="@+id/image_list_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.codebehind.mrslmaintenance.EquipmentListActivity"
+    tools:context=".ImageListActivity"
     tools:ignore="MergeRootFrame" />

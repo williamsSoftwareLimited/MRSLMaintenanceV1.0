@@ -11,11 +11,10 @@ import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Abstract.IEquipmentCameraCallback;
 import org.codebehind.mrslmaintenance.Abstract.IFragmentImagePreviewCallback;
 import org.codebehind.mrslmaintenance.Abstract.IImageListFragmentCallback;
-import org.codebehind.mrslmaintenance.Models.Abstract.IImageModel;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
 
 public class EquipmentCameraActivity extends ActionBarActivityBase implements IEquipmentCameraCallback,IFragmentImagePreviewCallback,IImageListFragmentCallback {
-    private ImageListFragment imageListFragment;
+    private EquipImageListFragment equipImageListFragment;
     private EquipmentCameraFragment equipmentCameraFragment;
     private ImagePreviewFragment imagePreviewFragment;
     private ImageModel _imageModel;
@@ -27,8 +26,8 @@ public class EquipmentCameraActivity extends ActionBarActivityBase implements IE
         super.onCreate(savedInstanceState);
 
         _imageModel = new ImageModel(this);
-        imageListFragment = new ImageListFragment();
-        imageListFragment.setImageModel(_imageModel);
+        equipImageListFragment = new EquipImageListFragment();
+        equipImageListFragment.setImageModel(_imageModel);
         imagePreviewFragment = new ImagePreviewFragment();
         imagePreviewFragment.setImageModel(_imageModel);
 
@@ -37,7 +36,7 @@ public class EquipmentCameraActivity extends ActionBarActivityBase implements IE
         if (savedInstanceState == null) {
 
             ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.container_equipment_camera, imageListFragment);
+            ft.add(R.id.container_equipment_camera, equipImageListFragment);
             ft.commit();
 
         }
@@ -56,6 +55,7 @@ public class EquipmentCameraActivity extends ActionBarActivityBase implements IE
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         switch (id){
+
             case R.id.menu_new_image:
                 equipmentCameraFragment = new EquipmentCameraFragment();
                 changeFragment(R.id.container_equipment_camera, equipmentCameraFragment);
@@ -79,13 +79,13 @@ public class EquipmentCameraActivity extends ActionBarActivityBase implements IE
     @Override
     public void saved() {
         // need to refresh the list
-        changeFragment(R.id.container_equipment_camera, imageListFragment);
+        changeFragment(R.id.container_equipment_camera, equipImageListFragment);
     }
 
     @Override
     public void cancelled() {
 
-        changeFragment(R.id.container_equipment_camera, imageListFragment);
+        changeFragment(R.id.container_equipment_camera, equipImageListFragment);
     }
 
     //=================================================

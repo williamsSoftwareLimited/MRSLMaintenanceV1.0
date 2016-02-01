@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
-import org.codebehind.mrslmaintenance.Abstract.IActAllowDelete;
 import org.codebehind.mrslmaintenance.Abstract.IEquipParamDelegate;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.EquipmentParameters;
@@ -222,4 +221,6 @@ public class EquipmentNewActivity extends ActionBarActivityBase implements IView
         _deleteMenuItem.setVisible(true);
         _equipParam2bDeleted=equipParam;
     }
+
+
 }

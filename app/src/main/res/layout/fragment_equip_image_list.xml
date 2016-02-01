@@ -7,7 +7,7 @@
     android:baselineAligned="false">
 
     <ListView
-        android:id="@+id/image_list_listview"
+        android:id="@+id/equip_image_list_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"

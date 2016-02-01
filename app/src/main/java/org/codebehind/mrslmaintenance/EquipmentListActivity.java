@@ -6,13 +6,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 
 
-public class EquipmentListActivity extends ActionBarActivityBase{
+public class EquipmentListActivity extends ActionBarActivityBase {
 
     private static final String LOG_TAG="EquipmentListActivity";
     private Menu _menu;

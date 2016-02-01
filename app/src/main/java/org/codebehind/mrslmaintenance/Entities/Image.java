@@ -6,7 +6,7 @@ import org.codebehind.mrslmaintenance.Entities.Abstract.AEntity;
 /**
  * Created by Gavin on 23/02/2015.
  */
-public class Image  extends AEntity {
+public class Image  extends AEntity implements Comparable<Image> {
     private byte[] img;
     private String title;
 
@@ -38,4 +38,11 @@ public class Image  extends AEntity {
         this.title = title;
     }
 
+    @Override
+    public int compareTo(Image image) {
+
+        if (image==null) return -1;
+
+        return getId()-image.getId();
+    }
 }

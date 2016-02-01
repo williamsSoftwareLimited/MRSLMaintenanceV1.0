@@ -16,6 +16,6 @@
         app:showAsAction="withText|collapseActionView" />
     <item android:id="@+id/menu_camera"
         android:icon="@android:drawable/ic_menu_camera"
-        android:title="@string/cameras"
+        android:title="@string/images"
         app:showAsAction="withText|collapseActionView" />
 </menu>

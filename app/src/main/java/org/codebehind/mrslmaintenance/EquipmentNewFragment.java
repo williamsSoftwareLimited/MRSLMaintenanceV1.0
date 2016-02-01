@@ -1,11 +1,6 @@
 package org.codebehind.mrslmaintenance;
 
-import android.app.*;
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,9 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import org.codebehind.mrslmaintenance.Abstract.IActAllowDelete;
 import org.codebehind.mrslmaintenance.Abstract.IEquipParamDelegate;
 import org.codebehind.mrslmaintenance.Adapters.Abstract.AbstractAdapter;
 import org.codebehind.mrslmaintenance.Adapters.EquipParamAdapter;
@@ -44,13 +37,6 @@ import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
 import org.codebehind.mrslmaintenance.ViewModels.ImageViewVm;
 import org.codebehind.mrslmaintenance.ViewModels.ListViewViewModel;
 import org.codebehind.mrslmaintenance.ViewModels.SpinnerViewModel;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Hashtable;
 
 
 /**
@@ -175,8 +161,6 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
     private void setAttributes(){
         Image image;
 
-        image=new Image(null,"");
-
         _nameEditTextVm.setText(_equipment.getEquipmentName());
 
         if (_fragmentMode==FragmentMode.EDIT) getActivity().setTitle(EDIT_EQUIP);
@@ -290,55 +274,43 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
         // this is the equipImageview event called from the vm
         Intent intent;
 
-        intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
+        intent=new Intent(getActivity(), EquipImageListActivity.class);
         startActivityForResult(intent, 0);
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Uri targetUri;
         EquipmentDbModel equipModel;
-        InputStream stream;
         Image image;
+        int imageId;
         
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == getActivity().RESULT_OK){
-            
-            targetUri = data.getData();
 
-            Log.d(LOG_TAG, "onActivityResult: the image path is " + targetUri);
+            imageId=data.getIntExtra(EquipImageListActivity.EQUIP_IMAGE_SELECTED_EXTRA, -1);
 
-            try {
+            if (imageId==-1){
 
-                stream=getActivity().getContentResolver().openInputStream(targetUri);
+                Log.wtf(LOG_TAG, "onActivityResult: imageId violation the value is -1.");
+                return;
+            }
 
-                equipModel=new EquipmentDbModel(getActivity());
+            Log.d(LOG_TAG, "onActivityResult: the imageId is " + imageId);
 
-                image=new Image(null,"");
+            equipModel=new EquipmentDbModel(getActivity());
 
-                image.setImage(_imageModel.readBytes(stream));
+            _equipment.setImgId(imageId);
+            equipModel.update(_equipment);
 
-                if (image.getImage().length>IMAGE_LIMIT){
+            image=_imageModel.getImage(imageId);
 
-                    Toast.makeText(getActivity(), "The image limit has been exceeded! Reduce the size to below 1Mb. Use PhotoEditor or something similar.", Toast.LENGTH_LONG).show();
-                    Log.wtf(LOG_TAG, "onActivityResult: the image size is larger than 1Mb.");
+            _equipment.setImgId(image.getId());
+            _equipment.setImage(image);
 
-                    return;
-                }
+            _equipImageVm.setImage(image.getImage());
 
-                image.setId(_imageModel.insert(image));
-
-                _equipment.setImgId(image.getId());
-                _equipment.setImage(image);
-
-                equipModel.update(_equipment);
-
-                _equipImageVm.setImage(image.getImage());
-
-
-            } catch (FileNotFoundException e){}
 
         }
 
