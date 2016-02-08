@@ -108,6 +108,8 @@ public class ImageModel  extends DbAbstractModelBase {
         cursor = DatabaseHelper.getInstance(_context).getReadableDatabase().query(TABLE, FIELDS,SELECTION+id,null,null,null,null);
         cursor.moveToFirst();
 
+        if (cursor.isAfterLast()) return null;
+
         image = new Image(cursor.getBlob(IMAGE),cursor.getString(TITLE));
         image.setId(cursor.getInt(ID));
 

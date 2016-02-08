@@ -22,7 +22,7 @@ public class ReportActivity  extends ActionBarActivityBase implements IViewPager
     private static final String EDIT_REPORT="Edit Report";
     private ViewPagerViewModel _viewPagerVm;
     private Report _report;
-    ArrayList<Report> _reports;
+    private ArrayList<Report> _reports;
     private ReportDbModel _reportDbmodel;
 
     @Override
@@ -87,11 +87,14 @@ public class ReportActivity  extends ActionBarActivityBase implements IViewPager
 
     @Override
     public Fragment getItem(int position) {
+
         return ReportFragment.newInstance(_reports.get(position).getId());
     }
 
     @Override
     public void onPageSelected(int position) {
+
         _report=_reports.get(position);
     }
+
 }

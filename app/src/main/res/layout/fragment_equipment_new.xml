@@ -34,8 +34,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            android:scaleType="centerCrop"
-            android:background="@android:color/darker_gray"
+            android:scaleType="fitCenter"
             android:cropToPadding="true"
             android:id="@+id/equipment_new_preview_imageview"/>
 

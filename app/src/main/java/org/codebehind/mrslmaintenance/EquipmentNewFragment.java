@@ -49,8 +49,6 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
                                 LOG_TAG="EquipmentNewFragment";
     private static final String EDIT_EQUIP="Edit Equipment", VIEW_EQUIP="Equipment", NEW_EQUIP="New Equipment";
 
-    private static final int IMAGE_LIMIT=1000000; // this is 1mb
-
     private Equipment _equipment;
     private FragmentMode _fragmentMode;
     private EditTextViewModel _nameEditTextVm, _newParamNameEtVm, _newParamUnitsEtVm;
@@ -181,11 +179,11 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
             image=_imageModel.getImage(_equipment.getImgId());
 
             _equipment.setImage(image);
-            _equipment.setImgId(image.getId());
 
         }
 
-        _equipImageVm.setImage(_equipment.getImage().getImage());
+        if (_equipment.getImage()!=null)
+            _equipImageVm.setImage(_equipment.getImage().getImage());
 
     }
 
@@ -274,6 +272,8 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
         // this is the equipImageview event called from the vm
         Intent intent;
 
+        if (_fragmentMode==FragmentMode.VIEW) return;
+
         intent=new Intent(getActivity(), EquipImageListActivity.class);
         startActivityForResult(intent, 0);
 
@@ -281,7 +281,7 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        EquipmentDbModel equipModel;
+        //EquipmentDbModel equipModel;
         Image image;
         int imageId;
         
@@ -299,14 +299,13 @@ public class EquipmentNewFragment extends Fragment implements IEditTextViewModel
 
             Log.d(LOG_TAG, "onActivityResult: the imageId is " + imageId);
 
-            equipModel=new EquipmentDbModel(getActivity());
+            //equipModel=new EquipmentDbModel(getActivity());
 
-            _equipment.setImgId(imageId);
-            equipModel.update(_equipment);
+            //_equipment.setImgId(imageId);
+            //equipModel.update(_equipment);
 
             image=_imageModel.getImage(imageId);
 
-            _equipment.setImgId(image.getId());
             _equipment.setImage(image);
 
             _equipImageVm.setImage(image.getImage());

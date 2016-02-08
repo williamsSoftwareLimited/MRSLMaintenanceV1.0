@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.Abstract.IImageListFragmentCallback;
+import org.codebehind.mrslmaintenance.Adapters.ImageAdapter;
+import org.codebehind.mrslmaintenance.Entities.Image;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
 
 /**
@@ -70,7 +72,7 @@ public class EquipImageListFragment extends Fragment {
 
     private void setAttributes(){
 
-        _imagesListView.setAdapter(new imageAdapter(_imageModel.getAll()));
+        _imagesListView.setAdapter(new ImageAdapter(_imageModel.getList(), getActivity()));
     }
 
     private void setEvents(){
@@ -79,62 +81,15 @@ public class EquipImageListFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int imageId;
-                Cursor cursor;
+                Image image;
 
-                cursor = (Cursor) parent.getItemAtPosition(position);
-                imageId = cursor.getInt(ImageModel.ID);
-                _listener.onImageSelected(imageId);
+                image = (Image) parent.getItemAtPosition(position);
+                _listener.onImageSelected(image.getId());
             }
 
         });
 
     }
 
-    class imageAdapter extends CursorAdapter {
-        private ImageView imageView;
-        private TextView titleTextView;
-
-        public imageAdapter(Cursor imageCursor) {
-            super(getActivity(), imageCursor);
-        }
-
-        @Override
-        public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            LayoutInflater inflater;
-            View v;
-
-            inflater = LayoutInflater.from(context);
-            v = inflater.inflate(R.layout.fragment_image_list_item, parent, false);
-
-            return v;
-        }
-
-        @Override
-        public void bindView(View view, Context context, Cursor cursor){
-            byte[] data;
-            Bitmap bitmap;
-            BitmapFactory.Options options;
-
-            titleTextView = (TextView) view.findViewById((R.id.fragment_image_list_item_title));
-            titleTextView.setText(cursor.getString(ImageModel.TITLE));
-            data = cursor.getBlob(ImageModel.IMAGE);
-
-            if (data!=null) {
-
-                options = new BitmapFactory.Options();
-                options.inJustDecodeBounds=true;
-                options.inSampleSize=8;
-                options.inJustDecodeBounds=false;
-                bitmap = BitmapFactory.decodeByteArray(data, 0, data.length,options);
-
-                imageView = (ImageView) view.findViewById(R.id.fragment_image_list_item_image);
-
-                imageView.setImageBitmap(bitmap);
-            }
-
-        }
-
-    }
 
 }

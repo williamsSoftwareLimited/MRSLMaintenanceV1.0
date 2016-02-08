@@ -65,5 +65,8 @@
     <string name="del_equip">Edit</string>
     <string name="add_equip">Edit</string>
     <string name="title_activity_image_list">Images</string>
+    <string name="menu_image_edit">Edit Image</string>
+    <string name="menu_image_add">New Image</string>
+    <string name="menu_image_del">Delete Image</string>
 
 </resources>

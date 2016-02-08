@@ -1,20 +1,22 @@
 package org.codebehind.mrslmaintenance;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.Adapters.ReportEquipmentParamsAdapter;
+import org.codebehind.mrslmaintenance.Entities.Image;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
+import org.codebehind.mrslmaintenance.Models.ImageModel;
 import org.codebehind.mrslmaintenance.Models.ReportEquipParamsDbModel;
 import org.codebehind.mrslmaintenance.ViewModels.TextViewViewModel;
 
@@ -29,7 +31,7 @@ public class RepEquipFragment extends Fragment {
     private static final int REQUEST_PHOTO=1;
     private static final String LOG_TAG = "RepEquipFragment";
     private TextViewViewModel _nameViewVm, _siteEquipNameTextViewVm;
-    private ImageButton _imageButton;
+    private ImageView _imageView;
     private ListView _parameterListView;
     private ReportEquipParamsDbModel _reportEquipParamsDbModel;
 
@@ -61,7 +63,7 @@ public class RepEquipFragment extends Fragment {
 
         setControls(rootView);
         setAttributes();
-        setEvents();
+        //setEvents();
 
         return rootView;
     }
@@ -70,40 +72,40 @@ public class RepEquipFragment extends Fragment {
 
         _siteEquipNameTextViewVm=new TextViewViewModel((TextView)rootView.findViewById(R.id.equip_site_equip_name));
         _nameViewVm = new TextViewViewModel((TextView)rootView.findViewById(R.id.equipment_name));
-        _imageButton=(ImageButton)rootView.findViewById(R.id.equipment_imagebtn);
+        _imageView=(ImageView)rootView.findViewById(R.id.equipment_imagebtn);
         _parameterListView=(ListView)rootView.findViewById(R.id.fragment_equipment_params);
     }
 
     private void setAttributes(){
+        Bitmap bitmap;
+        BitmapFactory.Options options;
+        ImageModel imageModel;
+        Image image;
 
         _siteEquipNameTextViewVm.setText(_siteEquip.getName());
         _nameViewVm.setText(_siteEquip.getEquipment().getEquipmentName());
+
         _parameterListView.setAdapter(new ReportEquipmentParamsAdapter(_reportEquipParamsDbModel.getReportEquipmentParameters(_report.getId(), _siteEquip.getId()), getActivity()));
-    }
 
-    private void setEvents(){
 
-        _imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getActivity(), EquipmentCameraActivity.class);
-                startActivityForResult(i, REQUEST_PHOTO);
-            }
-        });
-    }
+        if (_siteEquip.getEquipment().getImgId()>0) {
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            imageModel=new ImageModel(getActivity());
+            image=imageModel.getImage(_siteEquip.getEquipment().getImgId());
 
-        if (resultCode != Activity.RESULT_OK) return;
+            if (image!=null) {
 
-        if (requestCode == REQUEST_PHOTO) {
-            // create a new Photo object and attach it to the crime
-            String filename = data
-                    .getStringExtra(EquipmentCameraFragment.EXTRA_PHOTO_FILENAME);
-            if (filename != null) {
-                Log.i(LOG_TAG, "filename:" + filename);
+                options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                options.inSampleSize = 8;
+                options.inJustDecodeBounds = false;
+
+                bitmap = BitmapFactory.decodeByteArray(image.getImage(), 0, image.getImage().length, options);
+                _imageView.setImageBitmap(bitmap);
             }
         }
     }
+
+    private void setEvents(){}
+
 }

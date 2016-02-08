@@ -8,17 +8,27 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import org.codebehind.mrslmaintenance.Adapters.ImageAdapter;
+import org.codebehind.mrslmaintenance.Entities.Image;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IListViewVmDelegate;
+import org.codebehind.mrslmaintenance.ViewModels.ListViewViewModel;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class ImageListFragment extends Fragment {
 
     private ImageModel _imageModel;
-    private ListView _imagesListView;
+    private ListViewViewModel<Image> _imagesListViewVm;
 
     public ImageListFragment() {}
+
+    public void addImage(Image image){
+
+        _imagesListViewVm.add(image);
+    }
+
+    public void removeImage(Image image){
+
+        _imagesListViewVm.delete(image);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
@@ -30,22 +40,22 @@ public class ImageListFragment extends Fragment {
 
         setControls(view);
         setAttributes();
-        setEvents();
+        //setEvents();
 
         return view;
     }
 
     private void setControls(View view){
+        ImageAdapter imageAdapter;
 
-        _imagesListView = (ListView) view.findViewById(R.id.image_list_listview);
+        imageAdapter=new ImageAdapter(_imageModel.getList(), getActivity());
+        _imagesListViewVm = new ListViewViewModel<> ((ListView) view.findViewById(R.id.image_list_listview),imageAdapter, (IListViewVmDelegate<Image>)getActivity());
     }
 
     private void setAttributes(){
 
-        _imagesListView.setAdapter(new ImageAdapter(_imageModel.getList(), getActivity()));
+        _imagesListViewVm.setSelection(true);
     }
 
-    private void setEvents() {
-
-    }
+    private void setEvents() {}
 }

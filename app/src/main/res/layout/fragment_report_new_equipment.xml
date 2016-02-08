@@ -48,11 +48,13 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/report_new_equipment_name"/>
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_camera"
-            android:id="@+id/report_new_equipment_image_button" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="fitCenter"
+            android:layout_margin="20dp"
+            android:cropToPadding="true"
+            android:id="@+id/report_new_equipment_image_view" />
 
     </LinearLayout>
 

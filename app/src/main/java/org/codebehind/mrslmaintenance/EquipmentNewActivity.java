@@ -150,6 +150,9 @@ public class EquipmentNewActivity extends ActionBarActivityBase implements IView
 
                 if (_equip.getId()>0) {
 
+                    for(Equipment e: _equips) // this is horrible but it gets back the referenced equipment
+                        if (e.getId()==_equip.getId()) _equip=e;
+
                     _equipDbModel.update(_equip);
 
                     finish();

@@ -29,7 +29,6 @@ public class ImageAdapter extends AbstractAdapter<Image> {
     public View getView(int position, View convertView, ViewGroup parent) {
         Image image;
         ImageView imageView;
-        TextView titleTextView;
         byte[] data;
         Bitmap bitmap;
         BitmapFactory.Options options;
@@ -40,8 +39,6 @@ public class ImageAdapter extends AbstractAdapter<Image> {
         }
 
         image=getItem(position);
-        titleTextView = (TextView) convertView.findViewById((R.id.fragment_image_list_item_title));
-        titleTextView.setText(image.getTitle());
 
         data = image.getImage();
 

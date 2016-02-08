@@ -73,7 +73,11 @@ public class Equipment extends AEntity implements Comparable<Equipment>{
     }
 
     public void setImage(Image image){
+
+        if (image==null) return;
+
         _image=image;
+        setImgId(image.getId());
     }
 
     @Override
