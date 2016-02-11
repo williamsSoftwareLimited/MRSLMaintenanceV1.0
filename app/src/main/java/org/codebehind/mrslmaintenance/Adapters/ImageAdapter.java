@@ -1,17 +1,16 @@
 package org.codebehind.mrslmaintenance.Adapters;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.codebehind.mrslmaintenance.Adapters.Abstract.AbstractAdapter;
 import org.codebehind.mrslmaintenance.Entities.Image;
-import org.codebehind.mrslmaintenance.Models.ImageModel;
 import org.codebehind.mrslmaintenance.R;
+import org.codebehind.mrslmaintenance.Services.Abstract.IImageService;
+import org.codebehind.mrslmaintenance.Services.ImageService;
+import org.codebehind.mrslmaintenance.ViewModels.ImageViewVm;
 
 import java.util.ArrayList;
 
@@ -30,8 +29,7 @@ public class ImageAdapter extends AbstractAdapter<Image> {
         Image image;
         ImageView imageView;
         byte[] data;
-        Bitmap bitmap;
-        BitmapFactory.Options options;
+        IImageService imageService;
 
         if (null == convertView) {
 
@@ -44,15 +42,11 @@ public class ImageAdapter extends AbstractAdapter<Image> {
 
         if (data!=null) {
 
-            options = new BitmapFactory.Options();
-            options.inJustDecodeBounds=true;
-            options.inSampleSize=8;
-            options.inJustDecodeBounds=false;
-            bitmap = BitmapFactory.decodeByteArray(data, 0, data.length,options);
+            imageService=new ImageService();
 
             imageView = (ImageView) convertView.findViewById(R.id.fragment_image_list_item_image);
 
-            imageView.setImageBitmap(bitmap);
+            imageView.setImageBitmap(imageService.process(data));
         }
 
         return convertView;

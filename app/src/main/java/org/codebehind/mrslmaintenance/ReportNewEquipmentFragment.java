@@ -16,19 +16,21 @@ import org.codebehind.mrslmaintenance.Adapters.ParameterAdapter;
 import org.codebehind.mrslmaintenance.Entities.Image;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IImageVIewVmDelegate;
+import org.codebehind.mrslmaintenance.ViewModels.ImageViewVm;
 import org.codebehind.mrslmaintenance.ViewModels.TextViewViewModel;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReportNewEquipmentFragment extends Fragment {
+public class ReportNewEquipmentFragment extends Fragment  implements IImageVIewVmDelegate {
 
     private static final String SITE_EQUIPMENT_ARG="REPORT_NEW_EQUIPMENT_SITE_EQUIPMENT_ARG";
     private SiteEquipment _siteEquipment;
     private TextViewViewModel _equipmentNameTextView, _equipmentIdTextView, _siteEquipTextViewVm;
     private ListView _parametersListView;
-    private ImageView _imageView;
+    private ImageViewVm _imageViewVm;
 
     public static ReportNewEquipmentFragment newInstance(SiteEquipment siteEquipment){
         Bundle bundle;
@@ -65,12 +67,10 @@ public class ReportNewEquipmentFragment extends Fragment {
         _equipmentNameTextView=new TextViewViewModel((TextView)rootView.findViewById(R.id.report_new_equipment_name));
         _parametersListView=(ListView)rootView.findViewById(R.id.report_new_equipment_params);
 
-        _imageView=(ImageView)rootView.findViewById(R.id.report_new_equipment_image_view);
+        _imageViewVm=new ImageViewVm((ImageView)rootView.findViewById(R.id.report_new_equipment_image_view), this);
     }
 
     private void setAttributes(){
-        Bitmap bitmap;
-        BitmapFactory.Options options;
         ImageModel imageModel;
         Image image;
 
@@ -84,20 +84,17 @@ public class ReportNewEquipmentFragment extends Fragment {
             imageModel=new ImageModel(getActivity());
             image=imageModel.getImage(_siteEquipment.getEquipment().getImgId());
 
-            if (image!=null) {
+            if (image!=null) _imageViewVm.setImage(image.getImage());
 
-                options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                options.inSampleSize = 8;
-                options.inJustDecodeBounds = false;
-
-                bitmap = BitmapFactory.decodeByteArray(image.getImage(), 0, image.getImage().length, options);
-                _imageView.setImageBitmap(bitmap);
-            }
         }
     }
 
     private void setEvents() {
+
+    }
+
+    @Override
+    public void onImageClick() {
 
     }
 }

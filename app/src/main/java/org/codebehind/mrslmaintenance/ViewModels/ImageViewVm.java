@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import org.codebehind.mrslmaintenance.Services.Abstract.IImageService;
+import org.codebehind.mrslmaintenance.Services.ImageService;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IImageVIewVmDelegate;
 
 
@@ -38,7 +40,6 @@ public class ImageViewVm {
             public void onClick(View v) {
                 IImageVIewVmDelegate delegate;
                 // do whatever processing required
-
                 delegate=_delegate;
 
                 // defensive programming
@@ -59,8 +60,7 @@ public class ImageViewVm {
     }
 
     public void setImage(byte [] data){
-        Bitmap bitmap;
-        BitmapFactory.Options options;
+        IImageService imageService;
 
         if (data==null) {
 
@@ -68,15 +68,9 @@ public class ImageViewVm {
             return;
         }
 
-        options = new BitmapFactory.Options();
-        options.inJustDecodeBounds=true;
-        options.inSampleSize=8;
-        options.inJustDecodeBounds=false;
+        imageService=new ImageService();
 
-        bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, options);
-        //bitmap = BitmapFactory.decodeStream(_parentFrag.getActivity().getContentResolver().openInputStream(targetUri));
-
-        _imageView.setImageBitmap(bitmap);
+        _imageView.setImageBitmap(imageService.process(data));
 
     }
 

@@ -18,12 +18,14 @@ import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
 import org.codebehind.mrslmaintenance.Models.ReportEquipParamsDbModel;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IImageVIewVmDelegate;
+import org.codebehind.mrslmaintenance.ViewModels.ImageViewVm;
 import org.codebehind.mrslmaintenance.ViewModels.TextViewViewModel;
 
 /**
  * Created by Gavin on 05/01/2015.
  */
-public class RepEquipFragment extends Fragment {
+public class RepEquipFragment extends Fragment implements IImageVIewVmDelegate {
     private final static String REPORT_ARG = "EQUIPMENT_FRAGMENT_REPORT",
                                 SITE_EQUIP_ARG ="EQUIPMENT_FRAGMENT_SITE_EQUIPMENT";
     private Report _report;
@@ -31,7 +33,7 @@ public class RepEquipFragment extends Fragment {
     private static final int REQUEST_PHOTO=1;
     private static final String LOG_TAG = "RepEquipFragment";
     private TextViewViewModel _nameViewVm, _siteEquipNameTextViewVm;
-    private ImageView _imageView;
+    private ImageViewVm _imageViewVm;
     private ListView _parameterListView;
     private ReportEquipParamsDbModel _reportEquipParamsDbModel;
 
@@ -72,13 +74,11 @@ public class RepEquipFragment extends Fragment {
 
         _siteEquipNameTextViewVm=new TextViewViewModel((TextView)rootView.findViewById(R.id.equip_site_equip_name));
         _nameViewVm = new TextViewViewModel((TextView)rootView.findViewById(R.id.equipment_name));
-        _imageView=(ImageView)rootView.findViewById(R.id.equipment_imagebtn);
+        _imageViewVm= new ImageViewVm((ImageView)rootView.findViewById(R.id.equipment_imagebtn), this);
         _parameterListView=(ListView)rootView.findViewById(R.id.fragment_equipment_params);
     }
 
     private void setAttributes(){
-        Bitmap bitmap;
-        BitmapFactory.Options options;
         ImageModel imageModel;
         Image image;
 
@@ -93,19 +93,13 @@ public class RepEquipFragment extends Fragment {
             imageModel=new ImageModel(getActivity());
             image=imageModel.getImage(_siteEquip.getEquipment().getImgId());
 
-            if (image!=null) {
+            if (image!=null) _imageViewVm.setImage(image.getImage());
 
-                options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                options.inSampleSize = 8;
-                options.inJustDecodeBounds = false;
-
-                bitmap = BitmapFactory.decodeByteArray(image.getImage(), 0, image.getImage().length, options);
-                _imageView.setImageBitmap(bitmap);
-            }
         }
     }
 
     private void setEvents(){}
 
+    @Override
+    public void onImageClick() {}
 }
