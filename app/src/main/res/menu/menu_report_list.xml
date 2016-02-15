@@ -1,21 +1,37 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.codebehind.mrslmaintenance.ReportActivity">
-    <item android:id="@+id/menu_new_report"
+
+    <item
+        android:id="@+id/menu_new_report"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/new_report"
         app:showAsAction="withText|always" />
-    <item android:id="@+id/menu_sites"
+
+    <item
+        android:id="@+id/menu_sites"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/sites"
         app:showAsAction="withText|collapseActionView"/>
-    <item android:id="@+id/menu_equipment"
+
+    <item
+        android:id="@+id/menu_equipment"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/equipments"
         app:showAsAction="withText|collapseActionView" />
-    <item android:id="@+id/menu_camera"
+
+    <item
+        android:id="@+id/menu_camera"
         android:icon="@android:drawable/ic_menu_camera"
         android:title="@string/images"
         app:showAsAction="withText|collapseActionView" />
+
+    <item
+        android:id="@+id/menu_email"
+        android:icon="@android:drawable/ic_menu_send"
+        android:title="@string/email"
+        app:showAsAction="withText|collapseActionView" />
+
 </menu>

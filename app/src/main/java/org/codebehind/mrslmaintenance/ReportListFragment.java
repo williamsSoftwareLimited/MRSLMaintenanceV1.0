@@ -20,7 +20,7 @@ import org.codebehind.mrslmaintenance.Models.ReportEquipParamsDbModel;
  */
 public class ReportListFragment extends Fragment {
 
-    private static final String LOG_TAG = "REPORT_LIST_FRAGMENT";
+    private static final String LOG_TAG = "ReportListFragment";
     private ListView _reportListview;
     private ReportDbModel _reportModel;
 

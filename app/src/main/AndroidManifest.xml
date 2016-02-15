@@ -73,6 +73,10 @@
         <activity
             android:name=".ImageListActivity"
             android:label="@string/title_activity_image_list"></activity>
+
+        <activity android:name=".RepEmailAct"
+            android:label="Email Report"/>
+
     </application>
 
 </manifest>

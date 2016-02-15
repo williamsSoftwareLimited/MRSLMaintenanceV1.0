@@ -74,6 +74,13 @@ public class ReportListActivity extends ActionBarActivityBase {
 
                 return true;
 
+            case R.id.menu_email:
+
+                i = new Intent(this, RepEmailAct.class);
+                startActivity(i);
+
+                return true;
+
             default:return super.onOptionsItemSelected(item);
         }
     }

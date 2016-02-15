@@ -14,7 +14,6 @@ import android.widget.ImageView;
 
 import org.codebehind.mrslmaintenance.Abstract.IFragmentImagePreviewCallback;
 import org.codebehind.mrslmaintenance.Entities.Image;
-import org.codebehind.mrslmaintenance.Models.Abstract.IImageModel;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
 
 /**

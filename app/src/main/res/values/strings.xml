@@ -68,5 +68,8 @@
     <string name="menu_image_edit">Edit Image</string>
     <string name="menu_image_add">New Image</string>
     <string name="menu_image_del">Delete Image</string>
+    <string name="email">Send Email</string>
+    <string name="choose_report">Choose report to email:</string>
+    <string name="email_report">Email Report</string>
 
 </resources>

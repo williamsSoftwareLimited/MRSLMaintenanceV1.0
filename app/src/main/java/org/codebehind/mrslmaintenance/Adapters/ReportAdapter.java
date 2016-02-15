@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.codebehind.mrslmaintenance.Adapters.Abstract.AbstractAdapter;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.R;
 
@@ -15,14 +16,14 @@ import java.util.ArrayList;
 /**
  * Created by root on 05/11/15.
  */
-public class ReportAdapter extends ArrayAdapter<Report> {
-
-    Activity _activity;
+public class ReportAdapter extends AbstractAdapter<Report> {
 
     public ReportAdapter(ArrayList<Report> reports, Activity activity) {
         super(activity, android.R.layout.simple_list_item_1, reports);
+
         _activity = activity;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Report r;

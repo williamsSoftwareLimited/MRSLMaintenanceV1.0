@@ -174,7 +174,8 @@ public class ReportDbModel extends DbAbstractModelBase {
                 +"r."+FIELDS[ENGINEER_NAME]+", "
                 +"s."+SiteDbModel.FIELDS[SiteDbModel.NAME]
                 +" from " + TABLE + " r"
-                +" join " + SiteDbModel.TABLE + " s on r."+FIELDS[SITEID]+" = s."+SiteDbModel.FIELDS[SiteDbModel.ID ];
+                +" join " + SiteDbModel.TABLE + " s on r."+FIELDS[SITEID]+" = s."+SiteDbModel.FIELDS[SiteDbModel.ID ]
+                +" order by r."+FIELDS[TIMESTAMP]+" desc";
 
         Cursor c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
         _list.clear();

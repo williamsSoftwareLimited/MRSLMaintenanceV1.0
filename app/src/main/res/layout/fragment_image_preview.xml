@@ -45,7 +45,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fffefef0"
-        style="@style/Base.TextAppearance.AppCompat.Headline"
         android:hint="The image title"
         android:padding="5dp"
         android:textColor="#fd030101"
