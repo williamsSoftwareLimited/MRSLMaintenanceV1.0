@@ -3,6 +3,7 @@ package org.codebehind.mrslmaintenance.Data;
 import android.content.Context;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
+import org.codebehind.mrslmaintenance.Entities.Email;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.EquipmentParameters;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
@@ -11,6 +12,7 @@ import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.ReportEquipParams;
 import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
+import org.codebehind.mrslmaintenance.Models.EmailDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
@@ -30,6 +32,7 @@ import java.util.Hashtable;
 public class LoadData {
 
     public void load(Context context){
+
         populateEquipmentData(context);
         popSiteData(context);
         populateReportData(context);
@@ -38,6 +41,7 @@ public class LoadData {
         populateParameterData(context);
         populateEquipmentParamsData(context);
         populateReportParametersData(context);
+        popEmailData(context);
 
         DatabaseHelper.getInstance(context).close();
     }
@@ -352,4 +356,24 @@ public class LoadData {
         reportEquipParamsDbModel.add(reportEquipParams);
 
     }
+
+    private void popEmailData(Context context){
+        EmailDbModel m;
+        Email e;
+
+        m=new EmailDbModel(context);
+
+        if (m.getCount()>0) return;
+
+        e=new Email("gavinwilliams_69@hotmail.com", true);
+        m.add(e);
+
+        e=new Email("g@f.com", false);
+        m.add(e);
+
+        e=new Email("mrsl@codebehind.org", true);
+        m.add(e);
+
+    }
+
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import org.codebehind.mrslmaintenance.Models.EmailDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
@@ -20,7 +21,7 @@ import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=84;
+    public static final int DATABASE_VERSION=85;
 
     //http://stackoverflow.com/questions/9937713/does-sqlite3-not-support-foreign-key-constraints
     // To enforce the FKs need to add the following to every connection to the Db
@@ -123,7 +124,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +"foreign key("+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.PARAMETER_ID]+") references "+ ParameterDbModel.TABLE+"("+ParameterDbModel.FIELDS[ParameterDbModel.ID]+"),"
                 +"foreign key("+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.SITE_EQUIP_ID]+") references "+ SiteEquipmentDbModel.TABLE+"("+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.ID]+")"
                 +");");
+
+        db.execSQL("Create table "+ EmailDbModel.TABLE+" ("
+                +EmailDbModel.FIELDS[EmailDbModel.ID]+" integer primary key autoincrement,"
+                +EmailDbModel.FIELDS[EmailDbModel.EMAILADDRESS]+ " varchar(100), "
+                +EmailDbModel.FIELDS[EmailDbModel.SELECTED]+ " boolean, "
+                + EmailDbModel.FIELDS[EmailDbModel.TIMESTAMP]+" integer, "
+                + EmailDbModel.FIELDS[EmailDbModel.DELETED]+" boolean "
+                +");");
+
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -136,6 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists "+ SiteDbModel.TABLE);
         db.execSQL("drop table if exists "+ ParameterTypeDbModel.TABLE);
         db.execSQL("drop table if exists "+ ParameterDbModel.TABLE);
+        db.execSQL("drop table if exists "+ EmailDbModel.TABLE);
 
         onCreate(db);
     }

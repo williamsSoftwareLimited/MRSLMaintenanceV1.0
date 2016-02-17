@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Entities.Report;
+import org.codebehind.mrslmaintenance.Services.Abstract.IEmailService;
+import org.codebehind.mrslmaintenance.Services.EmailService;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IListViewVmDelegate;
 
 /**
@@ -50,7 +52,7 @@ public class RepEmailAct  extends ActionBarActivityBase implements IListViewVmDe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id;
-        Intent intent;
+        IEmailService emailService;
 
         id = item.getItemId();
 
@@ -58,26 +60,11 @@ public class RepEmailAct  extends ActionBarActivityBase implements IListViewVmDe
 
             case R.id.menu_send_report:
 
-                intent=new Intent(Intent.ACTION_SEND);
+                emailService=new EmailService(this);
+                emailService.sendEmail();
 
-                //intent.setData(Uri.parse("mailto:"));
-                intent.setType("message/rfc822");
-                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"gavinwilliams_69@hotmail.com"});
-                //intent.putExtra(Intent.EXTRA_CC, CC);
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
-                intent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+                finish();
 
-                try {
-
-                    startActivity(intent);
-
-                    finish();
-                    Log.d(LOG_TAG, "Finished sending email...");
-
-                } catch (android.content.ActivityNotFoundException ex) {
-
-                    Toast.makeText(this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
-                }
 
                 return true;
 
