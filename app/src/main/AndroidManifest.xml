@@ -77,6 +77,9 @@
         <activity android:name=".RepEmailAct"
             android:label="Email Report"/>
 
+        <activity android:name=".EmailListAct"
+            android:label="Email List"/>
+
     </application>
 
 </manifest>

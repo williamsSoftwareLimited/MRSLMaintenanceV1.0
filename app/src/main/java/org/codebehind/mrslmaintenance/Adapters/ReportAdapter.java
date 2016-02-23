@@ -20,8 +20,6 @@ public class ReportAdapter extends AbstractAdapter<Report> {
 
     public ReportAdapter(ArrayList<Report> reports, Activity activity) {
         super(activity, android.R.layout.simple_list_item_1, reports);
-
-        _activity = activity;
     }
 
     @Override
@@ -42,4 +40,5 @@ public class ReportAdapter extends AbstractAdapter<Report> {
 
         return convertView;
     }
+
 }

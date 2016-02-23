@@ -25,7 +25,9 @@ public class RepEmailFrag  extends Fragment implements IReportEquipParamsModel{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.frag_rep_email, container, false);
+        View rootView;
+
+        rootView = inflater.inflate(R.layout.frag_rep_email, container, false);
 
         setControls(rootView);
         setAttributes();

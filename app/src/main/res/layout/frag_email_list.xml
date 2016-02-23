@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -14,8 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/choose_report"
-            android:id="@+id/frag_rep_email_tv" />
+            android:text="@string/email_select"
+            android:id="@+id/frag_email_list_tv" />
 
     </LinearLayout>
 
@@ -29,9 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:id="@+id/frag_rep_email_lv" >
-
-
+            android:id="@+id/frag_email_list_lv" >
         </ListView>
 
     </LinearLayout>

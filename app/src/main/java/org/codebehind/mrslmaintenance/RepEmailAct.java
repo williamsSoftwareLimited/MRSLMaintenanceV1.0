@@ -53,10 +53,20 @@ public class RepEmailAct  extends ActionBarActivityBase implements IListViewVmDe
     public boolean onOptionsItemSelected(MenuItem item) {
         int id;
         IEmailService emailService;
+        Intent intent;
+
 
         id = item.getItemId();
 
         switch(id) {
+
+            case R.id.menu_email_list:
+
+                intent=new Intent(this, EmailListAct.class);
+
+                startActivity(intent);
+
+                return true;
 
             case R.id.menu_send_report:
 

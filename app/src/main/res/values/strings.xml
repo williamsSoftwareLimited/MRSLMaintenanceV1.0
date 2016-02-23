@@ -71,5 +71,8 @@
     <string name="email">Send Email</string>
     <string name="choose_report">Choose report to email:</string>
     <string name="email_report">Email Report</string>
+    <string name="email_list">Emails</string>
+    <string name="email_select">Select Emails</string>
+    <string name="email_cb">Select</string>
 
 </resources>

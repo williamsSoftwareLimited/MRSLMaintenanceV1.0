@@ -24,7 +24,6 @@ import org.codebehind.mrslmaintenance.Entities.EquipmentParameters;
 import org.codebehind.mrslmaintenance.Entities.Image;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.ParameterType;
-import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;

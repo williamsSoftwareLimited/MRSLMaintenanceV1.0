@@ -6,10 +6,17 @@
     tools:context="org.codebehind.mrslmaintenance.RepEmailAct">
 
     <item
+        android:id="@+id/menu_email_list"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="@string/email_list"
+        app:showAsAction="withText|always" />
+
+    <item
         android:id="@+id/menu_send_report"
         android:icon="@android:drawable/ic_menu_send"
         android:title="@string/email_report"
         android:visible="false"
         app:showAsAction="withText|always" />
+
 
 </menu>
