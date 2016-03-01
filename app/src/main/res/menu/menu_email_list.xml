@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.codebehind.mrslmaintenance.EmailListAct">
+
+    <item
+        android:id="@+id/menu_email_list_edit"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/edit_equip"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_email_list_save"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="@string/add_equip"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_email_list_delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/del_equip"
+        app:showAsAction="ifRoom" />
+
+</menu>

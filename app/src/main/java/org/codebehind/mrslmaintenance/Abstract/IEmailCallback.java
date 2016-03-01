@@ -7,5 +7,5 @@ import org.codebehind.mrslmaintenance.Entities.Email;
  */
 public interface IEmailCallback {
 
-    void onCallback(Email e);
+    void onCallback(Email e, int n);
 }

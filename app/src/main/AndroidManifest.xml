@@ -65,11 +65,17 @@
         <activity
             android:name=".EquipmentNewActivity"
             android:label="@string/title_activity_equipment_new" />
+
         <activity
             android:name=".ReportNewActivity"
             android:label="@string/title_activity_report_new" />
-        <activity android:name=".ReportNewEquipmentActivity" />
-        <activity android:name=".EquipImageListActivity" />
+
+        <activity android:name=".ReportNewEquipmentActivity"
+            android:label="@string/title_activity_report_new_equip"/>
+
+        <activity android:name=".EquipImageListActivity"
+            android:label="@string/title_activity_equip_new_image"/>
+
         <activity
             android:name=".ImageListActivity"
             android:label="@string/title_activity_image_list"></activity>

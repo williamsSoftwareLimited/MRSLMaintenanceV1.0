@@ -60,7 +60,7 @@ public class Email extends AEntity implements Comparable<Email> {
 
         if (email==null) return -1;
 
-        return getId()-email.getId();
+        return email.getId()-getId();
     }
 
 }

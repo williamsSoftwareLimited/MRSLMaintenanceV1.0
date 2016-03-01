@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import org.codebehind.mrslmaintenance.Abstract.IEmailCallback;
 import org.codebehind.mrslmaintenance.Adapters.Abstract.AbstractAdapter;
@@ -38,7 +39,8 @@ public class EmailSelectorAdapter extends AbstractAdapter<Email> {
     public View getView(int position, View convertView, ViewGroup parent) {
         final Email e;
         TextView tvEmail;
-        CheckBox cb;
+        CheckBox cbDel;
+        ToggleButton tbSel;
 
         // if we weren't given a view, inflate one
         if (null == convertView)
@@ -49,11 +51,25 @@ public class EmailSelectorAdapter extends AbstractAdapter<Email> {
         tvEmail=(TextView)convertView.findViewById(R.id.ada_email_item_tv);
         tvEmail.setText(e.getEmailAddress());
 
-        cb=(CheckBox)convertView.findViewById(R.id.ada_email_item_cb);
+        tbSel=(ToggleButton)convertView.findViewById(R.id.ada_email_item_tb);
+        cbDel=(CheckBox)convertView.findViewById(R.id.ada_email_del_cb);
 
-        cb.setChecked(e.getSelected());
+        tbSel.setChecked(e.getSelected());
 
-        cb.setOnClickListener(new View.OnClickListener() {
+        tbSel.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                ToggleButton tb;
+
+                tb = (ToggleButton) v;
+
+                e.setSelected(tb.isChecked());
+                _callback.onCallback(e, 1);
+            }
+        });
+
+        cbDel.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -61,8 +77,8 @@ public class EmailSelectorAdapter extends AbstractAdapter<Email> {
 
                 cb=(CheckBox)v;
 
-                e.setSelected(cb.isChecked());
-                _callback.onCallback(e);
+                e.setDeleted(cb.isChecked());
+                _callback.onCallback(e, 2);
             }
         });
 

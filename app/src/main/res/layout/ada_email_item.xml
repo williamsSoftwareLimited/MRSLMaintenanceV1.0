@@ -17,15 +17,22 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/ada_email_item_tv"/>
 
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ada_email_item_tb"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/ada_email_del_cb"
+            android:layout_toStartOf="@+id/ada_email_del_cb" />
+
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/email_cb"
-            android:id="@+id/ada_email_item_cb"
+            android:id="@+id/ada_email_del_cb"
+            android:padding="5dp"
             android:layout_alignBottom="@+id/ada_email_item_tv"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:padding="5dp"/>
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 

@@ -49,6 +49,8 @@
     <string name="new_image">New image</string>
     <string name="images">Images</string>
     <string name="title_activity_report_new">New Report</string>
+    <string name="title_activity_report_new_equip">New Equipment</string>
+    <string name="title_activity_equip_new_image">Choose Image</string>
     <string name="site_title">Sites:</string>
     <string name="Equipment_title">Equipments:</string>
     <string name="edit_site">Edit Site</string>
@@ -62,8 +64,8 @@
     <string name="name_title">Name:</string>
     <string name="menu_site_new_delete">Delete</string>
     <string name="edit_equip">Edit</string>
-    <string name="del_equip">Edit</string>
-    <string name="add_equip">Edit</string>
+    <string name="del_equip">Delete</string>
+    <string name="add_equip">Add</string>
     <string name="title_activity_image_list">Images</string>
     <string name="menu_image_edit">Edit Image</string>
     <string name="menu_image_add">New Image</string>
@@ -74,5 +76,6 @@
     <string name="email_list">Emails</string>
     <string name="email_select">Select Emails</string>
     <string name="email_cb">Select</string>
+    <string name="email_del_cb">Delete</string>
 
 </resources>
