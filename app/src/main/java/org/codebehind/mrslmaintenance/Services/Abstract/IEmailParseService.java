@@ -3,9 +3,9 @@ package org.codebehind.mrslmaintenance.Services.Abstract;
 import org.codebehind.mrslmaintenance.Entities.Report;
 
 /**
- * Created by root on 16/02/16.
+ * Created by root on 07/03/16.
  */
-public interface IEmailService {
+public interface IEmailParseService {
 
-    int sendEmail(Report r);
+    String returnReport(Report r);
 }

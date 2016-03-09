@@ -6,9 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+
+import com.google.android.gms.auth.api.signin.EmailSignInOptions;
 
 import org.codebehind.mrslmaintenance.Abstract.IEmailCallback;
 import org.codebehind.mrslmaintenance.Adapters.EmailSelectorAdapter;
@@ -20,6 +25,7 @@ import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
 import org.codebehind.mrslmaintenance.ViewModels.ListViewViewModel;
 
 import java.util.HashSet;
+import java.util.regex.Pattern;
 
 /**
  * Created by root on 18/02/16.
@@ -30,23 +36,77 @@ public class EmailListFrag  extends Fragment implements IListViewVmDelegate<Emai
 
     private ListViewViewModel<Email> _emailLvVm;
     private EditTextViewModel _editBoxVm;
+    private ToggleButton _editTb;
     private LinearLayout _linearBox; // this is the editable box for adding emails
     private EmailSelectorAdapter _adapter;
     private EmailDbModel _model;
     private boolean _editToggle;
+    private String _regexPat;
+    private HashSet<Email> _delHash; // used to control the deletion of the emails
 
-    private HashSet<Integer> _delHash; // used to control the deletion of the emails
+    public EmailListFrag(){
+
+        _regexPat="[A-z0-9._%+-]+@[A-z0-9._%+-]+";
+    }
 
     public void showBox(){
 
         if (!_editToggle) {
+
             _linearBox.setVisibility(View.VISIBLE);
+            _linearBox.setBackgroundResource(R.drawable.add_param_box);
             _editToggle=true;
-        }
-        else {
+        } else {
+
             _linearBox.setVisibility(View.GONE);
             _editToggle=false;
         }
+
+    }
+
+    public void saveNewEmail(){
+        Email e;
+
+        if (!_editToggle) {
+
+            return;
+        } else {
+
+            showBox();
+
+            // check is email pattern
+            if (Pattern.matches(_regexPat, _editBoxVm.getText())) {
+
+                e = new Email(_editBoxVm.getText(), _editTb.isChecked());
+                _model.add(e);
+                _emailLvVm.add(e);
+
+                Toast.makeText(getActivity(), "Email save.", Toast.LENGTH_LONG).show();
+            }
+
+        }
+    }
+
+    public void deleteEmails(){
+        Email e;
+        CheckBox cb;
+
+        if (_delHash==null){
+
+            Log.wtf(LOG_TAG,"deleteEmails: violation _delHash is null.");
+            return;
+        }
+
+        while(!_delHash.isEmpty()){
+
+            e=_delHash.iterator().next();
+            _model.delete(e.getId());
+            _emailLvVm.delete(e);
+            _delHash.remove(e);
+
+            setControls(getView());
+        }
+
     }
 
     @Override
@@ -79,6 +139,7 @@ public class EmailListFrag  extends Fragment implements IListViewVmDelegate<Emai
 
         _linearBox=(LinearLayout)view.findViewById(R.id.frag_email_list_box);
         _editBoxVm=new EditTextViewModel((EditText)view.findViewById(R.id.frag_email_list_item_et), this);
+        _editTb=(ToggleButton)view.findViewById(R.id.frag_email_list_item_tb);
 
     }
 
@@ -116,9 +177,9 @@ public class EmailListFrag  extends Fragment implements IListViewVmDelegate<Emai
             case 2: // this is the delete
 
                 if (e.getDeleted())
-                    _delHash.add(e.getId());
+                    _delHash.add(e);
                 else
-                    _delHash.remove(e.getId());
+                    _delHash.remove(e);
 
                 break;
 

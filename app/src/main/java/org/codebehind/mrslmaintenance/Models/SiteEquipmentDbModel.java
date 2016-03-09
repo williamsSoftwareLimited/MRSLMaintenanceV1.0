@@ -10,6 +10,7 @@ import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
+import org.codebehind.mrslmaintenance.Models.Abstract.ISiteEquipmentDbModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +20,7 @@ import java.util.Hashtable;
 /**
  * Created by root on 02/11/15.
  */
-public class SiteEquipmentDbModel extends DbAbstractModelBase{
+public class SiteEquipmentDbModel extends DbAbstractModelBase implements ISiteEquipmentDbModel {
 
     protected Context _context;
     protected ArrayList<SiteEquipment> _list;
@@ -37,6 +38,7 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
         _list=new ArrayList<>();
     }
 
+    @Override
     public int add(SiteEquipment entity) {
         ContentValues cv;
         int siteId;
@@ -56,6 +58,7 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
         return siteId;
     }
 
+    @Override
     public int delete(SiteEquipment entity) {
         ContentValues cv;
         int rowCount;
@@ -84,6 +87,7 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
         return rowCount;
     }
 
+    @Override
     public ArrayList<SiteEquipment> getSiteEquipments(int siteId) {
         ArrayList<SiteEquipment> siteEquipmentList;
         ArrayList<Parameter> parameters;
@@ -129,6 +133,7 @@ public class SiteEquipmentDbModel extends DbAbstractModelBase{
         return siteEquipmentList;
     }
 
+    @Override
     public ArrayList<SiteEquipment>getSiteEquipmentListForReport(int reportId){
         ArrayList<SiteEquipment> siteEquipmentList;
         SiteEquipment siteEquipment;

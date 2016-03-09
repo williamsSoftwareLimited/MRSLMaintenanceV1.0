@@ -11,7 +11,12 @@ import android.widget.Toast;
 
 import org.codebehind.mrslmaintenance.Abstract.ActionBarActivityBase;
 import org.codebehind.mrslmaintenance.Entities.Report;
+import org.codebehind.mrslmaintenance.Models.EmailDbModel;
+import org.codebehind.mrslmaintenance.Models.ReportDbModel;
+import org.codebehind.mrslmaintenance.Models.ReportEquipParamsDbModel;
+import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 import org.codebehind.mrslmaintenance.Services.Abstract.IEmailService;
+import org.codebehind.mrslmaintenance.Services.EmailParseService;
 import org.codebehind.mrslmaintenance.Services.EmailService;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IListViewVmDelegate;
 
@@ -22,6 +27,7 @@ public class RepEmailAct  extends ActionBarActivityBase implements IListViewVmDe
 
     private static final String LOG_TAG="RepEmailAct";
     private Menu _menu;
+    private Report _report;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +76,10 @@ public class RepEmailAct  extends ActionBarActivityBase implements IListViewVmDe
 
             case R.id.menu_send_report:
 
-                emailService=new EmailService(this);
-                emailService.sendEmail();
+                emailService=new EmailService(this, new EmailParseService(), new SiteEquipmentDbModel(this), new EmailDbModel(this));
+                emailService.sendEmail(_report);
 
                 finish();
-
 
                 return true;
 
@@ -85,7 +90,7 @@ public class RepEmailAct  extends ActionBarActivityBase implements IListViewVmDe
     }
 
     @Override
-    public void onItemClick(Report item) {
+    public void onItemClick(Report report) {
         MenuItem menuItem;
 
         if (_menu==null){
@@ -93,6 +98,8 @@ public class RepEmailAct  extends ActionBarActivityBase implements IListViewVmDe
             Log.wtf(LOG_TAG, "OnItemClick: violation the menu is null.");
             return;
         }
+
+        _report=report;
 
         menuItem=_menu.findItem(R.id.menu_send_report);
         menuItem.setVisible(true);

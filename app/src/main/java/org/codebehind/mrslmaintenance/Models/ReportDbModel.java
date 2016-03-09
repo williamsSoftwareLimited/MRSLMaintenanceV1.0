@@ -12,6 +12,7 @@ import org.codebehind.mrslmaintenance.Entities.ReportEquipParams;
 import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
 import org.codebehind.mrslmaintenance.Models.Abstract.IReportEquipParamsModel;
+import org.codebehind.mrslmaintenance.Models.Abstract.IReportModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +20,7 @@ import java.util.Date;
 /**
  * Created by Gavin on 25/08/2015.
  */
-public class ReportDbModel extends DbAbstractModelBase {
+public class ReportDbModel extends DbAbstractModelBase implements IReportModel {
 
     public static final String TABLE="Report";
     public static final String[] FIELDS = new String[]{"_id", "Timestamp", "Deleted", "SiteId", "EngineerName"};
@@ -39,6 +40,7 @@ public class ReportDbModel extends DbAbstractModelBase {
         getAll();
     }
 
+    @Override
     public int add(Report report) {
         int reportId;
         ReportEquipParams reportEquipParams;
@@ -95,6 +97,7 @@ public class ReportDbModel extends DbAbstractModelBase {
         return reportId;
     }
 
+    @Override
     public int update(Report report){
         int updateCount, reportId;
         ContentValues contentValues;
@@ -155,6 +158,7 @@ public class ReportDbModel extends DbAbstractModelBase {
         return updateCount;
     }
 
+    @Override
     public Report getReport(int reportId){
 
         for(Report report : _list) {
@@ -165,6 +169,7 @@ public class ReportDbModel extends DbAbstractModelBase {
         return new Report(-1,"",null,null);
     }
 
+    @Override
     public ArrayList<Report> getAll(){
         String query = "select "
                 +"r."+FIELDS[ID]+", "

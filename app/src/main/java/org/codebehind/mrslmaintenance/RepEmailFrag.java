@@ -8,12 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import org.codebehind.mrslmaintenance.Adapters.ReportAdapter;
+import org.codebehind.mrslmaintenance.Entities.Email;
 import org.codebehind.mrslmaintenance.Entities.Report;
 import org.codebehind.mrslmaintenance.Entities.ReportEquipParams;
 import org.codebehind.mrslmaintenance.Models.Abstract.IReportEquipParamsModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
 import org.codebehind.mrslmaintenance.ViewModels.Abstract.IListViewVmDelegate;
 import org.codebehind.mrslmaintenance.ViewModels.ListViewViewModel;
+
+import java.util.ArrayList;
 
 /**
  * Created by root on 11/02/16.

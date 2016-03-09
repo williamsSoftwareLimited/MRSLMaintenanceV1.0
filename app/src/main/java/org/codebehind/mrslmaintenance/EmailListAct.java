@@ -60,11 +60,12 @@ public class EmailListAct extends ActionBarActivityBase {
 
             case R.id.menu_email_list_save:
 
+                _frag.saveNewEmail();
                 return true;
 
             case R.id.menu_email_list_delete:
 
-
+                _frag.deleteEmails();
 
                 return true;
 

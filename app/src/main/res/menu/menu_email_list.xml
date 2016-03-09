@@ -7,14 +7,14 @@
 
     <item
         android:id="@+id/menu_email_list_edit"
-        android:icon="@android:drawable/ic_menu_edit"
-        android:title="@string/edit_equip"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/add_equip"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_email_list_save"
         android:icon="@android:drawable/ic_menu_save"
-        android:title="@string/add_equip"
+        android:title="@string/save"
         app:showAsAction="ifRoom" />
 
     <item
