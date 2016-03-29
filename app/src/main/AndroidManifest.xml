@@ -65,27 +65,28 @@
         <activity
             android:name=".EquipmentNewActivity"
             android:label="@string/title_activity_equipment_new" />
-
         <activity
             android:name=".ReportNewActivity"
             android:label="@string/title_activity_report_new" />
-
-        <activity android:name=".ReportNewEquipmentActivity"
-            android:label="@string/title_activity_report_new_equip"/>
-
-        <activity android:name=".EquipImageListActivity"
-            android:label="@string/title_activity_equip_new_image"/>
-
+        <activity
+            android:name=".ReportNewEquipmentActivity"
+            android:label="@string/title_activity_report_new_equip" />
+        <activity
+            android:name=".EquipImageListActivity"
+            android:label="@string/title_activity_equip_new_image" />
         <activity
             android:name=".ImageListActivity"
-            android:label="@string/title_activity_image_list"></activity>
-
-        <activity android:name=".RepEmailAct"
-            android:label="Email Report"/>
-
-        <activity android:name=".EmailListAct"
-            android:label="Email List"/>
-
+            android:label="@string/title_activity_image_list" />
+        <activity
+            android:name=".RepEmailAct"
+            android:label="Email Report" />
+        <activity
+            android:name=".EmailListAct"
+            android:label="Email List" />
+        <activity
+            android:name=".RestTestActivity"
+            android:label="@string/title_activity_rest_test"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -21,7 +21,7 @@ import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=85;
+    public static final int DATABASE_VERSION=86;
 
     //http://stackoverflow.com/questions/9937713/does-sqlite3-not-support-foreign-key-constraints
     // To enforce the FKs need to add the following to every connection to the Db
@@ -73,7 +73,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +SiteDbModel.FIELDS[SiteDbModel.DELETED]+" boolean, "
                 +SiteDbModel.FIELDS[SiteDbModel.NAME]+" varchar(100), "
                 +SiteDbModel.FIELDS[SiteDbModel.ADDRESS]+" varchar(255), "
-                +SiteDbModel.FIELDS[SiteDbModel.IMAGE_ID]+" integer  "
+                +SiteDbModel.FIELDS[SiteDbModel.IMAGE_ID]+" integer,  "
+                +SiteDbModel.FIELDS[SiteDbModel.UUID]+" varchar(255) "
                 +");");
 
         // these are two foreign keys to the site and equipment tables -

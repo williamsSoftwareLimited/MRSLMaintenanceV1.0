@@ -10,7 +10,6 @@ import java.util.UUID;
  */
 public class Report implements Serializable {
     private int _id, _siteId;;
-    private UUID _uuid;
     private String _siteName, _engineerName;
     private ArrayList<SiteEquipment> _siteEquipmentList;
     private Date _reportDate;
@@ -79,10 +78,4 @@ public class Report implements Serializable {
         _deleted=deleted;
     }
 
-    public void setUiid(UUID uiid){
-        _uuid=uiid;
-    }
-    public UUID getUuid(){
-        return _uuid;
-    }
 }

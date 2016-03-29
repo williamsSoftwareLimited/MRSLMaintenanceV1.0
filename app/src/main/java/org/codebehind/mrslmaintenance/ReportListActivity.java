@@ -81,6 +81,13 @@ public class ReportListActivity extends ActionBarActivityBase {
 
                 return true;
 
+            case R.id.menu_rest:
+
+                i = new Intent(this, RestTestActivity.class);
+                startActivity(i);
+
+                return true;
+
             default:return super.onOptionsItemSelected(item);
         }
     }

@@ -14,41 +14,36 @@ import org.codebehind.mrslmaintenance.StaticConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by Gavin on 23/08/2015.
  */
 public class SiteDbModel extends DbAbstractModelBase {
-
     public static final String TABLE="Site";
-    public static final String[] FIELDS = new String[]{"_id", "timestamp", "deleted", "name", "address", "imageId" };
-    public static final int ID=0, TIMESTAMP=1, DELETED=2, NAME=3, ADDRESS=4, IMAGE_ID=5;
-
+    public static final String[] FIELDS = new String[]{"_id", "timestamp", "deleted", "name", "address", "imageId", "UUID" };
+    public static final int ID=0, TIMESTAMP=1, DELETED=2, NAME=3, ADDRESS=4, IMAGE_ID=5, UUID=6;
     private static final String LOG_TAG="SiteDbModel";
     private ArrayList<Site> _list;
 
     public SiteDbModel(Context context) {
         super(context, TABLE);
-
         getList(); // set the list
     }
-
     public int add(Site site) {
-        ContentValues contentValues;
+        ContentValues contentValues=new ContentValues();
         int siteId;
 
         if (site==null) {
             Log.wtf(LOG_TAG, "add: The site argument is null.");
             return -1;
         }
-
-        contentValues=new ContentValues();
-
         contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
         contentValues.put(FIELDS[DELETED], 0);
         contentValues.put(FIELDS[NAME], site.getName());
         contentValues.put(FIELDS[ADDRESS], site.getAddress());
         contentValues.put(FIELDS[IMAGE_ID], site.getImageId());
+        contentValues.put(FIELDS[UUID], java.util.UUID.randomUUID().toString());
 
         siteId=(int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, contentValues);
 
@@ -85,7 +80,8 @@ public class SiteDbModel extends DbAbstractModelBase {
                 +"s."+FIELDS[DELETED]+", "
                 +"s."+FIELDS[NAME]+", "
                 +"s."+FIELDS[ADDRESS]+", "
-                +"s."+FIELDS[IMAGE_ID]
+                +"s."+FIELDS[IMAGE_ID]+", "
+                +"s."+FIELDS[UUID]
                 +" from " + TABLE + " s"
                 +" where s."+FIELDS[DELETED]+"=0";
 
@@ -99,6 +95,7 @@ public class SiteDbModel extends DbAbstractModelBase {
             while(c.isAfterLast()==false){
                 Site e=new Site(c.getInt(ID), c.getString(NAME), c.getString(ADDRESS));
                 e.setImageId(c.getInt(IMAGE_ID));
+                e.setUUID(java.util.UUID.fromString(c.getString(UUID)));
                 _list.add(e);
                 c.moveToNext();
             }

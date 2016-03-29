@@ -12,7 +12,6 @@ import java.util.UUID;
  */
 public class Site extends AEntity implements Serializable{
 
-    UUID _idOLD; // this has to be deleted
 
     private String _name;
     private String _system;
@@ -23,22 +22,13 @@ public class Site extends AEntity implements Serializable{
     private int _imageId;
 
     public Site(String name, String address){
-        setId(-1);
-        setName(name);
-        setAddress(address);
+        this(-1,name,address);
     }
 
     public Site(int id, String name, String address){
         setId(id);
         setName(name);
         setAddress(address);
-    }
-
-    public UUID getUUID() {
-        return _idOLD;
-    }
-    public void setUUID(UUID _id) {
-        this._idOLD = _id;
     }
 
     public String getName() {

@@ -34,4 +34,10 @@
         android:title="@string/email"
         app:showAsAction="withText|collapseActionView" />
 
+    <item
+        android:id="@+id/menu_rest"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="@string/rest"
+        app:showAsAction="withText|collapseActionView" />
+
 </menu>

@@ -28,19 +28,14 @@ public class EmailDbModel extends DbAbstractModelBase implements IEmailDbModel {
     public EmailDbModel(Context context) {
         super(context, TABLE);
     }
-
     @Override
     public int add(Email email) {
         ContentValues v;
-
         // email is invariant and must not be null
         if (email==null) return -1;
-
         v=getContValues(email);
-
         return (int) DatabaseHelper.getInstance(_context).getWritableDatabase().insert(TABLE, null, v);
     }
-
     @Override
     public int update(Email e){
         ContentValues v;
@@ -48,20 +43,13 @@ public class EmailDbModel extends DbAbstractModelBase implements IEmailDbModel {
         int rowCx;
 
         if (e==null)return -1;
-
         v=getContValues(e);
-
         whereArg=FIELDS[ID]+"="+e.getId();
-
         rowCx= DatabaseHelper.getInstance(_context).getWritableDatabase().update(TABLE, v, whereArg, null);
-
         if (rowCx>1){
-
             Log.wtf(LOG_TAG, "update: violation more than 1 record has been altered.");
         }
-
         return rowCx;
-
     }
 
     private ContentValues getContValues(Email e){
@@ -74,7 +62,6 @@ public class EmailDbModel extends DbAbstractModelBase implements IEmailDbModel {
         v.put(FIELDS[DELETED], 0);
         return v;
     }
-
     @Override
     public int delete(int i){
         ContentValues v;
@@ -98,7 +85,6 @@ public class EmailDbModel extends DbAbstractModelBase implements IEmailDbModel {
         return rowCx;
 
     }
-
     @Override
     public ArrayList<Email> getList() {
 
@@ -126,7 +112,6 @@ public class EmailDbModel extends DbAbstractModelBase implements IEmailDbModel {
             }
         });
     }
-
     @Override
     public String[] getSelectedArray() {
 
@@ -158,7 +143,6 @@ public class EmailDbModel extends DbAbstractModelBase implements IEmailDbModel {
         Cursor c;
 
         if (andArg==null) andArg="";
-
         String query = "select "
                 +"e."+FIELDS[ID]+", "
                 +"e."+FIELDS[EMAILADDRESS]+", "
@@ -168,14 +152,10 @@ public class EmailDbModel extends DbAbstractModelBase implements IEmailDbModel {
                 +" from " + TABLE + " e"
                 +" where e."+FIELDS[DELETED]+"<1 "
                 +andArg;
-
         c= DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
-
         return procCmd.getList(c);
     }
-
     private interface processCmd<t>{
-
         t getList(Cursor c);
 
     }

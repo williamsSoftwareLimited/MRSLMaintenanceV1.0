@@ -71,11 +71,16 @@
     <string name="menu_image_add">New Image</string>
     <string name="menu_image_del">Delete Image</string>
     <string name="email">Send Email</string>
+    <string name="rest">-Rest Test-</string>
     <string name="choose_report">Choose report to email:</string>
     <string name="email_report">Email Report</string>
     <string name="email_list">Emails</string>
     <string name="email_select">Select Emails</string>
     <string name="email_cb">Select</string>
     <string name="email_del_cb">Delete</string>
+    <string name="title_activity_rest_test">RestTestActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 </resources>
