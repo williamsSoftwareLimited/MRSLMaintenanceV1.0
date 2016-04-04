@@ -1,10 +1,10 @@
 package org.codebehind.mrslmaintenance;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,37 +14,44 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
+import org.codebehind.mrslmaintenance.Models.LastUpdateModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.Services.JsonService;
-
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class RestTestActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final Activity cont;
+        FloatingActionButton fab;
+        Toolbar toolbar;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest_test);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        final Activity cont =this;
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        cont =this;
+
+        setControls(null);
+        setAttributes();
+        setEvents();
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "This is awesome", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                JsonService js = new JsonService(new SiteDbModel(cont));
+                JsonService js = new JsonService(new SiteDbModel(cont), new LastUpdateModel(cont));
                 js.execute();
             }
         });
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.act_rest_test_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -54,9 +61,20 @@ public class RestTestActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void setControls(View view){
+        TextView tv=(TextView)findViewById(R.id.act_rest_test_update_tv);
+        tv.setText("Loser baby");
+    }
+
+    private void setAttributes(){
+
+    }
+
+    private void setEvents(){}
+
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.act_rest_test_drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -106,7 +124,7 @@ public class RestTestActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.act_rest_test_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

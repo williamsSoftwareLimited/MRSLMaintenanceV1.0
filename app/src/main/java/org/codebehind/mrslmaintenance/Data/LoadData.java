@@ -6,6 +6,7 @@ import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.Email;
 import org.codebehind.mrslmaintenance.Entities.Equipment;
 import org.codebehind.mrslmaintenance.Entities.EquipmentParameters;
+import org.codebehind.mrslmaintenance.Entities.LastUpdate;
 import org.codebehind.mrslmaintenance.Entities.Parameter;
 import org.codebehind.mrslmaintenance.Entities.ParameterType;
 import org.codebehind.mrslmaintenance.Entities.Report;
@@ -15,6 +16,7 @@ import org.codebehind.mrslmaintenance.Entities.SiteEquipment;
 import org.codebehind.mrslmaintenance.Models.EmailDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
+import org.codebehind.mrslmaintenance.Models.LastUpdateModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterTypeDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
@@ -23,8 +25,14 @@ import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 import org.codebehind.mrslmaintenance.Singletons.ParameterTypesSingleton;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
+import java.util.Locale;
+import java.util.UUID;
 
 /**
  * Created by Gavin on 11/02/2015.
@@ -32,7 +40,6 @@ import java.util.Hashtable;
 public class LoadData {
 
     public void load(Context context){
-
         populateEquipmentData(context);
         popSiteData(context);
         populateReportData(context);
@@ -42,170 +49,132 @@ public class LoadData {
         populateEquipmentParamsData(context);
         populateReportParametersData(context);
         popEmailData(context);
-
+        popLastUpdateModel(context);
         DatabaseHelper.getInstance(context).close();
     }
     // ensure that this is called first
     public void popSiteData(Context c){
         SiteDbModel mod = new SiteDbModel(c);
-        Site site;
+        Date dateOfUpdate = getSpecificDate("2016-03-15 12:00");
 
         if (mod.getCount()>0) return;
 
-        site = new Site("SITE 1", "Outer Mongolia, Spain.");
+        Site site = new Site(-1, "SITE 1", "Outer Mongolia, Spain.",dateOfUpdate);
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
 
-        site = new Site("SITE 2", "Lost in space.");
+        site = new Site(-1, "SITE 2", "Lost in space.", dateOfUpdate);
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
 
-        site = new Site("SITE 3", "Banana land.");
+        site = new Site(-1, "SITE 3", "Banana land.", dateOfUpdate);
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
 
-        site = new Site("SITE 4", "Who loves ya.");
+        dateOfUpdate = getSpecificDate("2016-04-01 12:00");
+
+        site = new Site(-1, "SITE 4", "Who loves ya.", dateOfUpdate);
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
 
-        site = new Site("SITE 5", "Magic Roundabout.");
+        site = new Site(-1, "SITE 5", "Magic Roundabout.", dateOfUpdate);
         //s.setImageId(1); // make sure the images exist
         mod.add(site);
     }
 
     public void populateReportData(Context c) {
-
         ReportDbModel mod = new ReportDbModel(c, new ReportEquipParamsDbModel(c));
         if (mod.getCount()>0) return;
 
         Report rep = new Report(1, "He Man", null, null);
         mod.add(rep);
-
         rep = new Report(1, "Dr Who", null, null);
         mod.add(rep);
-
         rep = new Report(2, "Sponge Bob Square Pants", null, null);
         mod.add(rep);
-
         rep = new Report(3, "Gordon the Gopher", null, null);
         mod.add(rep);
-
         rep = new Report(4, "Douglas Adams", null, null);
         mod.add(rep);
-
         rep = new Report(5, "Awful Man Pope", null, null);
         mod.add(rep);
-
     }
-
     public void populateEquipmentData(Context c) {
         EquipmentDbModel model;
         Equipment equipment;
 
         model = new EquipmentDbModel(c);
-
         // test if there's any data in the database populate if not
         if (model.getCount()>0)return;
-
         equipment=new Equipment("EQUIPMENT - 1", 1);
         model.add(equipment);
-
         equipment=new Equipment("EQUIPMENT - 2", 2);
         model.add(equipment);
-
         equipment=new Equipment("EQUIPMENT - 3", 1);
         model.add(equipment);
-
         equipment=new Equipment("EQUIPMENT - 4", 1);
         model.add(equipment);
-
         equipment=new Equipment("EQUIPMENT - 5", 1);
         model.add(equipment);
-
         equipment=new Equipment("EQUIPMENT - 6", 1);
         model.add(equipment);
-
         equipment=new Equipment("EQUIPMENT - 7", 1);
         model.add(equipment);
-
     }
-
     public void populateSiteEquipmentData(Context c) {
-        SiteEquipmentDbModel model;
+        SiteEquipmentDbModel model=new SiteEquipmentDbModel(c);
         SiteEquipment siteEquip;
-
-        model = new SiteEquipmentDbModel(c);
 
         // test if there's any data in the database populate if not
         if (model.getCount()>0)return;
-
         siteEquip = new  SiteEquipment(1, 1, "Site1_Equipment1");
         model.add(siteEquip);
-
         siteEquip.setEquipmentId(2);
         siteEquip.setName("Site1_Equipment2");
         model.add(siteEquip);
-
         siteEquip.setEquipmentId(3);
         siteEquip.setName("Site1_Equipment3");
         model.add(siteEquip);
-
         siteEquip.setEquipmentId(4);
         siteEquip.setName("Site1_Equipment4");
         model.add(siteEquip);
-
         siteEquip.setEquipmentId(5);
         siteEquip.setName("Site1_Equipment5");
         model.add(siteEquip);
-
-
         siteEquip.setSiteId(2);
         siteEquip.setEquipmentId(1);
         siteEquip.setName("Site2_Equipment1");
         model.add(siteEquip);
-
         siteEquip.setEquipmentId(2);
         siteEquip.setName("Site2_Equipment2");
         model.add(siteEquip);
-
         siteEquip.setEquipmentId(3);
         siteEquip.setName("Site2_Equipment3");
         model.add(siteEquip);
-
         siteEquip.setEquipmentId(4);
         siteEquip.setName("Site2_Equipment4");
         model.add(siteEquip);
-
         siteEquip.setEquipmentId(5);
         siteEquip.setName("Site2_Equipment5");
         model.add(siteEquip);
-
-
         siteEquip.setSiteId(3);
         siteEquip.setEquipmentId(6);
         siteEquip.setName("Site3_Equipment6");
         model.add(siteEquip);
-
-
         siteEquip.setSiteId(4);
         siteEquip.setEquipmentId(1);
         siteEquip.setName("Site4_Equipment1");
         model.add(siteEquip);
-
         siteEquip.setEquipmentId(2);
         siteEquip.setName("Site4_Equipment2");
         model.add(siteEquip);
-
         siteEquip.setEquipmentId(7);
         siteEquip.setName("Site4_Equipment7");
         model.add(siteEquip);
-
-
         siteEquip.setSiteId(5);
         siteEquip.setEquipmentId(3);
         siteEquip.setName("Site5_Equipment3");
         model.add(siteEquip);
-
         siteEquip.setEquipmentId(5);
         siteEquip.setName("Site5_Equipment5");
         model.add(siteEquip);
@@ -358,10 +327,8 @@ public class LoadData {
     }
 
     private void popEmailData(Context context){
-        EmailDbModel m;
+        EmailDbModel m=new EmailDbModel(context);
         Email e;
-
-        m=new EmailDbModel(context);
 
         if (m.getCount()>0) return;
 
@@ -373,7 +340,24 @@ public class LoadData {
 
         e=new Email("mrsl@codebehind.org", true);
         m.add(e);
+    }
+    private void popLastUpdateModel(Context c){
+        LastUpdateModel m=new LastUpdateModel(c);
+        Date dateOfUpdate = getSpecificDate("2016-03-01 12:00");
+        LastUpdate e;
 
+        if (m.getCount()>0)return;
+
+        e = new LastUpdate(dateOfUpdate, UUID.randomUUID());
+        m.add(e);
     }
 
+    private Date getSpecificDate(String stDate){
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
+        try {
+            return format.parse(stDate);
+        }catch(ParseException ex){
+            return new Date();
+        }
+    }
 }

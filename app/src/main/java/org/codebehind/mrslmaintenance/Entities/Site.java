@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 import org.codebehind.mrslmaintenance.Entities.Abstract.AEntity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -24,11 +25,14 @@ public class Site extends AEntity implements Serializable{
     public Site(String name, String address){
         this(-1,name,address);
     }
-
     public Site(int id, String name, String address){
+        this(id, name, address, new Date());
+    }
+    public Site(int id, String name, String address, Date ts){
         setId(id);
         setName(name);
         setAddress(address);
+        setTimestamp(ts);
     }
 
     public String getName() {

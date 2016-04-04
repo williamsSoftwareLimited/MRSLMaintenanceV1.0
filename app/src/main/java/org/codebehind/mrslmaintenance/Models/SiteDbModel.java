@@ -34,11 +34,16 @@ public class SiteDbModel extends DbAbstractModelBase {
         ContentValues contentValues=new ContentValues();
         int siteId;
 
+        // this was added for testing and can be removed with the timestamp being create here
+        Date dt = site.getTimestamp();
+        if (dt==null) dt=new Date();
+        //================================================
+
         if (site==null) {
             Log.wtf(LOG_TAG, "add: The site argument is null.");
             return -1;
         }
-        contentValues.put(FIELDS[TIMESTAMP], new Date().getTime());
+        contentValues.put(FIELDS[TIMESTAMP], dt.getTime());
         contentValues.put(FIELDS[DELETED], 0);
         contentValues.put(FIELDS[NAME], site.getName());
         contentValues.put(FIELDS[ADDRESS], site.getAddress());
@@ -93,26 +98,22 @@ public class SiteDbModel extends DbAbstractModelBase {
             c.moveToFirst();
 
             while(c.isAfterLast()==false){
-                Site e=new Site(c.getInt(ID), c.getString(NAME), c.getString(ADDRESS));
+                Site e=new Site(c.getInt(ID), c.getString(NAME), c.getString(ADDRESS),new Date(c.getLong(TIMESTAMP)));
                 e.setImageId(c.getInt(IMAGE_ID));
                 e.setUUID(java.util.UUID.fromString(c.getString(UUID)));
+                e.setDeleted(c.getInt(DELETED)>0);
                 _list.add(e);
                 c.moveToNext();
             }
         }
         return _list;
     }
-
     public Site getSite(int siteId){
-
         for (Site site: _list){
-
             if (site.getId()==siteId) return site;
         }
-
         return new Site(-1, "", "");
     }
-
     private int updateWithDelete(Site site, boolean deleted){
         int rowCount; // invariance: 0 or 1
         ContentValues contentValues;

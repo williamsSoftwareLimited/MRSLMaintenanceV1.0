@@ -8,6 +8,7 @@ import org.codebehind.mrslmaintenance.Models.EmailDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentDbModel;
 import org.codebehind.mrslmaintenance.Models.EquipmentParamsDbModel;
 import org.codebehind.mrslmaintenance.Models.ImageModel;
+import org.codebehind.mrslmaintenance.Models.LastUpdateModel;
 import org.codebehind.mrslmaintenance.Models.ParameterDbModel;
 import org.codebehind.mrslmaintenance.Models.ParameterTypeDbModel;
 import org.codebehind.mrslmaintenance.Models.ReportDbModel;
@@ -21,34 +22,25 @@ import org.codebehind.mrslmaintenance.Models.SiteEquipmentDbModel;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance;
     public static final String DATABASE_NAME="MRSLDatabase";
-    public static final int DATABASE_VERSION=86;
+    public static final int DATABASE_VERSION=87;
 
     //http://stackoverflow.com/questions/9937713/does-sqlite3-not-support-foreign-key-constraints
     // To enforce the FKs need to add the following to every connection to the Db
     // PRAGMA foreign_keys = ON;
-
     public DatabaseHelper(Context context){
-
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
     }
-
     public static DatabaseHelper getInstance(Context context) {
-
         if (instance==null)instance=new DatabaseHelper(context);
         return instance;
-
     }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         db.execSQL("Create table " + ImageModel.TABLE + " ("
                 +ImageModel.FIELDS[ImageModel.ID]+" integer primary key autoincrement, "
                 +ImageModel.FIELDS[ImageModel.IMAGE]+" blob, "
                 +ImageModel.FIELDS[ImageModel.TITLE]+" varchar(100) "
                 +");");
-
         db.execSQL("Create table "+ EquipmentDbModel.TABLE+" ("
                 +EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+" integer primary key autoincrement, "
                 +EquipmentDbModel.FIELDS[EquipmentDbModel.NAME]+" varchar(100), "
@@ -57,7 +49,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +EquipmentDbModel.FIELDS[EquipmentDbModel.DELETED]+" boolean, "
                 +"foreign key("+EquipmentDbModel.FIELDS[EquipmentDbModel.IMAGE_ID]+") references "+ImageModel.TABLE+"("+ImageModel.FIELDS[ImageModel.ID]+")"
                 +");");
-
         db.execSQL("Create table "+ ReportDbModel.TABLE+" ("
                 +ReportDbModel.FIELDS[ReportDbModel.ID]+" integer primary key autoincrement, "
                 +ReportDbModel.FIELDS[ReportDbModel.TIMESTAMP]+" integer, "
@@ -66,7 +57,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +ReportDbModel.FIELDS[ReportDbModel.ENGINEER_NAME]+" varchar(100), "
                 +"foreign key("+ReportDbModel.FIELDS[ReportDbModel.SITEID]+") references "+SiteDbModel.TABLE+"("+SiteDbModel.FIELDS[SiteDbModel.ID]+")"
                 +");");
-
         db.execSQL("Create table "+ SiteDbModel.TABLE+" ("
                 +SiteDbModel.FIELDS[SiteDbModel.ID]+" integer primary key autoincrement, "
                 +SiteDbModel.FIELDS[SiteDbModel.TIMESTAMP]+" integer, "
@@ -76,7 +66,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +SiteDbModel.FIELDS[SiteDbModel.IMAGE_ID]+" integer,  "
                 +SiteDbModel.FIELDS[SiteDbModel.UUID]+" varchar(255) "
                 +");");
-
         // these are two foreign keys to the site and equipment tables -
         db.execSQL("Create table "+ SiteEquipmentDbModel.TABLE+" ("
                 +SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.ID]+" integer primary key autoincrement,"
@@ -88,12 +77,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +"foreign key("+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.SITE_ID]+") references "+SiteDbModel.TABLE+"("+SiteDbModel.FIELDS[SiteDbModel.ID]+"),"
                 +"foreign key("+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.EQUIPMENT_ID]+") references "+EquipmentDbModel.TABLE+"("+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+")"
                 +");");
-
         db.execSQL("Create table "+ ParameterTypeDbModel.TABLE+" ("
                 +ParameterTypeDbModel.FIELDS[ParameterTypeDbModel.ID]+" integer primary key,"
                 +ParameterTypeDbModel.FIELDS[ParameterTypeDbModel.NAME]+ " varchar(100) "
                 +");");
-
         db.execSQL("Create table "+ ParameterDbModel.TABLE+" ("
                 +ParameterDbModel.FIELDS[ParameterDbModel.ID]+" integer primary key autoincrement,"
                 +ParameterDbModel.FIELDS[ParameterDbModel.NAME]+ " varchar(100), "
@@ -103,8 +90,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +ParameterDbModel.FIELDS[ParameterDbModel.DELETED]+" boolean, "
                 +"foreign key("+ParameterDbModel.FIELDS[ParameterDbModel.PARAMETER_TYPE_ID]+") references "+ParameterTypeDbModel.TABLE+"("+ParameterTypeDbModel.FIELDS[ParameterTypeDbModel.ID]+")"
                 +");");
-
-
         db.execSQL("Create table "+ EquipmentParamsDbModel.TABLE+" ("
                 +EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.ID]+" integer primary key autoincrement,"
                 +EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.EQUIPMENT_ID]+ " integer, "
@@ -112,7 +97,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +"foreign key("+EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.EQUIPMENT_ID]+") references "+EquipmentDbModel.TABLE+"("+EquipmentDbModel.FIELDS[EquipmentDbModel.ID]+"),"
                 +"foreign key("+EquipmentParamsDbModel.FIELDS[EquipmentParamsDbModel.PARAMETER_ID]+") references "+ ParameterDbModel.TABLE+"("+ParameterDbModel.FIELDS[ParameterDbModel.ID]+")"
                 +");");
-
         db.execSQL("Create table "+ ReportEquipParamsDbModel.TABLE+" ("
                 + ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.ID]+" integer primary key autoincrement,"
                 + ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.REPORT_ID]+ " integer, "
@@ -125,7 +109,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +"foreign key("+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.PARAMETER_ID]+") references "+ ParameterDbModel.TABLE+"("+ParameterDbModel.FIELDS[ParameterDbModel.ID]+"),"
                 +"foreign key("+ ReportEquipParamsDbModel.FIELDS[ReportEquipParamsDbModel.SITE_EQUIP_ID]+") references "+ SiteEquipmentDbModel.TABLE+"("+SiteEquipmentDbModel.FIELDS[SiteEquipmentDbModel.ID]+")"
                 +");");
-
         db.execSQL("Create table "+ EmailDbModel.TABLE+" ("
                 +EmailDbModel.FIELDS[EmailDbModel.ID]+" integer primary key autoincrement,"
                 +EmailDbModel.FIELDS[EmailDbModel.EMAILADDRESS]+ " varchar(100), "
@@ -133,12 +116,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + EmailDbModel.FIELDS[EmailDbModel.TIMESTAMP]+" integer, "
                 + EmailDbModel.FIELDS[EmailDbModel.DELETED]+" boolean "
                 +");");
+        db.execSQL("Create table "+ LastUpdateModel.TABLE+" ("
+                + LastUpdateModel.FIELDS[LastUpdateModel.ID]+" integer primary key autoincrement,"
+                + LastUpdateModel.FIELDS[LastUpdateModel.TIMESTAMP]+" integer, "
+                +LastUpdateModel.FIELDS[LastUpdateModel.UUID]+" varchar(255) "
+                +");");
 
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
         db.execSQL("drop table if exists "+ EquipmentParamsDbModel.TABLE);
         db.execSQL("drop table if exists "+ ReportEquipParamsDbModel.TABLE);
         db.execSQL("drop table if exists "+ SiteEquipmentDbModel.TABLE);
@@ -149,7 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists "+ ParameterTypeDbModel.TABLE);
         db.execSQL("drop table if exists "+ ParameterDbModel.TABLE);
         db.execSQL("drop table if exists "+ EmailDbModel.TABLE);
-
+        db.execSQL("drop table if exists "+ LastUpdateModel.TABLE);
         onCreate(db);
     }
 }

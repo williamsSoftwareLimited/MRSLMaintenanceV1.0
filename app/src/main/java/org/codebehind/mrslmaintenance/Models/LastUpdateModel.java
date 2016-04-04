@@ -7,11 +7,9 @@ import android.util.Log;
 
 import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.LastUpdate;
-import org.codebehind.mrslmaintenance.Entities.Site;
 import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -26,6 +24,10 @@ public class LastUpdateModel extends DbAbstractModelBase {
 
     public LastUpdateModel(Context context){
         super(context, TABLE);
+    }
+    public int setUpdated(){
+        LastUpdate ld=new LastUpdate(new Date(), java.util.UUID.randomUUID());
+        return add(ld);
     }
     public int add(LastUpdate lastUpdate) {
         ContentValues contentValues=new ContentValues();
@@ -49,7 +51,7 @@ public class LastUpdateModel extends DbAbstractModelBase {
 
         Cursor c=DatabaseHelper.getInstance(_context).getReadableDatabase().rawQuery(query, null);
         c.moveToFirst();
-        if (c.isAfterLast()==false) return null;
+        if (c.isAfterLast()!=false) return null;
         return new LastUpdate(c.getInt(ID), new Date(c.getLong(TIMESTAMP)), java.util.UUID.fromString(c.getString(UUID)));
     }
 }

@@ -11,6 +11,7 @@ public class AEntity implements Serializable {
     private int _id;
     private UUID _uuid;
     private Date _timestamp;
+    private Boolean _deleted;
 
     public int getId() {
         return _id;
@@ -26,5 +27,6 @@ public class AEntity implements Serializable {
     }
     public Date getTimestamp(){return _timestamp;}
     public void setTimestamp(Date timestamp){_timestamp=timestamp;}
-
+    public Boolean getDeleted(){return _deleted;}
+    public void setDeleted(Boolean b){_deleted=b;}
 }
