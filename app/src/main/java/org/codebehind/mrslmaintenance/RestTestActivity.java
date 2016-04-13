@@ -15,20 +15,35 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import org.codebehind.mrslmaintenance.Entities.LastUpdate;
 import org.codebehind.mrslmaintenance.Models.LastUpdateModel;
 import org.codebehind.mrslmaintenance.Models.SiteDbModel;
 import org.codebehind.mrslmaintenance.Services.JsonService;
+import org.codebehind.mrslmaintenance.ViewModels.Abstract.IEditTextViewModelDelegate;
+import org.codebehind.mrslmaintenance.ViewModels.DatePickerViewModel;
+import org.codebehind.mrslmaintenance.ViewModels.EditTextViewModel;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class RestTestActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, IEditTextViewModelDelegate {
+
+    private DatePickerViewModel _datePickerVm;
+    private LastUpdateModel _lastUpdateModel; // this is injected and used here but I don't change the state!
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final Activity cont;
         FloatingActionButton fab;
         Toolbar toolbar;
+        DrawerLayout drawer;
+        ActionBarDrawerToggle toggle;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest_test);
@@ -36,6 +51,7 @@ public class RestTestActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         cont =this;
+        _lastUpdateModel=new LastUpdateModel(this);
 
         setControls(null);
         setAttributes();
@@ -44,15 +60,18 @@ public class RestTestActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                JsonService js;
+
                 Snackbar.make(view, "This is awesome", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                JsonService js = new JsonService(new SiteDbModel(cont), new LastUpdateModel(cont));
+                js = new JsonService(new SiteDbModel(cont), _lastUpdateModel);
                 js.execute();
             }
         });
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.act_rest_test_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+
+        drawer = (DrawerLayout) findViewById(R.id.act_rest_test_drawer_layout);
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -63,11 +82,26 @@ public class RestTestActivity extends AppCompatActivity
 
     private void setControls(View view){
         TextView tv=(TextView)findViewById(R.id.act_rest_test_update_tv);
-        tv.setText("Loser baby");
+
+        _datePickerVm=new DatePickerViewModel(this,
+                new EditTextViewModel((EditText)findViewById(R.id.act_rest_test_update_date), this),
+                (Button)findViewById(R.id.act_rest_test_update_btn),
+                new DatePicker(this));
+        //tv.setText("Loser baby");
     }
 
     private void setAttributes(){
+        LastUpdate lastUpdate;
+        Calendar cal;
+        int year, month, day;
 
+        lastUpdate=_lastUpdateModel.getLastUpdate();
+        cal = Calendar.getInstance();
+        cal.setTime(lastUpdate.getTimestamp());
+        year=cal.get(Calendar.YEAR);
+        month=cal.get(Calendar.MONTH)+1; // goes from 0 to 11 bizarre!
+        day=cal.get(Calendar.DAY_OF_MONTH);
+        _datePickerVm.setDate(year, month, day);
     }
 
     private void setEvents(){}
@@ -127,5 +161,11 @@ public class RestTestActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.act_rest_test_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    // this for the DateEditText
+    @Override
+    public void textUpdated(int uniqueId, String text) {
+
     }
 }

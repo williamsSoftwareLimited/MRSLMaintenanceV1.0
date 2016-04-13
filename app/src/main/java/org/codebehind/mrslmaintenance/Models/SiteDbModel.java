@@ -108,12 +108,22 @@ public class SiteDbModel extends DbAbstractModelBase {
         }
         return _list;
     }
+
+    // this is ugly but it has to be done, reminder that this is a loop through the list
+    public Boolean checkUuidInList(UUID uuid){
+        for (Site site:_list){
+            if (site.getUUID().equals(uuid)) return true;
+        }
+        return true;
+    }
+
     public Site getSite(int siteId){
         for (Site site: _list){
             if (site.getId()==siteId) return site;
         }
         return new Site(-1, "", "");
     }
+
     private int updateWithDelete(Site site, boolean deleted){
         int rowCount; // invariance: 0 or 1
         ContentValues contentValues;

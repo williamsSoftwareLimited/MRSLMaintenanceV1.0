@@ -79,7 +79,7 @@
     <string name="email_cb">Select</string>
     <string name="email_del_cb">Delete</string>
     <string name="title_activity_rest_test">RestTestActivity</string>
-
+    <string name="title_activity_rest_update">Change to earlier date, if required:</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
