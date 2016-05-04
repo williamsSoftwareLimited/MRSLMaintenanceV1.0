@@ -9,9 +9,7 @@ import org.codebehind.mrslmaintenance.Database.DatabaseHelper;
 import org.codebehind.mrslmaintenance.Entities.LastUpdate;
 import org.codebehind.mrslmaintenance.Models.Abstract.DbAbstractModelBase;
 
-
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by root on 29/03/16.

@@ -82,5 +82,5 @@
     <string name="title_activity_rest_update">Change to earlier date, if required:</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
+    <string name="title_activity_rest_time">Change time, if required:</string>
 </resources>
